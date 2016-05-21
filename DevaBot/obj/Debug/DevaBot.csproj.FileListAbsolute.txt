@@ -1,0 +1,13 @@
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\DevaBot.dll
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\DevaBot.pdb
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\BattleCorePsyOps.pdb
+D:\Projects\GitHub\BattleCore\DevaBot\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\DevaBot\obj\Debug\DevaBot.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\DevaBot\obj\Debug\DevaBot.dll
+D:\Projects\GitHub\BattleCore\DevaBot\obj\Debug\DevaBot.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Evil Bot\DevaBot.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Evil Bot\DevaBot.pdb

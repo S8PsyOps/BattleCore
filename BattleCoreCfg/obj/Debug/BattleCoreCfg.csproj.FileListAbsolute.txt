@@ -12,3 +12,21 @@ C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\D
 C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.csproj.GenerateResource.Cache
 C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.exe
 C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCoreCfg.exe.config
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCoreCfg.exe
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCoreCfg.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.BotSettings.resources
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.exe
+D:\Projects\GitHub\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.pdb

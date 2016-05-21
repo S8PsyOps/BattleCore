@@ -10,3 +10,22 @@ C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\
 C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.csproj.GenerateResource.Cache
 C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.exe
 C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCoreTest.exe.config
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCoreTest.exe
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCoreTest.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\GitHub\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.Properties.Resources.resources
+D:\Projects\GitHub\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\GitHub\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.exe
+D:\Projects\GitHub\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.pdb

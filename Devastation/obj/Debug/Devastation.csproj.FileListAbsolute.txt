@@ -1,0 +1,11 @@
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\Devastation.dll
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\Devastation.pdb
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\BattleCorePsyOps.pdb
+D:\Projects\GitHub\BattleCore\Devastation\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\Devastation\obj\Debug\Devastation.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\Devastation\obj\Debug\Devastation.dll
+D:\Projects\GitHub\BattleCore\Devastation\obj\Debug\Devastation.pdb

@@ -4,44 +4,159 @@
         <name>BattleCore.Events</name>
     </assembly>
     <members>
-        <member name="T:BattleCore.Events.WeaponInfo">
+        <member name="T:BattleCore.Events.PlayerEnteredEvent">
             <summary>
-            Weapon Information Object
+            PlayerEnteredEvent object.  This event is triggered when a player 
+            enters the arena. 
             </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle player enter events.</para>
+            <code lang="C#" escaped="true">
+            public void OnPlayerEnteredEvent (object sender, PlayerEnteredEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnPlayerEnteredEvent (Object sender, PlayerEnteredEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
         </member>
-        <member name="F:BattleCore.Events.WeaponInfo.m_WeaponInfo">
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.SquadName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.ShipType">
+            <summary>Player Ship Type Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.AcceptsAudio">
+            <summary>Player Accepts Audio Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.KillPoints">
+            <summary>Player Kill Points Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.FlagPoints">
+            <summary>Player Flag Points Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.Frequency">
+            <summary>Player Frequency Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.Wins">
+            <summary>Player Wins Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.Losses">
+            <summary>Player Losses Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.TurretPlayerId">
+            <summary>Turret Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.FlagsCarried">
+            <summary>Player Flags Carried Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerEnteredEvent.HasKOTH">
+            <summary>Player has King of the Hill Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.PlayerSoundEvent">
             <summary>
-            Weapon Information Bitfield
+            PlayerSoundEvent object.  This event is triggered when a player
+            sends a wav message to the bot.
             </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle player sound events.</para>
+            <code lang="C#" escaped="true">
+            public void OnPlayerSoundEvent (object sender, PlayerSoundEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnPlayerSoundEvent (Object sender, PlayerSoundEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
         </member>
-        <member name="P:BattleCore.Events.WeaponInfo.Value">
+        <member name="P:BattleCore.Events.PlayerSoundEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerSoundEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerSoundEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerSoundEvent.ShipType">
+            <summary>Player Ship Type Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerSoundEvent.SoundFile">
+            <summary>Player Sound Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.PrizeGrantedEvent">
             <summary>
-            Property to set/get the weapon bitfield value
+            PrizeGrantedEvent object.  This event is triggered when a prize
+            is collected by the bot.
             </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle prize granted events.</para>
+            <code lang="C#" escaped="true">
+            public void OnPrizeGrantedEvent (object sender, PrizeGrantedEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnPrizeGrantedEvent (Object sender, PrizeGrantedEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
         </member>
-        <member name="P:BattleCore.Events.WeaponInfo.Type">
+        <member name="P:BattleCore.Events.PrizeGrantedEvent.Count">
+            <summary>Prize Count Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeGrantedEvent.PrizeType">
+            <summary>Prize Type Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.BotInfoEvent">
             <summary>
-            Weapon Type Property
+            BotInfoEvent object.  This event is used to retrieve  
+            bot information from the core.
             </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle player info.</para>
+            <code lang="C#" escaped="true">
+            public void OnBotInfo (object sender, BotInfoEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <para>
+            To request bot information from the core, create 
+            the BotInfoEvent object and send it to the core.</para>
+            <code lang="C#" escaped="true">
+            BotInfoEvent e = new BotInfoEvent ();
+            SendGameEvent (e);
+            </code>
+            </remarks>
         </member>
-        <member name="P:BattleCore.Events.WeaponInfo.Level">
+        <member name="P:BattleCore.Events.BotInfoEvent.BotInfo">
             <summary>
-            Weapon Level Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.WeaponInfo.ShrapnelLevel">
-            <summary>
-            Shrapnel Level Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.WeaponInfo.ShrapnelCount">
-            <summary>
-            Shrapnel Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.WeaponInfo.BouncingShrapnel">
-            <summary>
-            Bouncing Shrapnel Property
+            Player Informantion Property containing all known information 
+            about the bot.
             </summary>
         </member>
         <member name="T:BattleCore.Events.SqlCommandEvent">
@@ -84,55 +199,659 @@
             Returns the number of rows affected from the command
             </summary>
         </member>
-        <member name="T:BattleCore.Events.ShipStateInfo">
+        <member name="T:BattleCore.Events.ScoreUpdateEvent">
             <summary>
-            Ship State Information Object
+            ScoreUpdateEvent object.  This event is triggered when a player's
+            score is updated.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle score update events.</para>
+            <code lang="C#" escaped="true">
+            public void OnScoreUpdateEvent (object sender, ScoreUpdateEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnScoreUpdateEvent (Object sender, ScoreUpdateEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.KillPoints">
+            <summary>Player Kill Points Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.FlagPoints">
+            <summary>Player Flag Points Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.Wins">
+            <summary>Player Wins Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ScoreUpdateEvent.Losses">
+            <summary>Player Losses Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.PlayerInfo">
+            <summary>
+            Object contianing all known information about a player
             </summary>
         </member>
-        <member name="F:BattleCore.Events.ShipStateInfo.m_ShipStateInfo">
+        <member name="P:BattleCore.Events.PlayerInfo.PlayerEntered">
             <summary>
-            Ship State Information Bitfield
+            Property to update the player information with the 
+            player entered event.
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.Value">
+        <member name="P:BattleCore.Events.PlayerInfo.ScoreUpdate">
             <summary>
-            Property to set/get the ShipState bitfield value
+            Score Update event Property
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.StealthActive">
+        <member name="P:BattleCore.Events.PlayerInfo.Position">
             <summary>
-            Stealth Active Property
+            Player position event property
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.CloakActive">
+        <member name="P:BattleCore.Events.PlayerInfo.PlayerName">
             <summary>
-            Cloak Active Property
+            Player Name Property
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.XRadarActive">
+        <member name="P:BattleCore.Events.PlayerInfo.SquadName">
             <summary>
-            XRadar Active Property
+            Squad Name property
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.AntiwarpActive">
+        <member name="P:BattleCore.Events.PlayerInfo.ShipState">
             <summary>
-            Antiwarp Active Property
+            Ship State information 
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.IsFlashing">
+        <member name="P:BattleCore.Events.PlayerInfo.Items">
             <summary>
-            Ship is flashing
+            Items information 
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.IsSafe">
+        <member name="P:BattleCore.Events.PlayerInfo.Ship">
             <summary>
-            Ship is in a safety zone
+            Ship Type Property
             </summary>
         </member>
-        <member name="P:BattleCore.Events.ShipStateInfo.IsUFO">
+        <member name="P:BattleCore.Events.PlayerInfo.PlayerId">
             <summary>
-            Ship is a UFO
+            Player Identifier Property
             </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.Weapon">
+            <summary>
+            Player Weapon Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.AcceptsAudio">
+            <summary>
+            Accepts Audio Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.FlagPoints">
+            <summary>
+            Flag Points Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.KillPoints">
+            <summary>
+            Kill Points Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.Frequency">
+            <summary>
+            Frequency Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.Wins">
+            <summary>
+            Wins Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.Losses">
+            <summary>
+            Losses Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.TurretId">
+            <summary>
+            Turret Player Id Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.FlagsCarried">
+            <summary>
+            Flags Carried Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.HasKOTH">
+            <summary>
+            HasKOTH Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.ModeratorLevel">
+            <summary>
+            Moderator Level Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.UserID">
+            <summary>
+            UserID Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.MacID">
+            <summary>
+            MacID Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.IP">
+            <summary>
+            IP Propery
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfo.CustomMod">
+            <summary>
+            Custom Mod Propery
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.ItemInfo">
+            <summary>
+            Items Information object
+            </summary>
+        </member>
+        <member name="F:BattleCore.Events.ItemInfo.m_ItemInfo">
+            <summary>
+            Items Information Bitfield
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.Value">
+            <summary>
+            Property to set/get the items bitfield value
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.HasShields">
+            <summary>
+            Shields Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.HasSuper">
+            <summary>
+            Super Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.BurstCount">
+            <summary>
+            Burst Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.RepelCount">
+            <summary>
+            Repel Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.ThorCount">
+            <summary>
+            Thor Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.BrickCount">
+            <summary>
+            Brick Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.DecoyCount">
+            <summary>
+            Decoy Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.RocketCount">
+            <summary>
+            Rocket Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ItemInfo.PortalCount">
+            <summary>
+            Portal Count Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.FlagClaimEvent">
+            <summary>
+            FlagClaimEvent object.  This event is triggered when the flag is 
+            claimed by a player.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle flag claim events.</para>
+            <code lang="C#" escaped="true">
+            public void OnFlagClaimEvent (object sender, FlagClaimEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnFlagClaimEvent (Object sender, FlagClaimEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.FlagClaimEvent.FlagId">
+            <summary>Flag Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.FlagClaimEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.FlagClaimEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.FlagClaimEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.SqlQueryEvent">
+            <summary>
+            SqlQueryEvent object.  This event is used to execute a query on 
+            the configured database.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle the query data.</para>
+            <code lang="C#" escaped="true">
+            public void OnSqlEvent (object sender, SqlQueryEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <para>
+            To execute a query on the configured database, add the
+            SQL select command to the command field before sending the event</para>
+            <code lang="C#" escaped="true">
+            SqlQueryEvent e = new SqlQueryEvent ();
+            e.Command.CommandText ("SELECT * from player_table");
+            SendGameEvent (e);
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.SqlQueryEvent.TransactionId">
+            <summary>
+            Set/Get the query transaction identifer 
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.SqlQueryEvent.Command">
+            <summary>
+            SQL command property used to set the command.  
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.SqlQueryEvent.QueryData">
+            <summary>
+            Returns a data table generated from a SELECT query
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.SqlQueryEvent.RecordsAffected">
+            <summary>
+            Returns the number of records affected from the command
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.SoccerGoalEvent">
+            <summary>
+            SoccerGoalEvent object.  This event is triggered when the a goal is 
+            scored in a soccer arena.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle soccer goal events.</para>
+            <code lang="C#" escaped="true">
+            public void OnSoccerGoalEvent (object sender, SoccerGoalEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnSoccerGoalEvent (Object sender, SoccerGoalEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.SoccerGoalEvent.Frequency">
+            <summary>Team Frequency Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.SoccerGoalEvent.Points">
+            <summary>Points Awarded Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.ModifyTurretEvent">
+            <summary>
+            ModifyTurretEvent object.  This event is triggered when a player
+            attaches to or detaches from a turret.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle turret modification events.</para>
+            <code lang="C#" escaped="true">
+            public void OnModifyTurretEvent (object sender, ModifyTurretEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnModifyTurretEvent (object sender, ModifyTurretEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ModifyTurretEvent.TurretAttacherName">
+            <summary>Turret Attacher name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ModifyTurretEvent.TurretHostName">
+            <summary>Turret Host name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ModifyTurretEvent.TurretAttacherId">
+            <summary>Killer Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ModifyTurretEvent.TurretHostId">
+            <summary>Killed Player Identifier Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.WeaponInfo">
+            <summary>
+            Weapon Information Object
+            </summary>
+        </member>
+        <member name="F:BattleCore.Events.WeaponInfo.m_WeaponInfo">
+            <summary>
+            Weapon Information Bitfield
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.WeaponInfo.Value">
+            <summary>
+            Property to set/get the weapon bitfield value
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.WeaponInfo.Type">
+            <summary>
+            Weapon Type Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.WeaponInfo.Level">
+            <summary>
+            Weapon Level Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.WeaponInfo.ShrapnelLevel">
+            <summary>
+            Shrapnel Level Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.WeaponInfo.ShrapnelCount">
+            <summary>
+            Shrapnel Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.WeaponInfo.BouncingShrapnel">
+            <summary>
+            Bouncing Shrapnel Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.CommandHelpAttribute">
+            <summary>
+            Attribute used to add command descriptions to the core help.
+            </summary>
+            <remarks>
+            <para>
+            Usage: The attribute must be defined for every core behavior.</para>
+            <code lang="C#" escaped="true">
+            [CommandHelp ("!mycommand", "This is a description for my command", ModLevels.None)]
+            public class CoreTest : BotEventListener
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            /** @attribute CommandHelp ("!mycommand", "This is a description for my command", ModLevels.None) */
+            public class JavaTest extends BotEventListener
+            {
+               ...
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:BattleCore.CommandHelpAttribute.#ctor(System.String,System.String,BattleCore.ModLevels)">
+            <summary>Creates a new BattleCore Behavior Attribute</summary>
+            <param name ="command">Command name</param>
+            <param name ="description">A short description of the command</param>
+            <param name ="accessLevel">Command Moderator Access Level</param>
+        </member>
+        <member name="P:BattleCore.CommandHelpAttribute.Command">
+            <summary>Behavior Command</summary>
+        </member>
+        <member name="P:BattleCore.CommandHelpAttribute.Description">
+            <summary>Description of the command</summary>
+        </member>
+        <member name="P:BattleCore.CommandHelpAttribute.AccessLevel">
+            <summary>Command Access Level</summary>
+        </member>
+        <member name="T:BattleCore.Events.ChatEvent">
+            <summary>
+            ChatEvent object.  This event is used to receive chat messages
+            from the server, and send chat messages to the server.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle chat events.</para>
+            <code lang="C#" escaped="true">
+            public void OnChatEvent (object sender, ChatEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <para>
+            To send a chat mesage to the server, create the ChatEvent object</para>
+            <code lang="C#" escaped="true">
+            ChatEvent e = new ChatEvent();
+            e.Message = "Hello World";
+            e.ChatType = ChatTypes.Public;
+            </code>
+            <para>
+            Then send it by calling: </para>
+            <code>SendGameEvent (e);</code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.Message">
+            <summary>The Message Property represents the chat message</summary>
+             <value>The Message property gets/sets the message string data member.</value>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.PlayerName">
+            <summary>The PlayerName Property represents the player name</summary>
+             <value>The PlayerName property gets/sets the player name data member.</value>
+             <remarks>
+             <para>
+             When sending a chat event to the server, this value may be used to identify
+             the receiving player in a private chat message</para>
+             </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.ChatType">
+            <summary>The ChatType Property represents the ChatTypes value <seealso cref="T:BattleCore.ChatTypes"/></summary>
+             <value>The ChatType property gets/sets the chat type data member.</value>
+            <summary>Chat Type Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.SoundCode">
+            <summary>The SoundCode Property represents the SoundCodes value <seealso cref="T:BattleCore.SoundCodes"/></summary>
+             <value>The SoundCode property gets/sets the sound code data member.</value>
+            <summary>Sound Code Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.PlayerId">
+            <summary>The PlayerId Property represents the player identifier value</summary>
+             <value>The PlayerId property gets/sets the player identifier data member.</value>
+             <remarks>
+             <para>
+             When sending a chat event to the server, this value may be used to identify
+             the receiving player in a private chat message</para>
+             </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.ModLevel">
+            <summary>The ModLevel Property represents the player moderator level</summary>
+             <value>The PlayerId property gets/sets the player identifier data member.</value>
+        </member>
+        <member name="P:BattleCore.Events.ChatEvent.CustomMod">
+            <summary>The Message Property represents the chat message</summary>
+             <value>The Message property gets/sets the message string data member.</value>
+        </member>
+        <member name="T:BattleCore.Events.LVZToggleEvent">
+            <summary>
+            LVZToggleEvent object.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to LVZ Toggle events.</para>
+            <code lang="C#" escaped="true">
+            public void OnLVZToggleEvent (object sender, LVZToggleEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnLVZToggleEvent (object sender, LVZToggleEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.LVZToggleEvent.TargetPlayerName">
+            <summary>LVZ Toggle Target Player Name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.LVZToggleEvent.TargetPlayerId">
+            <summary>LVZ Toggle Target Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.LVZToggleEvent.LVZObjects">
+            <summary>LVZ Objects Storage Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.TeamChangeEvent">
+            <summary>
+            TeamChangeEvent object.  This event is triggered when a player
+            changes teams.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle team change events.</para>
+            <code lang="C#" escaped="true">
+            public void OnTeamChangeEvent (object sender, TeamChangeEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnTeamChangeEvent (Object sender, TeamChangeEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.TeamChangeEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.TeamChangeEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.TeamChangeEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.TeamChangeEvent.Frequency">
+            <summary>Player Frequency Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.PrizeCollectedEvent">
+            <summary>
+            PlayerPrizeEvent object.  This event is triggered when a player
+            collects a prize.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle prize collected events.</para>
+            <code lang="C#" escaped="true">
+            public void OnPrizeCollectedEvent (object sender, PrizeCollectedEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnPrizeCollectedEvent (Object sender, PrizeCollectedEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.TimeStamp">
+            <summary>Player Timestamp Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.MapPositionX">
+            <summary>Map Postion X Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.MapPositionY">
+            <summary>Map Postion Y Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PrizeCollectedEvent.PrizeType">
+            <summary>Prize Type Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.PlayerLeftEvent">
+            <summary>
+            PlayerLeftEvent object.  This event is triggered when a player
+            leaves the arena.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle player left events.</para>
+            <code lang="C#" escaped="true">
+            public void OnPlayerLeftEvent (object sender, PlayerLeftEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnPlayerLeftEvent (Object sender, PlayerLeftEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.PlayerLeftEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerLeftEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerLeftEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerLeftEvent.ShipType">
+            <summary>Player Ship Type Property</summary>
         </member>
         <member name="T:BattleCore.ChatTypes">
             <summary>
@@ -685,122 +1404,78 @@
             Portal
             </summary>
         </member>
-        <member name="T:BattleCore.Events.SoccerGoalEvent">
+        <member name="T:BattleCore.Events.PlayerPositionEvent">
             <summary>
-            SoccerGoalEvent object.  This event is triggered when the a goal is 
-            scored in a soccer arena.
+            PlayerPositionEvent object.  This event is triggered when a player
+            position is updated.
             </summary>
             <remarks>
             <para>
-            Usage: Implement this in a method to handle soccer goal events.</para>
+            Usage: Implement this in a method to handle player position events.</para>
             <code lang="C#" escaped="true">
-            public void OnSoccerGoalEvent (object sender, SoccerGoalEvent e) 
+            public void OnPlayerPositionEvent (object sender, PlayerLeftEvent e) 
             { 
                ... 
             }
             </code>
             <code lang="Java" escaped="true">
-            public void OnSoccerGoalEvent (Object sender, SoccerGoalEvent e) 
+            public void OnPlayerPositionEvent (Object sender, PlayerLeftEvent e) 
             { 
                ... 
             }
             </code>
             </remarks>
         </member>
-        <member name="P:BattleCore.Events.SoccerGoalEvent.Frequency">
-            <summary>Team Frequency Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.SoccerGoalEvent.Points">
-            <summary>Points Awarded Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.PrizeGrantedEvent">
-            <summary>
-            PrizeGrantedEvent object.  This event is triggered when a prize
-            is collected by the bot.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle prize granted events.</para>
-            <code lang="C#" escaped="true">
-            public void OnPrizeGrantedEvent (object sender, PrizeGrantedEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnPrizeGrantedEvent (Object sender, PrizeGrantedEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PrizeGrantedEvent.Count">
-            <summary>Prize Count Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeGrantedEvent.PrizeType">
-            <summary>Prize Type Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.PlayerEnteredEvent">
-            <summary>
-            PlayerEnteredEvent object.  This event is triggered when a player 
-            enters the arena. 
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle player enter events.</para>
-            <code lang="C#" escaped="true">
-            public void OnPlayerEnteredEvent (object sender, PlayerEnteredEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnPlayerEnteredEvent (Object sender, PlayerEnteredEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.PlayerName">
+        <member name="P:BattleCore.Events.PlayerPositionEvent.PlayerName">
             <summary>Player name Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.SquadName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.ShipType">
-            <summary>Player Ship Type Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.PlayerId">
+        <member name="P:BattleCore.Events.PlayerPositionEvent.PlayerId">
             <summary>Player Identifier Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.AcceptsAudio">
-            <summary>Player Accepts Audio Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.KillPoints">
-            <summary>Player Kill Points Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.TimeStamp">
+            <summary>Player Timestamp Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.FlagPoints">
-            <summary>Player Flag Points Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.MapPositionX">
+            <summary>Map Postion X Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.Frequency">
-            <summary>Player Frequency Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.MapPositionY">
+            <summary>Map Postion Y Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.Wins">
-            <summary>Player Wins Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.ShipRotation">
+            <summary>Player Ship Rotation Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.Losses">
-            <summary>Player Losses Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.Bounty">
+            <summary>Player Bounty Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.TurretPlayerId">
-            <summary>Turret Player Identifier Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.Energy">
+            <summary>Player Energy Level Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.FlagsCarried">
-            <summary>Player Flags Carried Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.Ping">
+            <summary>Player Ping Time Property</summary>
         </member>
-        <member name="P:BattleCore.Events.PlayerEnteredEvent.HasKOTH">
-            <summary>Player has King of the Hill Property</summary>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.VelocityX">
+            <summary>Player X Velocity Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.VelocityY">
+            <summary>Player Y Velocity Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.ServerToClientLag">
+            <summary>Player Server to Client Lag Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.Timer">
+            <summary>Player Timer Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.ShipState">
+            <summary>Player Ship State Information Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.Items">
+            <summary>Player Item Information Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerPositionEvent.Weapon">
+            <summary>Player Weapon Informataion Property</summary>
         </member>
         <member name="T:BattleCore.Events.PlayerDeathEvent">
             <summary>
@@ -851,6 +1526,305 @@
         <member name="P:BattleCore.Events.PlayerDeathEvent.KilledModLevel">
             <summary>Killed Player Moderator Level Property</summary>
         </member>
+        <member name="T:BattleCore.Events.ShipChangeEvent">
+            <summary>
+            ShipChangeEvent object.  This event is triggered when a player
+            changes teams.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle ship change events.</para>
+            <code lang="C#" escaped="true">
+            public void OnShipChangeEvent (object sender, ShipChangeEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnShipChangeEvent (Object sender, ShipChangeEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ShipChangeEvent.PlayerName">
+            <summary>Player name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipChangeEvent.PlayerId">
+            <summary>Player Identifier Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipChangeEvent.ModLevel">
+            <summary>Player Moderator Level Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipChangeEvent.ShipType">
+            <summary>Player Ship Type Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipChangeEvent.PreviousShipType">
+            <summary>Previous Ship Type Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.ListModEvent">
+            <summary>
+            ListModEvent object.  This event is triggered when a listmod command is handled.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle flag claim events.</para>
+            <code lang="C#" escaped="true">
+            public void OnListModEvent (object sender, ListModEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnListModEvent (Object sender, ListModEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ListModEvent.Moderator">
+            <summary>Moderator Information Property</summary>
+        </member>
+        <member name="T:BattleCore.Events.DestroyTurretEvent">
+            <summary>
+            DestroyTurretEvent object.  This event is triggered when a turret
+            driver detaches from his turret gunners.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle turret driver detach events.</para>
+            <code lang="C#" escaped="true">
+            public void OnDestroyTurretEvent (object sender, DestroyTurretEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnDestroyTurretEvent (object sender, DestroyTurretEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.DestroyTurretEvent.TurretHostName">
+            <summary>Turret Host name Property</summary>
+        </member>
+        <member name="P:BattleCore.Events.DestroyTurretEvent.TurretHostId">
+            <summary>Killed Player Identifier Property</summary>
+        </member>
+        <member name="T:BattleCore.BehaviorAttribute">
+            <summary>
+            Attribute required for every BattleCore behavior
+            </summary>
+            <remarks>
+            <para>
+            Usage: The attribute must be defined for every core behavior.</para>
+            <code lang="C#" escaped="true">
+            [Behavior ("MyBehavior", "true", "1.0", "udp", "A simple C# behavior")]
+            public class CoreTest : BotEventListener
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            /** @attribute Behavior ("MyBehavior", "true", "1.0", "udp", "A simple Java behavior") */
+            public class JavaTest extends BotEventListener
+            {
+               ...
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:BattleCore.BehaviorAttribute.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>Creates a new BattleCore Behavior Attribute</summary>
+            <param name ="title">The title of the behavior</param>
+            <param name ="autoload">automatic load at startup (true/false)</param>
+            <param name ="version">The version of the behavior</param>
+            <param name ="developers">The developers of the behavior</param>
+            <param name ="description">A short description of the behavior</param>
+        </member>
+        <member name="P:BattleCore.BehaviorAttribute.Title">
+            <summary>Title of the behavior</summary>
+        </member>
+        <member name="P:BattleCore.BehaviorAttribute.Autoload">
+            <summary>Automatic load of the behavior</summary>
+        </member>
+        <member name="P:BattleCore.BehaviorAttribute.Version">
+            <summary>Version of the behavior</summary>
+        </member>
+        <member name="P:BattleCore.BehaviorAttribute.Developers">
+            <summary>Developers of the behavior</summary>
+        </member>
+        <member name="P:BattleCore.BehaviorAttribute.Description">
+            <summary>Description of the behavior</summary>
+        </member>
+        <member name="T:BattleCore.Events.ArenaListEvent">
+            <summary>
+            ArenaListEvent object.  This event is used to retrieve  
+            arena list information from the core.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle arena list info.</para>
+            <code lang="C#" escaped="true">
+            public void OnArenaListInfo (object sender, ArenaListEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.ArenaListEvent.ArenasList">
+            <summary>List of arenas with population attached</summary>
+        </member>
+        <member name="T:BattleCore.Events.ShipStateInfo">
+            <summary>
+            Ship State Information Object
+            </summary>
+        </member>
+        <member name="F:BattleCore.Events.ShipStateInfo.m_ShipStateInfo">
+            <summary>
+            Ship State Information Bitfield
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.Value">
+            <summary>
+            Property to set/get the ShipState bitfield value
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.StealthActive">
+            <summary>
+            Stealth Active Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.CloakActive">
+            <summary>
+            Cloak Active Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.XRadarActive">
+            <summary>
+            XRadar Active Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.AntiwarpActive">
+            <summary>
+            Antiwarp Active Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.IsFlashing">
+            <summary>
+            Ship is flashing
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.IsSafe">
+            <summary>
+            Ship is in a safety zone
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.ShipStateInfo.IsUFO">
+            <summary>
+            Ship is a UFO
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.SpectatePlayerEvent">
+            <summary>
+            SpectatePlayerEvent object.  This event is used to spectate  
+            a player in the arena.
+            </summary>
+            <remarks>
+            <para>Usage: Create and send this event to spectate a player.</para>
+            <code lang="C#" escaped="true">
+            public void SpectatePlayer (UInt16 PlayerId) 
+            { 
+               // Create the spectate player event
+               SpectatePlayerEvent e = new SpectatePlayerEvent ();
+               e.PlayerId = PlayerId;
+            
+               // Send the event to the game server
+               SendGameEvent (e);
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.SpectatePlayerEvent.PlayerId">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.SpectatePlayerEvent.PlayerName">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.PlayerInfoEvent">
+            <summary>
+            PlayerInfoEvent object.  This event is used to retrieve  
+            player information from the core.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle player info.</para>
+            <code lang="C#" escaped="true">
+            public void OnPlayerInfo (object sender, PlayerInfoEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <para>
+            To request all player information from the core, create 
+            the PlayerInfoEvent object and send it to the core.</para>
+            <code lang="C#" escaped="true">
+            PlayerInfoEvent e = new PlayerInfoEvent ();
+            SendGameEvent (e);
+            </code>
+            <para>
+            To request information about specific players, add the
+            player names to the Players field before sending the event</para>
+            <code lang="C#" escaped="true">
+            PlayerInfoEvent e = new PlayerInfoEvent ();
+            e.Players.Add ("udp");
+            e.Players.Add ("BattlePub.Bot");
+            SendGameEvent (e);
+            </code>
+            </remarks>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfoEvent.Players">
+            <summary>
+            Player names property used to request information about
+            specific players.  
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.PlayerInfoEvent.PlayerList">
+            <summary>
+            Player List Property containing all known information 
+            about requested players.
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.LoginEvent">
+            <summary>
+            LoginEvent object.  This event is triggered when the bot logs in.
+            </summary>
+            <remarks>
+            <para>
+            Usage: Implement this in a method to handle Login events.</para>
+            <code lang="C#" escaped="true">
+            public void OnLoginEvent (object sender, LoginEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            <code lang="Java" escaped="true">
+            public void OnLoginEvent (Object sender, LoginEvent e) 
+            { 
+               ... 
+            }
+            </code>
+            </remarks>
+        </member>
         <member name="T:BattleCore.Events.FlagDropEvent">
             <summary>
             FlagDropEvent object.  This event is triggered when the flag is 
@@ -882,63 +1856,32 @@
         <member name="P:BattleCore.Events.FlagDropEvent.ModLevel">
             <summary>Player Moderator Level Property</summary>
         </member>
-        <member name="T:BattleCore.Events.ListModEvent">
+        <member name="T:BattleCore.Events.CreateTurretEvent">
             <summary>
-            ListModEvent object.  This event is triggered when a listmod command is handled.
+            CreateTurretEvent object.
             </summary>
             <remarks>
             <para>
-            Usage: Implement this in a method to handle flag claim events.</para>
+            Usage: Implement this in a method to handle player death events.</para>
             <code lang="C#" escaped="true">
-            public void OnListModEvent (object sender, ListModEvent e) 
+            public void OnPlayerDeathEvent (object sender, PlayerDeathEvent e) 
             { 
                ... 
             }
             </code>
             <code lang="Java" escaped="true">
-            public void OnListModEvent (Object sender, ListModEvent e) 
+            public void OnPlayerDeathEvent (Object sender, PlayerDeathEvent e) 
             { 
                ... 
             }
             </code>
             </remarks>
         </member>
-        <member name="P:BattleCore.Events.ListModEvent.Moderator">
-            <summary>Moderator Information Property</summary>
+        <member name="P:BattleCore.Events.CreateTurretEvent.TurretHostName">
+            <summary>Turret Host Name Property</summary>
         </member>
-        <member name="T:BattleCore.Events.FlagClaimEvent">
-            <summary>
-            FlagClaimEvent object.  This event is triggered when the flag is 
-            claimed by a player.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle flag claim events.</para>
-            <code lang="C#" escaped="true">
-            public void OnFlagClaimEvent (object sender, FlagClaimEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnFlagClaimEvent (Object sender, FlagClaimEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.FlagClaimEvent.FlagId">
-            <summary>Flag Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.FlagClaimEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.FlagClaimEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.FlagClaimEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
+        <member name="P:BattleCore.Events.CreateTurretEvent.TurretHostId">
+            <summary>Turret Host Identifier Property</summary>
         </member>
         <member name="T:BattleCore.Events.WatchDamageEvent">
             <summary>
@@ -992,139 +1935,39 @@
         <member name="P:BattleCore.Events.WatchDamageEvent.TimeStamp">
             <summary>Timestamp Value Property</summary>
         </member>
-        <member name="T:BattleCore.Events.TeamChangeEvent">
+        <member name="T:BattleCore.Events.FlagPositionEvent">
             <summary>
-            TeamChangeEvent object.  This event is triggered when a player
-            changes teams.
+            FlagPositionEvent object.  This event is triggered when the flag is 
+            respawned at a different position.
             </summary>
             <remarks>
             <para>
-            Usage: Implement this in a method to handle team change events.</para>
+            Usage: Implement this in a method to handle flag position events.</para>
             <code lang="C#" escaped="true">
-            public void OnTeamChangeEvent (object sender, TeamChangeEvent e) 
+            public void OnFlagPositionEvent (object sender, FlagPositionEvent e) 
             { 
                ... 
             }
             </code>
             <code lang="Java" escaped="true">
-            public void OnTeamChangeEvent (Object sender, TeamChangeEvent e) 
+            public void OnFlagPositionEvent (Object sender, FlagPositionEvent e) 
             { 
                ... 
             }
             </code>
             </remarks>
         </member>
-        <member name="P:BattleCore.Events.TeamChangeEvent.PlayerName">
-            <summary>Player name Property</summary>
+        <member name="P:BattleCore.Events.FlagPositionEvent.FlagId">
+            <summary>Flag Identifier Property</summary>
         </member>
-        <member name="P:BattleCore.Events.TeamChangeEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
+        <member name="P:BattleCore.Events.FlagPositionEvent.MapPositionX">
+            <summary>Map Postion X Property</summary>
         </member>
-        <member name="P:BattleCore.Events.TeamChangeEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
+        <member name="P:BattleCore.Events.FlagPositionEvent.MapPositionY">
+            <summary>Map Postion Y Property</summary>
         </member>
-        <member name="P:BattleCore.Events.TeamChangeEvent.Frequency">
+        <member name="P:BattleCore.Events.FlagPositionEvent.Frequency">
             <summary>Player Frequency Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.PlayerLeftEvent">
-            <summary>
-            PlayerLeftEvent object.  This event is triggered when a player
-            leaves the arena.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle player left events.</para>
-            <code lang="C#" escaped="true">
-            public void OnPlayerLeftEvent (object sender, PlayerLeftEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnPlayerLeftEvent (Object sender, PlayerLeftEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PlayerLeftEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerLeftEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerLeftEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerLeftEvent.ShipType">
-            <summary>Player Ship Type Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.ChatEvent">
-            <summary>
-            ChatEvent object.  This event is used to receive chat messages
-            from the server, and send chat messages to the server.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle chat events.</para>
-            <code lang="C#" escaped="true">
-            public void OnChatEvent (object sender, ChatEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <para>
-            To send a chat mesage to the server, create the ChatEvent object</para>
-            <code lang="C#" escaped="true">
-            ChatEvent e = new ChatEvent();
-            e.Message = "Hello World";
-            e.ChatType = ChatTypes.Public;
-            </code>
-            <para>
-            Then send it by calling: </para>
-            <code>SendGameEvent (e);</code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.Message">
-            <summary>The Message Property represents the chat message</summary>
-             <value>The Message property gets/sets the message string data member.</value>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.PlayerName">
-            <summary>The PlayerName Property represents the player name</summary>
-             <value>The PlayerName property gets/sets the player name data member.</value>
-             <remarks>
-             <para>
-             When sending a chat event to the server, this value may be used to identify
-             the receiving player in a private chat message</para>
-             </remarks>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.ChatType">
-            <summary>The ChatType Property represents the ChatTypes value <seealso cref="T:BattleCore.ChatTypes"/></summary>
-             <value>The ChatType property gets/sets the chat type data member.</value>
-            <summary>Chat Type Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.SoundCode">
-            <summary>The SoundCode Property represents the SoundCodes value <seealso cref="T:BattleCore.SoundCodes"/></summary>
-             <value>The SoundCode property gets/sets the sound code data member.</value>
-            <summary>Sound Code Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.PlayerId">
-            <summary>The PlayerId Property represents the player identifier value</summary>
-             <value>The PlayerId property gets/sets the player identifier data member.</value>
-             <remarks>
-             <para>
-             When sending a chat event to the server, this value may be used to identify
-             the receiving player in a private chat message</para>
-             </remarks>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.ModLevel">
-            <summary>The ModLevel Property represents the player moderator level</summary>
-             <value>The PlayerId property gets/sets the player identifier data member.</value>
-        </member>
-        <member name="P:BattleCore.Events.ChatEvent.CostomMod">
-            <summary>The Message Property represents the chat message</summary>
-             <value>The Message property gets/sets the message string data member.</value>
         </member>
         <member name="T:BattleCore.NotifyGame">
             <summary>Delegate to use to send an event to the game server</summary>
@@ -1282,711 +2125,6 @@
             <summary>
             Region definition
             </summary>
-        </member>
-        <member name="T:BattleCore.Events.LoginEvent">
-            <summary>
-            LoginEvent object.  This event is triggered when the bot logs in.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle Login events.</para>
-            <code lang="C#" escaped="true">
-            public void OnLoginEvent (object sender, LoginEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnLoginEvent (Object sender, LoginEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="T:BattleCore.Events.PlayerSoundEvent">
-            <summary>
-            PlayerSoundEvent object.  This event is triggered when a player
-            sends a wav message to the bot.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle player sound events.</para>
-            <code lang="C#" escaped="true">
-            public void OnPlayerSoundEvent (object sender, PlayerSoundEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnPlayerSoundEvent (Object sender, PlayerSoundEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PlayerSoundEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerSoundEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerSoundEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerSoundEvent.ShipType">
-            <summary>Player Ship Type Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerSoundEvent.SoundFile">
-            <summary>Player Sound Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.SqlQueryEvent">
-            <summary>
-            SqlQueryEvent object.  This event is used to execute a query on 
-            the configured database.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle the query data.</para>
-            <code lang="C#" escaped="true">
-            public void OnSqlEvent (object sender, SqlQueryEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <para>
-            To execute a query on the configured database, add the
-            SQL select command to the command field before sending the event</para>
-            <code lang="C#" escaped="true">
-            SqlQueryEvent e = new SqlQueryEvent ();
-            e.Command.CommandText ("SELECT * from player_table");
-            SendGameEvent (e);
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.SqlQueryEvent.TransactionId">
-            <summary>
-            Set/Get the query transaction identifer 
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.SqlQueryEvent.Command">
-            <summary>
-            SQL command property used to set the command.  
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.SqlQueryEvent.QueryData">
-            <summary>
-            Returns a data table generated from a SELECT query
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.SqlQueryEvent.RecordsAffected">
-            <summary>
-            Returns the number of records affected from the command
-            </summary>
-        </member>
-        <member name="T:BattleCore.Events.ShipChangeEvent">
-            <summary>
-            ShipChangeEvent object.  This event is triggered when a player
-            changes teams.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle ship change events.</para>
-            <code lang="C#" escaped="true">
-            public void OnShipChangeEvent (object sender, ShipChangeEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnShipChangeEvent (Object sender, ShipChangeEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.ShipChangeEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ShipChangeEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ShipChangeEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ShipChangeEvent.ShipType">
-            <summary>Player Ship Type Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ShipChangeEvent.PreviousShipType">
-            <summary>Previous Ship Type Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.ItemInfo">
-            <summary>
-            Items Information object
-            </summary>
-        </member>
-        <member name="F:BattleCore.Events.ItemInfo.m_ItemInfo">
-            <summary>
-            Items Information Bitfield
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.Value">
-            <summary>
-            Property to set/get the items bitfield value
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.HasShields">
-            <summary>
-            Shields Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.HasSuper">
-            <summary>
-            Super Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.BurstCount">
-            <summary>
-            Burst Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.RepelCount">
-            <summary>
-            Repel Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.ThorCount">
-            <summary>
-            Thor Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.BrickCount">
-            <summary>
-            Brick Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.DecoyCount">
-            <summary>
-            Decoy Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.RocketCount">
-            <summary>
-            Rocket Count Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.ItemInfo.PortalCount">
-            <summary>
-            Portal Count Property
-            </summary>
-        </member>
-        <member name="T:BattleCore.Events.BotInfoEvent">
-            <summary>
-            BotInfoEvent object.  This event is used to retrieve  
-            bot information from the core.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle player info.</para>
-            <code lang="C#" escaped="true">
-            public void OnBotInfo (object sender, BotInfoEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <para>
-            To request bot information from the core, create 
-            the BotInfoEvent object and send it to the core.</para>
-            <code lang="C#" escaped="true">
-            BotInfoEvent e = new BotInfoEvent ();
-            SendGameEvent (e);
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.BotInfoEvent.BotInfo">
-            <summary>
-            Player Informantion Property containing all known information 
-            about the bot.
-            </summary>
-        </member>
-        <member name="T:BattleCore.Events.ScoreUpdateEvent">
-            <summary>
-            ScoreUpdateEvent object.  This event is triggered when a player's
-            score is updated.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle score update events.</para>
-            <code lang="C#" escaped="true">
-            public void OnScoreUpdateEvent (object sender, ScoreUpdateEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnScoreUpdateEvent (Object sender, ScoreUpdateEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.KillPoints">
-            <summary>Player Kill Points Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.FlagPoints">
-            <summary>Player Flag Points Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.Wins">
-            <summary>Player Wins Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.ScoreUpdateEvent.Losses">
-            <summary>Player Losses Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.PrizeCollectedEvent">
-            <summary>
-            PlayerPrizeEvent object.  This event is triggered when a player
-            collects a prize.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle prize collected events.</para>
-            <code lang="C#" escaped="true">
-            public void OnPrizeCollectedEvent (object sender, PrizeCollectedEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnPrizeCollectedEvent (Object sender, PrizeCollectedEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.TimeStamp">
-            <summary>Player Timestamp Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.MapPositionX">
-            <summary>Map Postion X Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.MapPositionY">
-            <summary>Map Postion Y Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PrizeCollectedEvent.PrizeType">
-            <summary>Prize Type Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.PlayerPositionEvent">
-            <summary>
-            PlayerPositionEvent object.  This event is triggered when a player
-            position is updated.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle player position events.</para>
-            <code lang="C#" escaped="true">
-            public void OnPlayerPositionEvent (object sender, PlayerLeftEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnPlayerPositionEvent (Object sender, PlayerLeftEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.PlayerName">
-            <summary>Player name Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.PlayerId">
-            <summary>Player Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.ModLevel">
-            <summary>Player Moderator Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.TimeStamp">
-            <summary>Player Timestamp Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.MapPositionX">
-            <summary>Map Postion X Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.MapPositionY">
-            <summary>Map Postion Y Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.ShipRotation">
-            <summary>Player Ship Rotation Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.Bounty">
-            <summary>Player Bounty Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.Energy">
-            <summary>Player Energy Level Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.Ping">
-            <summary>Player Ping Time Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.VelocityX">
-            <summary>Player X Velocity Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.VelocityY">
-            <summary>Player Y Velocity Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.ServerToClientLag">
-            <summary>Player Server to Client Lag Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.Timer">
-            <summary>Player Timer Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.ShipState">
-            <summary>Player Ship State Information Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.Items">
-            <summary>Player Item Information Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerPositionEvent.Weapon">
-            <summary>Player Weapon Informataion Property</summary>
-        </member>
-        <member name="T:BattleCore.Events.PlayerInfoEvent">
-            <summary>
-            PlayerInfoEvent object.  This event is used to retrieve  
-            player information from the core.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle player info.</para>
-            <code lang="C#" escaped="true">
-            public void OnPlayerInfo (object sender, PlayerInfoEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <para>
-            To request all player information from the core, create 
-            the PlayerInfoEvent object and send it to the core.</para>
-            <code lang="C#" escaped="true">
-            PlayerInfoEvent e = new PlayerInfoEvent ();
-            SendGameEvent (e);
-            </code>
-            <para>
-            To request information about specific players, add the
-            player names to the Players field before sending the event</para>
-            <code lang="C#" escaped="true">
-            PlayerInfoEvent e = new PlayerInfoEvent ();
-            e.Players.Add ("udp");
-            e.Players.Add ("BattlePub.Bot");
-            SendGameEvent (e);
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfoEvent.Players">
-            <summary>
-            Player names property used to request information about
-            specific players.  
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfoEvent.PlayerList">
-            <summary>
-            Player List Property containing all known information 
-            about requested players.
-            </summary>
-        </member>
-        <member name="T:BattleCore.BehaviorAttribute">
-            <summary>
-            Attribute required for every BattleCore behavior
-            </summary>
-            <remarks>
-            <para>
-            Usage: The attribute must be defined for every core behavior.</para>
-            <code lang="C#" escaped="true">
-            [Behavior ("MyBehavior", "true", "1.0", "udp", "A simple C# behavior")]
-            public class CoreTest : BotEventListener
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            /** @attribute Behavior ("MyBehavior", "true", "1.0", "udp", "A simple Java behavior") */
-            public class JavaTest extends BotEventListener
-            {
-               ...
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="M:BattleCore.BehaviorAttribute.#ctor(System.String,System.String,System.String,System.String,System.String)">
-            <summary>Creates a new BattleCore Behavior Attribute</summary>
-            <param name ="title">The title of the behavior</param>
-            <param name ="autoload">automatic load at startup (true/false)</param>
-            <param name ="version">The version of the behavior</param>
-            <param name ="developers">The developers of the behavior</param>
-            <param name ="description">A short description of the behavior</param>
-        </member>
-        <member name="P:BattleCore.BehaviorAttribute.Title">
-            <summary>Title of the behavior</summary>
-        </member>
-        <member name="P:BattleCore.BehaviorAttribute.Autoload">
-            <summary>Automatic load of the behavior</summary>
-        </member>
-        <member name="P:BattleCore.BehaviorAttribute.Version">
-            <summary>Version of the behavior</summary>
-        </member>
-        <member name="P:BattleCore.BehaviorAttribute.Developers">
-            <summary>Developers of the behavior</summary>
-        </member>
-        <member name="P:BattleCore.BehaviorAttribute.Description">
-            <summary>Description of the behavior</summary>
-        </member>
-        <member name="T:BattleCore.Events.PlayerInfo">
-            <summary>
-            Object contianing all known information about a player
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.PlayerEntered">
-            <summary>
-            Property to update the player information with the 
-            player entered event.
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.ScoreUpdate">
-            <summary>
-            Score Update event Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Position">
-            <summary>
-            Player position event property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.PlayerName">
-            <summary>
-            Player Name Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.SquadName">
-            <summary>
-            Squad Name property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.ShipState">
-            <summary>
-            Ship State information 
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Items">
-            <summary>
-            Items information 
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Ship">
-            <summary>
-            Ship Type Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.PlayerId">
-            <summary>
-            Player Identifier Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Weapon">
-            <summary>
-            Player Weapon Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.AcceptsAudio">
-            <summary>
-            Accepts Audio Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.FlagPoints">
-            <summary>
-            Flag Points Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.KillPoints">
-            <summary>
-            Kill Points Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Frequency">
-            <summary>
-            Frequency Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Wins">
-            <summary>
-            Wins Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.Losses">
-            <summary>
-            Losses Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.TurretId">
-            <summary>
-            Turret Player Id Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.FlagsCarried">
-            <summary>
-            Flags Carried Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.HasKOTH">
-            <summary>
-            HasKOTH Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.ModeratorLevel">
-            <summary>
-            Moderator Level Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.UserID">
-            <summary>
-            UserID Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.MacID">
-            <summary>
-            MacID Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.IP">
-            <summary>
-            IP Propery
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.PlayerInfo.CustomMod">
-            <summary>
-            Custom Mod Propery
-            </summary>
-        </member>
-        <member name="T:BattleCore.CommandHelpAttribute">
-            <summary>
-            Attribute used to add command descriptions to the core help.
-            </summary>
-            <remarks>
-            <para>
-            Usage: The attribute must be defined for every core behavior.</para>
-            <code lang="C#" escaped="true">
-            [CommandHelp ("!mycommand", "This is a description for my command", ModLevels.None)]
-            public class CoreTest : BotEventListener
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            /** @attribute CommandHelp ("!mycommand", "This is a description for my command", ModLevels.None) */
-            public class JavaTest extends BotEventListener
-            {
-               ...
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="M:BattleCore.CommandHelpAttribute.#ctor(System.String,System.String,BattleCore.ModLevels)">
-            <summary>Creates a new BattleCore Behavior Attribute</summary>
-            <param name ="command">Command name</param>
-            <param name ="description">A short description of the command</param>
-            <param name ="accessLevel">Command Moderator Access Level</param>
-        </member>
-        <member name="P:BattleCore.CommandHelpAttribute.Command">
-            <summary>Behavior Command</summary>
-        </member>
-        <member name="P:BattleCore.CommandHelpAttribute.Description">
-            <summary>Description of the command</summary>
-        </member>
-        <member name="P:BattleCore.CommandHelpAttribute.AccessLevel">
-            <summary>Command Access Level</summary>
-        </member>
-        <member name="T:BattleCore.Events.SpectatePlayerEvent">
-            <summary>
-            SpectatePlayerEvent object.  This event is used to spectate  
-            a player in the arena.
-            </summary>
-            <remarks>
-            <para>Usage: Create and send this event to spectate a player.</para>
-            <code lang="C#" escaped="true">
-            public void SpectatePlayer (UInt16 PlayerId) 
-            { 
-               // Create the spectate player event
-               SpectatePlayerEvent e = new SpectatePlayerEvent ();
-               e.PlayerId = PlayerId;
-            
-               // Send the event to the game server
-               SendGameEvent (e);
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.SpectatePlayerEvent.PlayerId">
-            <summary>
-            Player Identifier Property
-            </summary>
-        </member>
-        <member name="P:BattleCore.Events.SpectatePlayerEvent.PlayerName">
-            <summary>
-            Player Identifier Property
-            </summary>
-        </member>
-        <member name="T:BattleCore.Events.FlagPositionEvent">
-            <summary>
-            FlagPositionEvent object.  This event is triggered when the flag is 
-            respawned at a different position.
-            </summary>
-            <remarks>
-            <para>
-            Usage: Implement this in a method to handle flag position events.</para>
-            <code lang="C#" escaped="true">
-            public void OnFlagPositionEvent (object sender, FlagPositionEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            <code lang="Java" escaped="true">
-            public void OnFlagPositionEvent (Object sender, FlagPositionEvent e) 
-            { 
-               ... 
-            }
-            </code>
-            </remarks>
-        </member>
-        <member name="P:BattleCore.Events.FlagPositionEvent.FlagId">
-            <summary>Flag Identifier Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.FlagPositionEvent.MapPositionX">
-            <summary>Map Postion X Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.FlagPositionEvent.MapPositionY">
-            <summary>Map Postion Y Property</summary>
-        </member>
-        <member name="P:BattleCore.Events.FlagPositionEvent.Frequency">
-            <summary>Player Frequency Property</summary>
         </member>
     </members>
 </doc>

@@ -1,0 +1,11 @@
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\bin\Debug\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\bin\Debug\BattleCorePsyOps.pdb
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\obj\Debug\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\obj\Debug\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\BattleCorePsyOps\obj\Debug\BattleCorePsyOps.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
