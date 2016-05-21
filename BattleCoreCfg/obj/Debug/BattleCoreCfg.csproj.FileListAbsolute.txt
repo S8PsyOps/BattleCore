@@ -1,0 +1,14 @@
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\bin\Debug\BattleCoreCfg.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\bin\Debug\BattleCoreCfg.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.Events.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\bin\Debug\BattleCore.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.BotSettings.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.ConfigPassword.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.ConfigureBots.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.Properties.Resources.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Debug\BattleCoreCfg.pdb

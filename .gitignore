@@ -28,6 +28,11 @@ $RECYCLE.BIN/
 .AppleDouble
 .LSOverride
 
+.exe
+.dat
+.zip
+.rar
+
 # Thumbnails
 ._*
 

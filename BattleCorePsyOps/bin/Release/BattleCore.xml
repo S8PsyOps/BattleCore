@@ -1,0 +1,2860 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BattleCore</name>
+    </assembly>
+    <members>
+        <member name="T:BattleCore.Session.Session">
+            <summary>
+            Session Object.  This object handles a session with the server
+            </summary>
+            <summary>
+            Session Object.  This object handles a session with the server
+            </summary>
+            <summary>
+            Session Object.  This object handles a session with the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.TransmitPacket(BattleCore.Protocol.IPacket)">
+            <summary>
+            Transmit a message packet to the server
+            </summary>
+            <param name="packet">packet object</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.SendEncryptionRequest">
+            <summary>
+            Compose and send an encryption request packet to the server
+            </summary>  
+        </member>
+        <member name="M:BattleCore.Session.Session.SendLoginRequest(System.Boolean)">
+            <summary>
+            Compose and send a login request packet to the server
+            </summary>
+            <param name="bNewUser">new user flag</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.SendArenaEnterRequest">
+            <summary>
+            Compose and send an arena enter request to the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.SendArenaSpectateRequest">
+            <summary>
+            Compose and send an arena spectate request to the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.SendPlayerRegistration">
+            <summary>
+            Compose and send a registration packet to the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.SendDisconnectRequest">
+            <summary>
+            Compose and send a disconnect request to the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.SendSynchronizeRequest">
+            <summary>
+            Compose and send a synchronize packet to the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.PacketReceiveHandler(System.Byte[])">
+            <summary>
+            Packet Receive handler.  This method routes the packets to
+            the correct handler.
+            </summary>
+            <param name="packet">packet received from the server</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.SpecialPacketReceiveHandler(System.Byte[])">
+            <summary>
+            Special Packet Receive handler.  This method routes the packets to
+            the correct handler.
+            </summary>
+            <param name="packet">packet received from the server</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleLoginSuccessful">
+            <summary>
+            Handler called when we successfully logged in
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleDisconnectNotify">
+            <summary>
+            Handle disconnect notification
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleEncryptionResponse(System.Byte[])">
+            <summary>
+            Handle the server encryption response
+            </summary>
+            <param name="pBuffer"></param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleSynchronizeRequest(System.Byte[])">
+            <summary>
+            Handle the server time syncronization request
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleSynchronizeResponse(System.Byte[])">
+            <summary>
+            Handle the server time syncronization response
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleInGameFlag(System.Byte[])">
+            <summary>
+            Handle the In Game flag
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleDisconnect(System.Byte[])">
+            <summary>
+            Handle the disconnect request
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandlePasswordResponse(System.Byte[])">
+            <summary>
+            Handle the password response
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleLevelInfo(System.Byte[])">
+            <summary>
+            Handle the level information packet
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandlePlayerWeapon(System.Byte[])">
+            <summary>
+            Handle the player weapon fired packet
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleSecurityRequest(System.Byte[])">
+            <summary>
+            Handle the security checksum packet update
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleFileTransfer(System.Byte[])">
+            <summary>
+            Handle the file transfer packet
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.HandleLoginNext(System.Byte[])">
+            <summary>
+            andle the Login next packet
+            </summary>
+            <param name="pBuffer">Packet Data buffer</param>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_sessionSocket">
+            <summary>
+            Network Connection to the server
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_sessionStatistics">
+            <summary>
+            Session Statistics used to generate the security response
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_sessionSettings">
+            <summary>
+            Session Settings used to configure this session
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_serverSyncTime">
+            <summary>
+            Server Sync request time stamp
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_sessionLogger">
+            <summary>
+            Session information logging delegate
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_disconnectNotify">
+            <summary>
+            Disconnect Notification delegate
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_gamePacketHandlers">
+            <summary>
+            Game Packet Handler Jump Table
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_specialPacketHandlers">
+            <summary>
+            Special Packet Handler Jump Table
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.#ctor">
+            <summary>
+            Session Constructor
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.MessageHandler(System.String)">
+            <summary>
+            Session message log handler
+            </summary>
+            <param name="message">Message String</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.AddGamePacketHandler(System.Byte,BattleCore.Session.SessionPacketHandler)">
+            <summary>
+            Register a game packet handler
+            </summary>
+            <param name="nMessageId">Message identifier</param>
+            <param name="handler">Packet Handler</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.AddSpecialPacketHandler(System.Byte,BattleCore.Session.SessionPacketHandler)">
+            <summary>
+            Register a special game packet handler
+            </summary>
+            <param name="nMessageId">Message identifier</param>
+            <param name="handler">Packet Handler</param>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_pSessionThread">
+            <summary>
+            Session Thread 
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.Session.m_sessionThreadInfo">
+            <summary>
+            Session thread control 
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.Start(BattleCore.Settings.SessionSettings)">
+            <summary>
+            Start a session with the server
+            </summary>
+            <param name="sessionSettings">Session Settings</param>
+        </member>
+        <member name="M:BattleCore.Session.Session.Close">
+            <summary>
+            Close a session with the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.Session.SessionThread">
+            <summary>
+            Session processing thread
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.Session.LoginSuccessHandler">
+            <summary>
+            Login Notification delegate
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.Session.SecurityChecksum">
+            <summary>
+            Get the security checksum handler
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.Session.MessageLogger">
+            <summary>
+            Add a session message handler to the session logger
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.Session.PacketLog">
+            <summary>
+            Property to add a packet logger to the socket
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.Session.GamePacketHandler">
+            <summary>
+            Property method to register a game packet handler
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.Session.SpecialPacketHandler">
+            <summary>
+            Property method to register a special packet handler
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.Session.SessionThreadInfo">
+            <summary>
+            Session Thread Control Object
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PrizeGrantedPacket">
+            <summary>
+            PrizeGrantedPacket Object.  This packet is received when the 
+            bot collects a prize.
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.IPacket">
+            <summary>
+            IPacket object.  This object is used as a base interface 
+            for all packets sent to and from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PrizeGrantedPacket.m_event">
+            <summary>Flag Claim Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PrizeGrantedPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PrizeGrantedPacket.Event">
+            <summary>
+            Prize Granted Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PrizeGrantedPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.ReliableMessageHandler">
+            <summary>
+            Releable message handler object.  This object is used to process
+            pending reliable messages waiting for an acknowlegement.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.ReliableMessageHandler.GetReliablePacket(System.Byte[])">
+            <summary>
+            Add a reliable wrapper to a packet
+            </summary>
+            <param name="packet">Message Packet</param>
+            <returns>New message packet</returns>
+        </member>
+        <member name="M:BattleCore.Session.ReliableMessageHandler.HandleAcknowlegement(System.UInt32)">
+            <summary>
+            Handle a received reliable acknowlegement
+            </summary>
+            <param name="nTransactionId">Transaction Identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleCore.Session.ReliableMessageHandler.GetRetransmitPacket">
+            <summary>
+            Get a packet that is ready to retransmit.
+            </summary>
+            <returns>Packet Data</returns>
+        </member>
+        <member name="P:BattleCore.Session.ReliableMessageHandler.RetransmitTime">
+            <summary>
+            Property to set the Retransmit Timeout value
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.FlagDropPacket">
+            <summary>
+            FlagDropPacket object.  This object is used to receive 
+            flag drop notifications from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.FlagDropPacket.m_event">
+            <summary>Flag Drop Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagDropPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagDropPacket.Event">
+            <summary>
+            Flag Drop Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagDropPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Core.RemoteClassLoader">
+            <summary>
+            A Class that loads other classes and is meant to run in
+            a seperate AppDomain than the rest of the Application
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.RemoteClassLoader.listenerList">
+            <summary>
+            The list of <see cref="T:BattleCore.BotEventListener"/>s
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.RemoteClassLoader.assemblyList">
+            <summary>
+            The List of Assemblies handled by this Classloader
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.#ctor">
+            <summary>
+            Creates a new RemoteClassLoader
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.LoadAssembly(System.String)">
+            <summary>
+            Loads an Assembly and all of its types into the
+            AppDomain
+            </summary>
+            <param name="fullname">The full path of the Assembly</param>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.GetAttributes(System.String)">
+            <summary>
+            Gets all of the Attributes of A type
+            </summary>
+            <param name="typeName">The FullName of the type whose Attributes you want</param>
+            <returns>An object Array of all the attributes</returns>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.GetListeners">
+            <summary>
+            Gets the <see cref="T:BattleCore.BotEventListener"/>s
+            </summary>
+            <returns>a string array of all of the Types handled by this ClassLoader</returns>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.GetAssemblies">
+            <summary>
+            Gets all the Assemblies
+            </summary>
+            <returns>a string array of all of the Assemblies handled by this Classloader</returns>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.GetOwningAssembly(System.String)">
+            <summary>
+            Gets the name of the owning assembly
+            </summary>
+            <param name="typeName">the type whose Assembly you want</param>
+            <returns>the filename of the assembly that owns <paramref name="typeName"/></returns>
+            <exception cref="T:System.InvalidOperationException">Thrown when <paramref name="typeName"/>is not handled by this Assembly</exception>
+        </member>
+        <member name="M:BattleCore.Core.RemoteClassLoader.ManagesType(System.String)">
+            <summary>
+            Checks if <paramref name="typeName"/>is part of this assembly
+            </summary>
+            <param name="typeName">The TypeName to look for</param>
+            <returns>Returns True if <paramref name="typeName"/> belongs to any of the assemblies loaded</returns>
+        </member>
+        <member name="T:BattleCore.Bot.PlayerHandler">
+            <summary>
+            Player information handler object
+            </summary>
+        </member>
+        <member name="F:BattleCore.Bot.PlayerHandler.m_playerInfo">
+            <summary>
+            Sorted list of player information 
+            </summary>
+        </member>
+        <member name="F:BattleCore.Bot.PlayerHandler.m_playerLookup">
+            <summary>
+            Reverse lookup of player identifer
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.PlayerHandler.PlayerInformation(System.UInt16)">
+            <summary>
+            Get the player data from the internal database
+            </summary>
+            <param name="playerId">Player Identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleCore.Bot.PlayerHandler.PlayerInformation(System.String)">
+            <summary>
+            Get the player information from the internal database
+            </summary>
+            <param name="playerName">Player Name</param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleCore.Bot.PlayerHandler.HandlePlayerEnter(BattleCore.Events.PlayerEnteredEvent)">
+            <summary>
+            Handle a player entering event
+            </summary>
+            <param name="playerEnter">Player entered event</param>
+        </member>
+        <member name="M:BattleCore.Bot.PlayerHandler.HandlePlayerLeft(BattleCore.Events.PlayerLeftEvent)">
+            <summary>
+            Handle a player leaving event
+            </summary>
+            <param name="playerLeft">Player left event</param>
+        </member>
+        <member name="P:BattleCore.Bot.PlayerHandler.PlayerData">
+            <summary>
+            Property to get the player database
+            </summary>
+        </member>
+        <member name="T:BattleCore.Settings.SessionSettings">
+            <summary>
+            Session Settings object used to configure session parameters.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.UserName">
+            <summary>
+            Gets the User Name.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.Password">
+            <summary>
+            Gets the Password.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.StaffPassword">
+            <summary>
+            Gets the Staff Password.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.ServerAddress">
+            <summary>
+            Gets the Server Address.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.InitialArena">
+             <summary>
+            Initial Arena to enter.
+             </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.PacketLogFile">
+            <summary>
+            Gets the Packet log file.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.ServerPort">
+            <summary>
+            Gets the Server Port.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.ActivityTimeout">
+            <summary>
+            Gets the Activity timeout for disconnect
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.ServerSyncTime">
+            <summary>
+            Gets the Time between server time syncs
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.RetransmitTime">
+            <summary>
+            Gets the Retransmit time in milliseconds
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.ForceContinuum">
+            <summary>
+            Gets the Force continuum flag.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.RealName">
+            <summary>
+            Gets the Real Name.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.EmailAddress">
+            <summary>
+            Gets the Email Address.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.City">
+            <summary>
+            Gets the City.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.State">
+            <summary>
+            Gets the State.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.RegisteredName">
+            <summary>
+            Gets the Registered Name.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.SessionSettings.Organization">
+            <summary>
+            Gets the Organization.
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ModifyTurretPacket">
+            <summary>
+            ModifyTurretPacket object.  This packet is sent by the server
+            to notify of players attaching or detaching.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ModifyTurretPacket.m_event">
+            <summary>Modify Turret Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ModifyTurretPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ModifyTurretPacket.Event">
+            <summary>
+            Modify Turret Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ModifyTurretPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ArenaLeavePacket">
+            <summary>
+            ArenaLeavePacket object.  This object is used to leave an arena.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaLeavePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaLeavePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Bot.ArenaSettings">
+            <summary>
+            Arena settings object
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ScoreUpdatePacket">
+            <summary>
+            ScoreUpdatePacket object.  This object is received when a player
+            score is updated.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ScoreUpdatePacket.m_event">
+            <summary>Score Update Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ScoreUpdatePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ScoreUpdatePacket.Event">
+            <summary>
+            Score Update Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ScoreUpdatePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerPositionPacket">
+            <summary>
+            FlagClaimPacket object.  This object is used to receive player
+            flag claim packets from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerPositionPacket.m_event">
+            <summary>Player Position Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerPositionPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerPositionPacket.Event">
+            <summary>
+            Player Position Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerPositionPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerIdentifierPacket">
+            <summary>
+            PlayerIdentifierPacket Object.  This packet is received when the 
+            bot identifier is set.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerIdentifierPacket.m_nIdentifier">
+            <summary>Player Identifier</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerIdentifierPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerIdentifierPacket.Identifier">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerIdentifierPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerDeathPacket">
+            <summary>
+            PlayerDeathPacket object.  This object is used to receive player
+            death packets from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerDeathPacket.m_event">
+            <summary>Player Death Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerDeathPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerDeathPacket.Event">
+            <summary>
+            Player Death Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerDeathPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.FlagPositionPacket">
+            <summary>
+            FlagPositionPacket object.  This object is used to receive 
+            flag positions from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.FlagPositionPacket.m_event">
+            <summary>Flag Position Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagPositionPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagPositionPacket.Event">
+            <summary>
+            Flag Position Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagPositionPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.AcknowlegePacket">
+            <summary>
+            Acknowlege Packet object
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.AcknowlegePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.AcknowlegePacket.TransactionId">
+            <summary>
+            Transaction identifier property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.AcknowlegePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Core.BehaviorManager">
+            <summary>
+            Behavior Manager
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.BehaviorManager.behaviorAppDomain">
+            <summary>
+            The <see cref="T:System.AppDomain"/> of this BehaviorManager
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.BehaviorManager.behaviorAppDomainSetup">
+            <summary>
+            The <see cref="T:System.AppDomainSetup"/> of this BehaviorManager
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.BehaviorManager.remoteLoader">
+            <summary>
+            The <see cref="T:BattleCore.Core.RemoteClassLoader"/> of this BehaviorManager
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.BehaviorManager.localLoader">
+            <summary>
+            The <see cref="T:BattleCore.Core.LocalClassLoader"/> of this BehaviorManager
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.BehaviorManager.m_behaviorDirectory">
+            <summary>
+            The Directory where the plugins are located
+            </summary>
+        </member>
+        <member name="F:BattleCore.Core.BehaviorManager.behaviorFile">
+            <summary>
+            The Path to the file that says which plugins should load at startup
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.#ctor">
+            <summary>
+            Creates a new behavior manager using "behaviors" as the plugin path
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.#ctor(System.String)">
+            <summary>
+            Creates a new BehaviorManager
+            </summary>
+            <param name="behaviorDirectory">The path relative to the current directory of the plugin</param>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.LoadUserAssemblies">
+            <summary>
+            Loads all of the Assemblies in the directory
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.GetAttributes(System.String)">
+            <summary>
+            Gets all of the Attributes of A type
+            </summary>
+            <param name="typeName">The FullName of the type whose Attributes you want</param>
+            <returns>An object Array of all the attributes</returns>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.ManagesType(System.String)">
+            <summary>
+            Checks if <paramref name="typeName"/>is part of this assembly
+            </summary>
+            <param name="typeName">The TypeName to look for</param>
+            <returns>Returns True if <paramref name="typeName"/> belongs to any of the assemblies loaded</returns>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.CreateInstance(System.String)">
+            <summary>
+            Creates an Instance of the <paramref name="typeName"/>
+            </summary>
+            <param name="typeName">The FullName of the type to be created</param>
+            <returns>A new instance of the class</returns>
+        </member>
+        <member name="M:BattleCore.Core.BehaviorManager.Unload">
+            <summary>
+            Closes the <see cref="T:BattleCore.Core.LocalClassLoader"/>
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.BehaviorManager.Assemblies">
+            <summary>
+            A string array of all of the Assemblies handled by this PluginManager
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.BehaviorManager.Listeners">
+            <summary>
+            A string array of all of the <see cref="T:BattleCore.BotEventListener"/>s 
+            handled by this PluginManager
+            </summary>
+        </member>
+        <member name="T:BattleCore.Settings.BotSettings">
+            <summary>
+            BotSettings object.  
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.BotSettings.BotDirectory">
+            <summary>
+            Get the bot root directory
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.BotSettings.AutoLoad">
+            <summary>
+            Bot automatic load property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.BotSettings.SqlConnectString">
+            <summary>
+            Get the SQL connection string
+            </summary>
+        </member>
+        <member name="P:BattleCore.Settings.BotSettings.SessionSettings">
+            <summary>
+            Property to get the session settings
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ReliablePacket">
+            <summary>
+            PlayerUpdatePacket Object.  This packet is received when the 
+            player ship and frequency information is updated is set.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ReliablePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ReliablePacket.TransactionId">
+            <summary>
+            Transaction identifier property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ReliablePacket.Message">
+            <summary>
+            Message Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ReliablePacket.TimeStamp">
+            <summary>
+            TimeStamp Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ReliablePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.BotKillEvent">
+            <summary>
+            Bot kill command event sent to the core to kill
+            the bot.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotKillEvent.PlayerId">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Bot.BotInstance">
+            <summary>
+            Bot Instance object
+            </summary>
+            <summary>
+            Bot Instance Help command handlers
+            </summary>
+        </member>
+        <member name="F:BattleCore.Bot.BotInstance.m_playerHandler">
+            <summary>
+            Player Information Manager
+            </summary>
+        </member>
+        <member name="F:BattleCore.Bot.BotInstance.m_eventQueue">
+            <summary>
+             // Event queue for core events
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.#ctor(BattleCore.Settings.BotSettings)">
+            <summary>
+            BotInstance Constructor
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.Start">
+            <summary>
+            Start the bot instance
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.Close">
+            <summary>
+            Close the bot instance
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.Shutdown">
+            <summary>
+            Shutdown the bot instance
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.SendBotEvent(System.EventArgs)">
+            <summary>
+            Called by BattleCore to broadcast an event to all loaded
+            bot behaviors.
+            </summary>
+            <param name="e">Broadcast Event</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.SendGameEvent(System.EventArgs)">
+            <summary>
+            Called by BattleCore to send a game event to the server.
+            </summary>
+            <param name="e">Game Event</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.Game(System.EventArgs)">
+            <summary>
+            Called by BattleCore to send a game event to the server.
+            </summary>
+            <param name="e">Game Event</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleModeratorList(System.String)">
+            <summary>
+            Handle a moderator list message
+            </summary>
+            <param name="message">arena chat message</param>
+            <returns>Command Handled state</returns>
+        </member>
+        <member name="F:BattleCore.Bot.BotInstance.m_botThread">
+            <summary>
+            Bot Instance Thread 
+            </summary>
+        </member>
+        <member name="F:BattleCore.Bot.BotInstance.m_botThreadInfo">
+            <summary>
+            Session thread control 
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.BotInstanceThread">
+            <summary>
+            Bot Instance Thread
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleSessionDisconnect">
+            <summary>
+            Handler called when a session is disconnected
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleSessionConnected">
+            <summary>
+            Handler called when a session is connected
+            </summary>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleBotHelpCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the !help request 
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleHelpCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the !help request 
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleUnfCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the !Unf request 
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleBehaviorEvents(System.Object,System.EventArgs)">
+            <summary>
+            Core event handler
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleIdentity(System.Byte[])">
+            <summary>
+            Handle the player identity packet received from the server
+            </summary>
+            <param name="buffer">packet data</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleInGameFlag(System.Byte[])">
+            <summary>
+            Handle the In game flag
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerEntering(System.Byte[])">
+            <summary>
+            Handle a player entering message.  This packet may 
+            contain multiple player entering messages.
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerLeaving(System.Byte[])">
+            <summary>
+            Handle a player leaving message
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleWeaponUpdate(System.Byte[])">
+            <summary>
+            Handle a Weapon update message.
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerDeath(System.Byte[])">
+            <summary>
+            Handle a player death message.
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleChat(System.Byte[])">
+            <summary>
+            Handle a player chat message.
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerPrize(System.Byte[])">
+            <summary>
+            Handle a prize collected event
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleScoreUpdate(System.Byte[])">
+            <summary>
+            Handle a score update packet from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleSoccerGoal(System.Byte[])">
+            <summary>
+            Handle a soccer goal packet from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerVoice(System.Byte[])">
+            <summary>
+            Handle a player voice pacekt from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerUpdate(System.Byte[])">
+            <summary>
+            Handle the player update packet received from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleModifyTurret(System.Byte[])">
+            <summary>
+            Handle the create turret packet sent by the server
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleArenaSettings(System.Byte[])">
+            <summary>
+            Handle the arena settings sent by the server
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleFlagPosition(System.Byte[])">
+            <summary>
+            Handle a flag position packet received from the server
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleFlagClaim(System.Byte[])">
+            <summary>
+            Handle a flag claim packet recieved from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleFlagVictory(System.Byte[])">
+            <summary>
+            Handle a flag victory packet from the server
+            </summary>
+            <param name="buffer">packet data</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleDeleteTurret(System.Byte[])">
+            <summary>
+            Handle a delete turret packet from the server.
+            </summary>
+            <param name="buffer">packet data</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleFlagDrop(System.Byte[])">
+            <summary>
+            Handle a player flag drop packet from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleScoreReset(System.Byte[])">
+            <summary>
+            Handle a score reset packet received from the server
+            </summary>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleShipReset(System.Byte[])">
+            <summary>
+            Handle a ship reset packet received from the server
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandlePlayerPosition(System.Byte[])">
+            <summary>
+            Handle a player position packet 
+            </summary>
+            <param name="buffer">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleWatchDamage(System.Byte[])">
+            <summary>
+            Handle a watch damage packet received from the server
+            </summary>
+            <param name="buffer">Packet data</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleChatCommands(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle a chat command packet sent to the bot
+            </summary>
+            <param name="chatEvent">Chat event</param>
+            <returns>Command Handled state</returns>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleInfoCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the list information command.  This command lists
+            information about the core and all loaded behaviors.
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.ListBehaviors(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the list all behaviors command.  This method lists
+            all loaded and available behaviors.
+            </summary>
+            <param name="chatEvent">listbehaviors chat event</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.LoadBehavior(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the load behavior command.  This method finds the
+            requested behavior in the available behaviors and adds
+            it to the current event listeners.
+            </summary>
+            <param name="chatEvent">loadbehavior chat event</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.UnloadBehavior(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the unload behavior command.  This method finds the
+            requested behavior in the loaded behaviors and removes
+            it from the current event listeners.
+            </summary>
+            <param name="chatEvent">loadbehavior chat event</param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleBotInfoCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handles BotGetInfoEvent - used to send back bot info to modules
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleSpawnCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the list information command.  This command lists
+            information about the core and all loaded behaviors.
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleListBotsCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the list bots command.  This command lists
+            information about the available and loaded bots.
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.HandleKillCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Handle the kill bot command.  
+            </summary>
+            <param name="chatEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.LogBotCommand(BattleCore.Events.ChatEvent)">
+            <summary>
+            Log a command to the command logfile
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.ExecuteSqlQuery(System.Object,BattleCore.Events.SqlQueryEvent)">
+            <summary>
+            Execute a SQL query on the configured database
+            </summary>
+            <param name="sender"></param>
+            <param name="sqlEvent"></param>
+        </member>
+        <member name="M:BattleCore.Bot.BotInstance.ExecuteSqlCommand(System.Object,BattleCore.Events.SqlCommandEvent)">
+            <summary>
+            Execute a SQL command on the configured database
+            </summary>
+            <param name="sender"></param>
+            <param name="sqlEvent"></param>
+        </member>
+        <member name="P:BattleCore.Bot.BotInstance.Settings">
+            <summary>
+            Property to retrieve the bot settings
+            </summary>
+        </member>
+        <member name="T:BattleCore.Bot.BotInstance.BotThreadInfo">
+            <summary>
+            Session Thread Control Object
+            </summary>
+        </member>
+        <member name="T:BattleCore.Bot.BotInstance.ResponseEvent">
+            <summary>
+            Response event 
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PasswordResponsePacket">
+            <summary>
+            PasswordResponsePacket object.  This object is used to handle password
+            responses from the server.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.Error">
+            <summary>
+            Login Response Error Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.ExecutableChecksum">
+            <summary>
+            Executable Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.CodeChecksum">
+            <summary>
+            Code Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.NewsChecksum">
+            <summary>
+            News Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.ServerVersion">
+            <summary>
+            Server Version Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.RequestRegistration">
+            <summary>
+            Request Registration Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.IsVIP">
+            <summary>
+            Is VIP Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordResponsePacket.ResponseString">
+            <summary>
+            Property to get the response string
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.LargeChunkPacket">
+            <summary>
+            LargeChunkPacket object.  This object is used to send a chunk of
+            a message.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.LargeChunkPacket.m_Message">
+            <summary>
+            Memory stream containing the packet data
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LargeChunkPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LargeChunkPacket.Message">
+            <summary>
+            Message Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LargeChunkPacket.TotalLength">
+            <summary>
+            Total Length Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LargeChunkPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.SecurityChecksum">
+            <summary>
+            Security checksum object
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SecurityChecksum.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SecurityChecksum.generateDictionary(System.UInt32)">
+            <summary>
+            Generate the checksum dictionary
+            </summary>
+            <param name="key">checksum key</param>
+            <returns></returns>
+        </member>
+        <member name="P:BattleCore.Session.SecurityChecksum.LevelData">
+            <summary>
+            Property the set the Arena level data
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SecurityChecksum.ArenaSettings">
+            <summary>
+            Propertry to set the arena settings
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SyncResponsePacket">
+            <summary>
+            SyncResponsePacket Object.  This packet is received when the 
+            server requests a time sync.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncResponsePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncResponsePacket.ClientTime">
+            <summary>
+            Client Time Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncResponsePacket.ServerTime">
+            <summary>
+            Server Time Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncResponsePacket.PingTime">
+            <summary>
+            Ping Time Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncResponsePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ChunkTailPacket">
+            <summary>
+            ChunkTailPacket object.  This object is used to send the last 
+            chunk of a message.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ChunkTailPacket.m_Message">
+            <summary>
+            Memory stream containing the packet data
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChunkTailPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChunkTailPacket.Message">
+            <summary>
+            Message Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChunkTailPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Settings.CoreSettings">
+            <summary>
+            Core settings object.  This object contains the configuration
+            for all enablaed bots.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Settings.CoreSettings.#ctor(System.String)">
+            <summary>
+            Core settings constructor
+            </summary>
+        </member>
+        <member name="M:BattleCore.Settings.CoreSettings.Read(System.String)">
+            <summary>
+            Read the settings from the configuration file
+            </summary>
+            <param name="strPassword"></param>
+        </member>
+        <member name="M:BattleCore.Settings.CoreSettings.WriteSettings(System.String)">
+            <summary>
+            Write the Settings to the settings file
+            </summary>
+            <param name="strPassword">configuration file password</param>
+        </member>
+        <member name="M:BattleCore.Settings.CoreSettings.WritePasswordFile(System.String)">
+            <summary>
+            Write the password to the security file
+            </summary>
+            <param name="strPassword"></param>
+        </member>
+        <member name="P:BattleCore.Settings.CoreSettings.ConfiguredBots">
+            <summary>
+            Gets the list of bot configurations
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.LevelFilePacket">
+            <summary>
+            LevelFilePacket object.  This object is used to handle a level
+            file packet.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.LevelFilePacket.m_strFileName">
+            <summary>
+            Level file name
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.LevelFilePacket.m_fileData">
+            <summary>
+            Level File data
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelFilePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelFilePacket.FileName">
+            <summary>
+            File name property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelFilePacket.FileData">
+            <summary>
+            File Data Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelFilePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.SessionStatistics">
+            <summary>
+            SessionStatistics object to handle communication statistics.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionStatistics.IncrementReliableReceiveCount">
+            <summary>
+            Increment the Number of reliable packets received
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionStatistics.IncrementWeaponCount">
+            <summary>
+            Increment the number of weapon packets sent
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionStatistics.IncrementS2CSlow">
+            <summary>
+            Increment the Number of S2C slow packets sent
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionStatistics.IncrementS2CFast">
+            <summary>
+            Increment the Number of S2C slow packets sent
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionStatistics.Reset">
+            <summary>
+            Reset the session statistics
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.WeaponCount">
+            <summary>
+            Reliable Receive Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.ReliableReceiveCount">
+            <summary>
+            Weapon Receive Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.CurrentPing">
+            <summary>
+            Current Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.LowPing">
+            <summary>
+            Low Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.HighPing">
+            <summary>
+            High Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.AveragePing">
+            <summary>
+            Average Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.S2CSlowCurrent">
+            <summary>
+            S2C Slow Current Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.S2CFastCurrent">
+            <summary>
+            S2C Fast Current Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.S2CSlowTotal">
+            <summary>
+            S2C Slow Total Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionStatistics.S2CFastTotal">
+            <summary>
+            S2C Fast Current Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.PacketEncryption">
+            <summary>
+            PacketEncryption object used to encrypt and decrypt 
+            protocol packets.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.PacketEncryption.Encrypt(System.Byte[])">
+            <summary>
+            Encrypts a packet
+            </summary>
+            <param name="packet">packet buffer to encrypt</param>
+            <returns>Encrypted packet buffer</returns>
+        </member>
+        <member name="M:BattleCore.Session.PacketEncryption.Decrypt(System.Byte[])">
+            <summary>
+            Decrypts a packet
+            </summary>
+            <param name="packet">packet buffer to decrypt</param>
+            <returns>Decrypted packet buffer </returns>
+        </member>
+        <member name="P:BattleCore.Session.PacketEncryption.ClientKey">
+            <summary>
+            Property to get the client encryption key
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.PacketEncryption.SessionKey">
+            <summary>
+            Property to set the session key
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.EncryptionResponsePacket">
+            <summary>
+            EncryptionResponsePacket object.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.EncryptionResponsePacket.m_nEncryptionKey">
+            <summary>
+            Encryption Key Value
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.EncryptionResponsePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.EncryptionResponsePacket.EncryptionKey">
+            <summary>
+            Encryption Key Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.EncryptionResponsePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SpectatePlayerPacket">
+            <summary>
+            SpectatePlayerPacket Object.  This packet is sent to 
+            spectate a player in the arena.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.SpectatePlayerPacket.m_event">
+            <summary>Spectate Player Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SpectatePlayerPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SpectatePlayerPacket.Event">
+            <summary>
+            Spectate Player Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SpectatePlayerPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SetPositionPacket">
+            <summary>
+            SetPositionPacket Object.  This packet is received when the 
+            bot position is changed by the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.SetPositionPacket.m_nPositionX">
+            <summary>Player Identifier</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SetPositionPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SetPositionPacket.MapPositionX">
+            <summary>Map Postion X Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SetPositionPacket.MapPositionY">
+            <summary>Map Postion Y Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SetPositionPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerEnteredPacket">
+            <summary>
+            PlayerEnteredPacket object.  This object is used to receive player
+            enter packets from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerEnteredPacket.m_event">
+            <summary>Player Enter Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerEnteredPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerEnteredPacket.Event">
+            <summary>
+            Player Entered Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerEnteredPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ArenaEnterPacket">
+            <summary>
+            ArenaEnterPacket object.  This object is used to enter an arena
+            after the login is completed.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Protocol.ArenaEnterPacket.#ctor">
+            <summary>
+            Arena Enter packet constructor
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.BlockObscenity">
+            <summary>
+            Block Obscenity Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.HearVoices">
+            <summary>
+            Hear Voices Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.ResolutionX">
+            <summary>
+            Resolution X Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.ResolutionY">
+            <summary>
+            Resolution Y Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.ArenaIdentifier">
+            <summary>
+            Arena Identifier Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.ShipType">
+            <summary>
+            Ship Type Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.ArenaName">
+            <summary>
+            Arena Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaEnterPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.WatchDamagePacket">
+            <summary>
+            Watch Damage Packet
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.WatchDamagePacket.m_events">
+            <summary>Watch Damage Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.WatchDamagePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.WatchDamagePacket.Events">
+            <summary>
+            Watch Damage Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.WatchDamagePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ScoreResetPacket">
+            <summary>
+            ScoreResetPacket object.  This object is received when a player
+            score is reset.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ScoreResetPacket.m_event">
+            <summary>Score Update Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ScoreResetPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ScoreResetPacket.Event">
+            <summary>
+            Score Update Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ScoreResetPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PrizeCollectedPacket">
+            <summary>
+            PrizeCollectedPacket Object.  This packet is received when a player
+            collects a prize.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PrizeCollectedPacket.m_event">
+            <summary>Player Enter Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PrizeCollectedPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PrizeCollectedPacket.Event">
+            <summary>
+            Player Entered Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PrizeCollectedPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerWeaponPacket">
+            <summary>
+            PlayerWeaponPacket object.  This object is used to receive player
+            weapon packets from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerWeaponPacket.m_event">
+            <summary>Weapon Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerWeaponPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerWeaponPacket.Event">
+            <summary>
+            Player Position Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerWeaponPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerUpdatePacket">
+            <summary>
+            PlayerUpdatePacket Object.  This packet is received when the 
+            player ship and frequency information is updated is set.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerUpdatePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerUpdatePacket.ShipEvent">
+            <summary>
+            Ship Change Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerUpdatePacket.TeamEvent">
+            <summary>
+            Team Change Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerUpdatePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerLeftPacket">
+            <summary>
+            PlayerLeftPacket object.  This object is used to receive player
+            leaving packets from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerLeftPacket.m_event">
+            <summary>Player Left Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerLeftPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerLeftPacket.Event">
+            <summary>
+            Player Left Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerLeftPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.SessionState">
+            <summary>
+            Session State enumeration
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.SessionPacketHandler">
+            <summary>
+            Session packet handler delegate.  This delegate is called
+            when a packet is received by the server. 
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.SessionLogger">
+            <summary>
+            Session logger delegate.  This delegate is called
+            when messages are generated by the session handler. 
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.LoginNotify">
+            <summary>
+            Session login notify delegate.  This delegate is called
+            when the bot is successfully logged in. 
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.DisconnectNotify">
+            <summary>
+            Session disconnect notify delegate.  This delegate is called
+            when the bot is disconnected from the server. 
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.PacketHandler">
+            <summary>
+            Packet Handler Object 
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.PacketHandler.MessageId">
+            <summary>
+            Message Identifier
+            </summary>
+        </member>
+        <member name="F:BattleCore.Session.PacketHandler.Handler">
+            <summary>
+            Session Handler Delegate
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.PacketHandler.#ctor(System.Byte,BattleCore.Session.SessionPacketHandler)">
+            <summary>
+            Packet Handler Constructor
+            </summary>
+            <param name="msgId">Message Identifier</param>
+            <param name="handler">Packet Handler Delegate</param>
+        </member>
+        <member name="T:BattleCore.Protocol.PlayerSoundPacket">
+            <summary>
+            PlayerSoundPacket object.  This object is used to player sounds.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.PlayerSoundPacket.m_event">
+            <summary>Player Sound Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerSoundPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerSoundPacket.Event">
+            <summary>
+            Player Sound Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PlayerSoundPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.PasswordPacket">
+            <summary>
+            PasswordPacket object.  This object is used to send a login
+            packet to the server.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordPacket.UserName">
+            <summary>
+            User Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordPacket.Password">
+            <summary>
+            Password Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordPacket.NewUser">
+            <summary>
+            New User Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordPacket.Continuum">
+            <summary>
+            Use Continuum password Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.PasswordPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.NewsRequestPacket">
+            <summary>
+            NewsRequestPacket object.  This object is used to request the
+            news file from the server.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.NewsRequestPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.NewsRequestPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ClusteredPacket">
+            <summary>
+            ClusteredPacket object.  This object is used to send the last 
+            chunk of a message.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ClusteredPacket.m_Cluster">
+            <summary>
+            Memory stream containing the packet data
+            </summary>
+        </member>
+        <member name="M:BattleCore.Protocol.ClusteredPacket.AddPacket(System.Byte[])">
+            <summary>
+            Method to add a packet to the clustered stream
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="P:BattleCore.Protocol.ClusteredPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ClusteredPacket.ClusterLength">
+            <summary>
+            Property to get hte current lenth of the cluster
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ClusteredPacket.Packets">
+            <summary>
+            Packetes Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ClusteredPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ArenaSettingsPacket">
+            <summary>
+            ArenaSettints packet handler
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaSettingsPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaSettingsPacket.ArenaSettings">
+            <summary>
+            Property to get the arena settings
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ArenaSettingsPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SoccerGoalPacket">
+            <summary>
+            SoccerGoalPacket object.  This object is received when a player
+            scores a soccer goal.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.SoccerGoalPacket.m_event">
+            <summary>Soccer Goal Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SoccerGoalPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SoccerGoalPacket.Event">
+            <summary>
+            Flag Claim Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SoccerGoalPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.LevelInfoPacket">
+            <summary>
+            Level file information packet
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelInfoPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelInfoPacket.FileName">
+            <summary>
+            File Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelInfoPacket.FileChecksum">
+            <summary>
+            File Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelInfoPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.EncryptionRequestPacket">
+            <summary>
+            EncryptionRequestPacket object.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.EncryptionRequestPacket.m_nEncryptionKey">
+            <summary>
+            Encryption Key Value
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.EncryptionRequestPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.EncryptionRequestPacket.EncryptionKey">
+            <summary>
+            Encryption Key Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.EncryptionRequestPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SyncRequestPacket">
+            <summary>
+            SyncRequestPacket Object.  This packet is received when the 
+            server requests a time sync.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncRequestPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncRequestPacket.TimeStamp">
+            <summary>
+            Time Stamp Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncRequestPacket.PacketsSent">
+            <summary>
+            Packets Sent Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncRequestPacket.PacketsReceived">
+            <summary>
+            Packets Received Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SyncRequestPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SecurityRequestPacket">
+            <summary>
+            SecurityRequestPacket object.  This object is received to update the
+            prize and door seeds and request a security response.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityRequestPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityRequestPacket.PrizeSeed">
+            <summary>
+            Prize Seed Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityRequestPacket.DoorSeed">
+            <summary>
+            Door Seed Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityRequestPacket.ServerTime">
+            <summary>
+            Server Time Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityRequestPacket.ChecksumKey">
+            <summary>
+            Checksum Key Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityRequestPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.FlagClaimPacket">
+            <summary>
+            FlagClaimPacket object.  This object is used to receive player
+            flag claim packets from the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.FlagClaimPacket.m_event">
+            <summary>Flag Claim Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagClaimPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagClaimPacket.Event">
+            <summary>
+            Flag Claim Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.FlagClaimPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ChunkBodyPacket">
+            <summary>
+            ChunkBodyPacket object.  This object is used to send a chunk of
+            a message.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ChunkBodyPacket.m_Message">
+            <summary>
+            Memory stream containing the packet data
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChunkBodyPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChunkBodyPacket.Message">
+            <summary>
+            Message Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChunkBodyPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.ChatPacket">
+            <summary>
+            ChatPacket object.  This object is used to receive chat packets
+            from the server, and send chat packets to the server.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.ChatPacket.m_event">
+            <summary>Chat Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChatPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChatPacket.Event">
+            <summary>
+            Chat Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.ChatPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.BotSpawnEvent">
+            <summary>
+            Bot Spawn event for the !spawn commands
+            handles the following parameters:
+              !spawn BotName:Arena
+              !spawn BotName:Arena:Password:StaffPassword
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotSpawnEvent.PlayerId">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotSpawnEvent.ModLevel">
+            <summary>
+            Player ModLevel Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotSpawnEvent.BotName">
+            <summary>
+            Bot Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotSpawnEvent.Arena">
+            <summary>
+            Arena Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotSpawnEvent.Parameters">
+            <summary>
+            Property to set the spawn parameters
+              BotName:Arena
+            </summary>
+        </member>
+        <member name="T:BattleCore.Core.LocalClassLoader">
+            <summary>
+            A class that acts as a midway between the BehaviorManager and the 
+            RemoteClassLoader
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.LocalClassLoader.#ctor(System.String)">
+            <summary>
+            Creates a new LocalClassLoader
+            </summary>
+            <param name="behaviorDirectory">The directory where the behaviors are located</param>
+        </member>
+        <member name="M:BattleCore.Core.LocalClassLoader.LoadAssembly(System.String)">
+            <summary>
+            Loads the assembly into the <see cref="T:BattleCore.Core.RemoteClassLoader"/>
+            </summary>
+            <param name="filename">The Full filename of the Assembly</param>
+        </member>
+        <member name="M:BattleCore.Core.LocalClassLoader.Unload">
+            <summary>
+            Destroys the <see cref="T:BattleCore.Core.RemoteClassLoader"/>
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.LocalClassLoader.GetAttributes(System.String)">
+            <summary>
+            Gets all of the Attributes of A type
+            </summary>
+            <param name="typeName">The FullName of the type whose Attributes you want</param>
+            <returns>An object Array of all the attributes</returns>
+        </member>
+        <member name="M:BattleCore.Core.LocalClassLoader.ManagesType(System.String)">
+            <summary>
+            Checks if <paramref name="typeName"/>is part of this assembly
+            </summary>
+            <param name="typeName">The TypeName to look for</param>
+            <returns>Returns True if <paramref name="typeName"/> belongs to any of the assemblies loaded</returns>
+        </member>
+        <member name="M:BattleCore.Core.LocalClassLoader.CreateInstance(System.String)">
+            <summary>
+            Creates an Instance of the <paramref name="typeName"/>
+            </summary>
+            <param name="typeName">The FullName of the type to be created</param>
+            <returns>A new instance of the class</returns>
+        </member>
+        <member name="P:BattleCore.Core.LocalClassLoader.Assemblies">
+            <summary>
+            A string array of all of the Assemblies handled by this ClassLoader
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.LocalClassLoader.Listeners">
+            <summary>
+            A string array of all of the <see cref="T:BattleCore.BotEventListener"/>s 
+            handled by this ClassLoader
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.PacketDirection">
+            <summary>
+            Packet direction enumeration
+            </summary>
+        </member>
+        <member name="T:BattleCore.Session.PacketLogger">
+            <summary>
+            Packet logger delegate called when a packet is transmitted and received.
+            </summary>
+            <param name="direction">packet direction enumeration</param>
+            <param name="packet">packet buffer</param>
+        </member>
+        <member name="T:BattleCore.Session.SessionSocket">
+            <summary>
+            Session Socket definition
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.#ctor">
+            <summary>
+            SessionSocket Constructor
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.Connect(System.String,System.Int32)">
+            <summary>
+            Open a connection with the server and start the 
+            transmit and receive threads.
+            </summary>
+            <param name="strServerName">Server Name</param>
+            <param name="nServerPort">Remote Server port</param>
+            <returns>True if successful</returns>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.Close">
+            <summary>
+            Close the connection with the server
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.TransmitPacket(System.Byte[])">
+            <summary>
+            Transmit a packet to the server
+            </summary>
+            <param name="pData">packet data</param>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.TransmitReliablePacket(System.Byte[])">
+            <summary>
+            Transmit a reliable packet to the server
+            </summary>
+            <param name="pData">Packet data</param>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.ReceivePacket">
+            <summary>
+            Receive a packet from the server
+            </summary>
+            <returns>Received packet data</returns>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.LogPacket(BattleCore.Session.PacketDirection,System.Byte[])">
+            <summary>
+            Packet logger delegate called when a packet is transmitted and received.
+            </summary>
+            <param name="direction">packet direction enumeration</param>
+            <param name="packet">packet buffer</param>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.TxThread">
+            <summary>
+            Socket transmit thread
+            </summary>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.EncryptAndTransmitPacket(System.Byte[])">
+            <summary>
+            Encrypt and transmit a packet to the server
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="M:BattleCore.Session.SessionSocket.RxThread">
+            <summary>
+            Socket receive thread
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionSocket.PacketLog">
+            <summary>
+            Property to add a packet logger
+            </summary>
+        </member>
+        <member name="P:BattleCore.Session.SessionSocket.Active">
+            <summary>
+            Tests if the socket has an active connection to the server
+            </summary>
+            <returns>Active state</returns>
+        </member>
+        <member name="T:BattleCore.Core.BotEvent">
+            <summary>
+            The Delegate to use if you want to throw an Event to the game
+            or to the core.  The core events are distributed to all loaded bots.
+            </summary>
+            <param name="sender">The Object sending the event</param>
+            <param name="e">A Wrapper for the arguements for this Event</param>
+        </member>
+        <member name="T:BattleCore.Core.Core">
+            <summary>
+            This is the core of the Plug-in engine. It provides support for dynamically loading and unloading
+            plugins and protocols.  All public event sare heard by the core and 
+            plugins can add listeners to them with only a reference to GPCore.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.Core.Start(System.String)">
+            <summary>
+            Starts the bot core behavior manager
+            </summary>
+            <param name="botDirectory">Path to the bot behaviors</param>
+        </member>
+        <member name="M:BattleCore.Core.Core.OnBotEvent(System.Object,System.EventArgs)">
+            <summary>
+            Event received by the game that is distributed 
+            to all loaded behaviors.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:BattleCore.Core.Core.OnTimerTick">
+            <summary>
+            Handle the 10ms timer tick.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.Core.OnBotEvent(System.Object,System.Object,System.EventArgs)">
+            <summary>
+            Event received by the game that is distributed 
+            to all loaded behaviors.
+            </summary>
+            <param name="sender"></param>
+            <param name="receiver"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:BattleCore.Core.Core.OnGameEvent(System.Object,System.EventArgs)">
+            <summary>
+            Event received by a behavior and will be sent to the
+            game.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:BattleCore.Core.Core.GetAttributes(System.String)">
+            <summary>
+            Get the attributes list for the type name
+            </summary>
+            <param name="TypeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleCore.Core.Core.CreateInstance(System.String)">
+            <summary>
+            Creates an instance of the given type and adds it to the 
+            Listeners list if it is a <see cref="T:BattleCore.BotEventListener"/>
+            </summary>
+            <param name="TypeName">The full name of the type to create an instance of.</param>
+            <returns>A reference to the instance.</returns>
+        </member>
+        <member name="M:BattleCore.Core.Core.DestroyInstance(System.String)">
+            <summary>
+            Calls the destructor for the given behavior and removes it from the Listeners list.
+            </summary>
+            <param name="listener">The FullName of the Type of listener you wish to destroy</param>
+        </member>
+        <member name="M:BattleCore.Core.Core.DestroyInstance(System.Type)">
+            <summary>
+            Calls the destructor for the given plugin and removes it from the Listeners list.
+            </summary>
+            <param name="listener">The Type of Listener you wish to destroy</param>
+        </member>
+        <member name="M:BattleCore.Core.Core.DestroyInstance(BattleCore.BotEventListener)">
+            <summary>
+            Calls the destructor for the given plugin and removes it from the Listeners list.
+            </summary>
+        </member>
+        <member name="M:BattleCore.Core.Core.Close">
+            <summary>
+            Closes the core.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.CoreBehaviorManager">
+            <summary>
+            Gets the core behavior manager.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.BotBehaviorManager">
+            <summary>
+            Gets the bot behavior manager.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.BotDirectory">
+            <summary>
+            Get the bot directory path
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.LoadedBehaviors">
+            <summary>
+            Gets a list of loaded behaviors.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.AvailableBehaviors">
+            <summary>
+            Gets a list of available behaviors.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.GameEventManager">
+            <summary>
+            Returns the behavior event manager.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Core.Core.CoreEventManager">
+            <summary>
+            Returns the core event manager.
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.SecurityResponsePacket">
+            <summary>
+            SecurityResponsePacket object.  This object is sent is response 
+            to the security request packet.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.ExecutableChecksum">
+            <summary>
+            Executable Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.ParameterChecksum">
+            <summary>
+            Parameter Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.LevelChecksum">
+            <summary>
+            Level Checksum Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.ReliableCount">
+            <summary>
+            Reliable Message Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.CurrentPing">
+            <summary>
+            Current Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.AveragePing">
+            <summary>
+            Average Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.LowPing">
+            <summary>
+            Low Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.HighPing">
+            <summary>
+            High Ping Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.WeaponCount">
+            <summary>
+            Weapon Count Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.S2CSlowCurrent">
+            <summary>
+            S2C Slow Current Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.S2CFastCurrent">
+            <summary>
+            S2C Fast Current Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.S2CSlowTotal">
+            <summary>
+            S2C Slow Total Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.S2CFastTotal">
+            <summary>
+            S2C Fast Total Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.SlowFrame">
+            <summary>
+            Slow Frame Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.SecurityResponsePacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.RegistrationPacket">
+            <summary>
+            RegistrationPacket Object.  This packet is sent to register 
+            a new player name with the server.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.RealName">
+            <summary>Real Name Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.EmailAddress">
+            <summary>Email Address Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.City">
+            <summary>City Name Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.State">
+            <summary>State Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.RegisteredName">
+            <summary>Registered Name Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.Organization">
+            <summary>Organization Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.RegistrationPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.LevelRequestPacket">
+            <summary>
+            LevelRequestPacket object.  This object is used to request the
+            level file from the server.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelRequestPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.LevelRequestPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.DisconnectPacket">
+            <summary>
+            DisconnectPacket object.  This object is used to disconnect
+            from the server.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.DisconnectPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.DisconnectPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.DestroyTurretPacket">
+            <summary>
+            DestroyTurretPacket object.  This object is used to send or receive
+            packets that signify a turret driver detaching from his gunners.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.DestroyTurretPacket.m_event">
+            <summary>Create Turret Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.DestroyTurretPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.DestroyTurretPacket.Event">
+            <summary>
+            Create Turret Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.DestroyTurretPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Protocol.CreateTurretPacket">
+            <summary>
+            CreateTurretPacket object.  This packet is sent to the server by a
+            turret gunner to attach to somebody else.
+            </summary>
+        </member>
+        <member name="F:BattleCore.Protocol.CreateTurretPacket.m_event">
+            <summary>Create Turret Packet Event Data</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.CreateTurretPacket.Reliable">
+            <summary>Reliable Packet Property</summary>
+        </member>
+        <member name="P:BattleCore.Protocol.CreateTurretPacket.Event">
+            <summary>
+            Create Turret Event Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Protocol.CreateTurretPacket.Packet">
+            <summary>
+            Packet Data Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.Events.BotListEvent">
+            <summary>
+            Bot List command event sent to the core to list
+            all available and loaded bots.
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotListEvent.PlayerId">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="T:BattleCore.BattleCore">
+            <summary>
+            Battle Core object.  This object is the root of the 
+            core, and created instances of all configured bots.
+            </summary>
+        </member>
+        <member name="F:BattleCore.BattleCore.m_activeBots">
+            <summary>
+            List of all bot instances managed by the core
+            </summary>
+        </member>
+        <member name="F:BattleCore.BattleCore.m_availableBots">
+            <summary>
+            List of all bot instances managed by the core
+            </summary>
+        </member>
+        <member name="M:BattleCore.BattleCore.#ctor">
+            <summary>
+            BattleCore constructor
+            </summary>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnStart(System.String[])">
+            <summary>
+            OnStart: Put startup code here
+             - Start threads, get inital data, etc.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnStop">
+            <summary>
+            OnStop: Put your stop code here
+            - Stop threads, set final data, etc.
+            </summary>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnPause">
+            <summary>
+            OnPause: Put your pause code here
+            - Pause working threads, etc.
+            </summary>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnContinue">
+            <summary>
+            OnContinue: Put your continue code here
+            - Un-pause working threads, etc.
+            </summary>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnShutdown">
+            <summary>
+            OnShutdown(): Called when the System is shutting down
+            - Put code here when you need special handling
+              of code that deals with a system shutdown, such
+              as saving special data before shutdown.
+            </summary>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnCustomCommand(System.Int32)">
+            <summary>
+            OnCustomCommand(): If you need to send a command to your
+              service without the need for Remoting or Sockets, use
+              this method to do custom methods.
+            </summary>
+            <param name="command">Arbitrary Integer between 128 and 256</param>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnPowerEvent(System.ServiceProcess.PowerBroadcastStatus)">
+            <summary>
+            OnPowerEvent(): Useful for detecting power status changes,
+              such as going into Suspend mode or Low Battery for laptops.
+            </summary>
+            <param name="powerStatus">The Power Broadcase Status (BatteryLow, Suspend, etc.)</param>
+        </member>
+        <member name="M:BattleCore.BattleCore.OnSessionChange(System.ServiceProcess.SessionChangeDescription)">
+            <summary>
+            OnSessionChange(): To handle a change event from a Terminal Server session.
+              Useful if you need to determine when a user logs in remotely or logs off,
+              or when someone logs into the console.
+            </summary>
+            <param name="changeDescription"></param>
+        </member>
+        <member name="M:BattleCore.BattleCore.HandleCoreEvents(System.Object,System.EventArgs)">
+            <summary>
+            Handle a broadcast event sent to all loaded bots within the core.
+            </summary>
+            <param name="sender">Sending object</param>
+            <param name="e">Event</param>
+        </member>
+        <member name="M:BattleCore.BattleCore.HandleBotListEvent(System.Object,BattleCore.Events.BotListEvent)">
+            <summary>
+            Handle a bot list command to list all bots
+            </summary>
+            <param name="sender">Sending object</param>
+            <param name="listEvent"></param>
+        </member>
+        <member name="M:BattleCore.BattleCore.HandleGetBotInfoEvent(System.Object,BattleCore.Events.BotGetInfoEvent)">
+            <summary>
+            Handle BotGetInfoEvents and sends back info to user - used for modules
+            Going to try and keep this internal only.
+            </summary>
+            <param name="sender">Sending object</param>
+            <param name="infoEvent"></param>
+        </member>
+        <member name="M:BattleCore.BattleCore.HandleBotSpawnEvent(System.Object,BattleCore.Events.BotSpawnEvent)">
+            <summary>
+            Handle a bot spawn command to create a new bot instance
+            </summary>
+            <param name="sender">Sending object</param>
+            <param name="spawnEvent"></param>
+        </member>
+        <member name="M:BattleCore.BattleCore.HandleBotKillEvent(System.Object,BattleCore.Events.BotKillEvent)">
+            <summary>
+            Handle a bot kill command to kill the bots
+            </summary>
+            <param name="sender">Sending object</param>
+            <param name="listEvent"></param>
+        </member>
+        <member name="T:BattleCore.Events.BotGetInfoEvent">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotGetInfoEvent.PlayerId">
+            <summary>
+            Player Identifier Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotGetInfoEvent.ModLevel">
+            <summary>
+            Player ModLevel Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotGetInfoEvent.BotName">
+            <summary>
+            Bot Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotGetInfoEvent.Arena">
+            <summary>
+            Arena Name Property
+            </summary>
+        </member>
+        <member name="P:BattleCore.Events.BotGetInfoEvent.Parameters">
+            <summary>
+            Property to set the spawn parameters
+              BotName:Arena
+            </summary>
+        </member>
+    </members>
+</doc>

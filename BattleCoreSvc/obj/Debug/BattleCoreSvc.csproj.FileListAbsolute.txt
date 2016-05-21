@@ -1,0 +1,11 @@
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\bin\Debug\BattleCoreSvc.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\bin\Debug\BattleCoreSvc.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\bin\Debug\BattleCore.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\bin\Debug\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\bin\Debug\BattleCore.Events.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\bin\Debug\BattleCore.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\obj\Debug\BattleCoreService.BattleCoreSvc.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\obj\Debug\BattleCoreSvc.csproj.GenerateResource.Cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\obj\Debug\BattleCoreSvc.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreSvc\obj\Debug\BattleCoreSvc.pdb

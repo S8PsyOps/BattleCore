@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C04D046E-3D10-4A68-9B56-2B5E6D4DA378}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BattleCore.Events</RootNamespace>
+    <AssemblyName>BattleCore.Events</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>AlphaCore.Events.xml</DocumentationFile>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\BattleCoreTest\bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArenaListEvent.cs" />
+    <Compile Include="BehaviorAttribute.cs" />
+    <Compile Include="BotEventListener.cs" />
+    <Compile Include="BotInfoRequest.cs" />
+    <Compile Include="BotProfileEvent.cs" />
+    <Compile Include="ChatEvent.cs" />
+    <Compile Include="CommandHelpAttribute.cs" />
+    <Compile Include="BotInfoEvent.cs" />
+    <Compile Include="CreateTurretEvent.cs" />
+    <Compile Include="DestroyTurretEvent.cs" />
+    <Compile Include="Enumerations.cs" />
+    <Compile Include="FlagClaimEvent.cs" />
+    <Compile Include="FlagDropEvent.cs" />
+    <Compile Include="FlagPositionEvent.cs" />
+    <Compile Include="ItemInfo.cs" />
+    <Compile Include="ListModEvent.cs" />
+    <Compile Include="LoginEvent.cs" />
+    <Compile Include="LVZToggleEvent.cs" />
+    <Compile Include="ModifyTurretEvent.cs" />
+    <Compile Include="PlayerDeathEvent.cs" />
+    <Compile Include="PlayerEnteredEvent.cs" />
+    <Compile Include="PlayerInfo.cs" />
+    <Compile Include="PlayerInfoEvent.cs" />
+    <Compile Include="PlayerLeftEvent.cs" />
+    <Compile Include="PlayerPositionEvent.cs" />
+    <Compile Include="PlayerSoundEvent.cs" />
+    <Compile Include="PrizeCollectedEvent.cs" />
+    <Compile Include="PrizeGrantedEvent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreUpdateEvent.cs" />
+    <Compile Include="ShipChangeEvent.cs" />
+    <Compile Include="ShipStateInfo.cs" />
+    <Compile Include="SoccerGoalEvent.cs" />
+    <Compile Include="SpectatePlayerEvent.cs" />
+    <Compile Include="SqlCommandEvent.cs" />
+    <Compile Include="SqlQueryEvent.cs" />
+    <Compile Include="TeamChangeEvent.cs" />
+    <Compile Include="WatchDamageEvent.cs" />
+    <Compile Include="WeaponInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BattleCore.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

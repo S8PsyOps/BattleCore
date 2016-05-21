@@ -1,0 +1,136 @@
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\Output\AlphaCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\Output\AlphaCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\Output\AlphaCore.Events.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\Output\AlphaCore.Events.tlb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCore.Events\obj\Release\ResolveAssemblyReference.cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCore.Events\obj\Release\AlphaCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCore.Events\obj\Release\AlphaCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\Output\BattleCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\Output\BattleCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\Output\BattleCore.Events.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\Output\BattleCore.Events.tlb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\Output\BattleCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\Output\BattleCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\Output\BattleCore.Events.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\Output\BattleCore.Events.tlb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\Output\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\Output\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\Output\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\Output\BattleCore.Events.tlb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\My Output\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\My Output\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\My Output\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\My Output\BattleCore.Events.tlb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\My Output\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\My Output\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\My Output\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\My Output\BattleCore.Events.tlb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\BattleCore SourceBU\My Output\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\BattleCore SourceBU\My Output\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\BattleCore SourceBU\My Output\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\BattleCore SourceBU\My Output\BattleCore.Events.tlb
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\My Output\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\My Output\BattleCore.Events.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\My Output\BattleCore.Events.xml
+C:\Documents and Settings\User\Desktop\BattleCore\My Output\BattleCore.Events.tlb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCore.Events.tlb
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCore.Events.tlb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCore.Events\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Core\Source\My Output\BattleCore.Events.dll
+D:\Projects\Battle Core\Source\My Output\BattleCore.Events.pdb
+D:\Projects\Battle Core\Source\My Output\BattleCore.Events.xml
+D:\Projects\Battle Core\Source\My Output\BattleCore.Events.tlb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.dll
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCore.Events\obj\Release\BattleCore.Events.dll
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCore.Events\obj\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCore.Events\obj\Release\BattleCore.Events.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCore.Events\obj\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCore.Events\obj\Release\BattleCore.Events.pdb

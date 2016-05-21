@@ -1,0 +1,261 @@
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCoreCfg.exe
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCoreCfg.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCore.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCore.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCore.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\bin\Release\AlphaCore.Events.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\ResolveAssemblyReference.cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\AlphaCoreCfg.Properties.Resources.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\AlphaCoreCfg.exe
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\AlphaCore Source\AlphaCore\AlphaCoreCfg\obj\Release\AlphaCoreCfg.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCoreCfg.exe
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCoreCfg.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+E:\Documents and Settings\PsyOps\My Documents\My Projects\AlphaSource\AlphaCore Source104\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCoreCfg.exe
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCoreCfg.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.dll
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.pdb
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\bin\Release\BattleCore.xml
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+E:\Documents and Settings\PsyOps\My Documents\My Projects\Battle Zone\Pub Bot\Project Files\BattleSource\New BattleCore\BattleCore Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCore.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCore.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\bin\Release\BattleCore.xml
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\My Output\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\Misc\BattleCore SourceBU\My Output\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\My Output\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\My Output\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\SS\CZ Bots\Core Modifications\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\BattleCore SourceBU\My Output\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\BattleCore SourceBU\My Output\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\BattleCore SourceBU\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\My Output\BattleCoreCfg.exe
+C:\Documents and Settings\User\Desktop\BattleCore\My Output\BattleCoreCfg.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCoreCfg.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Core\Source\My Output\BattleCoreCfg.exe
+D:\Projects\Battle Core\Source\My Output\BattleCoreCfg.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCoreCfg.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCoreCfg.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.BotSettings.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigPassword.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.ConfigureBots.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreCfg\obj\Release\BattleCoreCfg.pdb

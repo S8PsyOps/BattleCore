@@ -1,0 +1,5 @@
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\Evil Bot\DevaBot.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\Evil Bot\DevaBot.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\DevaBot\obj\Release\DevaBot.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\DevaBot\obj\Release\DevaBot.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\DevaBot\obj\Release\DevaBot.csprojResolveAssemblyReference.cache

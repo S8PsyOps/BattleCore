@@ -1,0 +1,85 @@
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCorePsyOps.dll
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCorePsyOps.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCore.dll
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCore.Events.dll
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCore.Events.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCore.Events.xml
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCore.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\bin\Release\BattleCore.xml
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+C:\Users\MagDad\Desktop\LB BattleCore\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCorePsyOps.dll
+C:\Users\MagDad\Desktop\LB BattleCore\My Output\BattleCorePsyOps.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCorePsyOps.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\My Output\BattleCorePsyOps.pdb
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCorePsyOps\obj\Release\ResolveAssemblyReference.cache
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+C:\Users\MagDad\Desktop\MagDad\Projects\Newgen\Current Core\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Core\Source\My Output\BattleCorePsyOps.dll
+D:\Projects\Battle Core\Source\My Output\BattleCorePsyOps.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCorePsyOps.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCorePsyOps\obj\Release\BattleCorePsyOps.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCorePsyOps\obj\Release\BattleCorePsyOps.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCorePsyOps\obj\Release\BattleCorePsyOps.pdb

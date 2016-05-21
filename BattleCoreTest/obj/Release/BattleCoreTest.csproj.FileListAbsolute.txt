@@ -1,0 +1,162 @@
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Core\Source\BattleCoreNewest\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Battle Core Source\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Public Bot\PubBot 10-28-15\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Public Bot\BattleCoreClean\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Public Bot\BattleCoreClean\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Public Bot\BattleCoreClean\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.exe
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreTest.exe
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.dll
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+C:\Users\User\Documents\Old Alpha Bots\Battle Core Dev\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core Lvz\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Battle Core - 2.1\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Battle Core - 2.1\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Battle Core - 2.1\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BattleCore Newest\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\Map Scanner\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel 4-29-16\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCoreTest.exe.config
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\obj\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\obj\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCoreTest.exe
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCoreTest.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCore.Events.dll
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\bin\Release\BattleCore.Events.pdb
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\obj\Release\BattleCoreTest.csprojResolveAssemblyReference.cache
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\obj\Release\BattleCoreTest.BattleCoreTest.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\obj\Release\BattleCoreTest.Properties.Resources.resources
+D:\Projects\Battle Zone\Bot Project Files\BaseDuel New\BattleCoreTest\obj\Release\BattleCoreTest.csproj.GenerateResource.Cache

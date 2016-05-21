@@ -1,0 +1,12 @@
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\bin\Debug\BattleCoreTest.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\bin\Debug\BattleCoreTest.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\bin\Debug\BattleCore.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\bin\Debug\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\bin\Debug\BattleCore.Events.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\bin\Debug\BattleCore.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.BattleCoreTest.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.Properties.Resources.resources
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.csproj.GenerateResource.Cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.exe
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCoreTest\obj\Debug\BattleCoreTest.pdb

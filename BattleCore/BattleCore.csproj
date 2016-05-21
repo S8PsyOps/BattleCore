@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B89386AC-AD9E-4864-A7FB-F095A450A9FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BattleCore</RootNamespace>
+    <AssemblyName>BattleCore</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>AlphaCore.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\BattleCoreTest\bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bot\ArenaSettings.cs" />
+    <Compile Include="Bot\BotInstance.Commands.cs" />
+    <Compile Include="Bot\BotInstance.Events.cs" />
+    <Compile Include="Bot\BotInstance.Help.cs" />
+    <Compile Include="Bot\BotInstance.cs" />
+    <Compile Include="Bot\BotInstance.Protocol.cs" />
+    <Compile Include="Bot\BotInstance.Sql.cs" />
+    <Compile Include="Bot\PlayerHandler.cs" />
+    <Compile Include="BattleCore.cs" />
+    <Compile Include="Core\BehaviorManager.cs" />
+    <Compile Include="Core\Core.cs" />
+    <Compile Include="Core\LocalClassLoader.cs" />
+    <Compile Include="Core\RemoteClassLoader.cs" />
+    <Compile Include="Events\BotGetInfoEvent.cs" />
+    <Compile Include="Events\BotKillEvent.cs" />
+    <Compile Include="Events\BotListEvent.cs" />
+    <Compile Include="Events\BotSpawnEvent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\AcknowlegePacket.cs" />
+    <Compile Include="Protocol\ArenaEnterPacket.cs" />
+    <Compile Include="Protocol\ArenaLeavePacket.cs" />
+    <Compile Include="Protocol\ArenaListPacket.cs" />
+    <Compile Include="Protocol\ArenaSettingsPacket.cs" />
+    <Compile Include="Protocol\ChatPacket.cs" />
+    <Compile Include="Protocol\ChunkBodyPacket.cs" />
+    <Compile Include="Protocol\ChunkTailPacket.cs" />
+    <Compile Include="Protocol\ClusteredPacket.cs" />
+    <Compile Include="Protocol\CreateTurretPacket.cs" />
+    <Compile Include="Protocol\DestroyTurretPacket.cs" />
+    <Compile Include="Protocol\DisconnectPacket.cs" />
+    <Compile Include="Protocol\EncryptionRequestPacket.cs" />
+    <Compile Include="Protocol\EncryptionResponsePacket.cs" />
+    <Compile Include="Protocol\FlagClaimPacket.cs" />
+    <Compile Include="Protocol\FlagDropPacket.cs" />
+    <Compile Include="Protocol\FlagPositionPacket.cs" />
+    <Compile Include="Protocol\LargeChunkPacket.cs" />
+    <Compile Include="Protocol\LevelFilePacket.cs" />
+    <Compile Include="Protocol\LevelInfoPacket.cs" />
+    <Compile Include="Protocol\LevelRequestPacket.cs" />
+    <Compile Include="Protocol\LVZTogglePacket.cs" />
+    <Compile Include="Protocol\ModifyTurretPacket.cs" />
+    <Compile Include="Protocol\NewsRequestPacket.cs" />
+    <Compile Include="Protocol\PacketInterface.cs" />
+    <Compile Include="Protocol\PasswordPacket.cs" />
+    <Compile Include="Protocol\PasswordResponsePacket.cs" />
+    <Compile Include="Protocol\PlayerDeathPacket.cs" />
+    <Compile Include="Protocol\PlayerEnteredPacket.cs" />
+    <Compile Include="Protocol\PlayerIdentifierPacket.cs" />
+    <Compile Include="Protocol\PlayerLeftPacket.cs" />
+    <Compile Include="Protocol\PlayerPositionPacket.cs" />
+    <Compile Include="Protocol\PlayerSoundPacket.cs" />
+    <Compile Include="Protocol\PlayerUpdatePacket.cs" />
+    <Compile Include="Protocol\PlayerWeaponPacket.cs" />
+    <Compile Include="Protocol\PrizeCollectedPacket.cs" />
+    <Compile Include="Protocol\PrizeGrantedPacket.cs" />
+    <Compile Include="Protocol\RegistrationPacket.cs" />
+    <Compile Include="Protocol\ReliablePacket.cs" />
+    <Compile Include="Protocol\ScoreResetPacket.cs" />
+    <Compile Include="Protocol\ScoreUpdatePacket.cs" />
+    <Compile Include="Protocol\SecurityRequestPacket.cs" />
+    <Compile Include="Protocol\SecurityResponsePacket.cs" />
+    <Compile Include="Protocol\SetPositionPacket.cs" />
+    <Compile Include="Protocol\SoccerGoalPacket.cs" />
+    <Compile Include="Protocol\SpectatePlayerPacket.cs" />
+    <Compile Include="Protocol\SyncRequestPacket.cs" />
+    <Compile Include="Protocol\SyncResponsePacket.cs" />
+    <Compile Include="Protocol\WatchDamagePacket.cs" />
+    <Compile Include="Session\PacketEncryption.cs" />
+    <Compile Include="Session\ReliableMessageHandler.cs" />
+    <Compile Include="Session\SecurityChecksum.cs" />
+    <Compile Include="Session\Session.cs" />
+    <Compile Include="Session\Session.Receive.cs" />
+    <Compile Include="Session\Session.Transmit.cs" />
+    <Compile Include="Session\SessionSocket.cs" />
+    <Compile Include="Session\SessionStatistics.cs" />
+    <Compile Include="Settings\BotSettings.cs" />
+    <Compile Include="Settings\CoreSettings.cs" />
+    <Compile Include="Settings\SessionSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BattleCore.Events\BattleCore.Events.csproj">
+      <Project>{C04D046E-3D10-4A68-9B56-2B5E6D4DA378}</Project>
+      <Name>BattleCore.Events</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BattleCore.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

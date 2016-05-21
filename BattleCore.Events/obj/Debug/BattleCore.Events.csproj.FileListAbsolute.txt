@@ -1,0 +1,7 @@
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\bin\Debug\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\bin\Debug\BattleCore.Events.pdb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\bin\Debug\AlphaCore.Events.xml
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\bin\Debug\BattleCore.Events.tlb
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\obj\Debug\BattleCore.Events.dll
+C:\Documents and Settings\User\Desktop\BattleCore\BattleCore\BattleCore.Events\obj\Debug\BattleCore.Events.pdb
