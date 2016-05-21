@@ -33,32 +33,31 @@ namespace DevaBot.BaseDuel
         private int m_AlphaScore;
         private int m_BravoScore;
 
-
+        /// <summary>
+        /// Current match being played
+        /// </summary>
         public BaseMatch CurrentMatch
         {
             get { return m_CurrentMatch; }
             set { m_CurrentMatch = value; }
         }
 
-        public int AlphaScore
+        /// <summary>
+        /// List of all played matches in the current game.
+        /// </summary>
+        public List<BaseMatch> Matches
         {
-            get { return m_AlphaScore; }
-            set { m_AlphaScore = value; }
-        }
-
-        public int BravoScore
-        {
-            get { return m_BravoScore; }
-            set { m_BravoScore = value; }
+            get { return m_MatchesPlayed; }
+            set { m_MatchesPlayed = value; }
         }
 
         /// <summary>
-        /// Allow players to join after game has already started
+        /// Current status of Game
         /// </summary>
-        public bool AllowAfterStartJoin
+        public BaseGameStatus Status
         {
-            get { return m_AllowAfterStartJoin; }
-            set { m_AllowAfterStartJoin = value; }
+            get { return m_Status; }
+            set { m_Status = value; }
         }
 
         /// <summary>
@@ -79,6 +78,15 @@ namespace DevaBot.BaseDuel
         }
 
         /// <summary>
+        /// Allow players to join after game has already started
+        /// </summary>
+        public bool AllowAfterStartJoin
+        {
+            get { return m_AllowAfterStartJoin; }
+            set { m_AllowAfterStartJoin = value; }
+        }
+
+        /// <summary>
         /// If you want to allow Teams to win by going into opposing team's safe.
         /// </summary>
         public bool AllowSafeWin
@@ -88,60 +96,35 @@ namespace DevaBot.BaseDuel
         }
 
         /// <summary>
-        /// Use this name to send a freq warpto command (first player on list)
+        /// Alpha Teams current score in current game.
         /// </summary>
-        public string AlphaWarptoName
+        public int AlphaScore
         {
-            get { return m_CurrentMatch.AlphaTeam.TeamMembers[0].PlayerName; }
-        }
-        /// <summary>
-        /// Use this name to send a freq warpto command (first player on list)
-        /// </summary>
-        public string BravoWarptoName
-        {
-            get { return m_CurrentMatch.BravoTeam.TeamMembers[0].PlayerName; }
+            get { return m_AlphaScore; }
+            set { m_AlphaScore = value; }
         }
 
         /// <summary>
-        /// Current status of Game
+        /// Bravo Teams current score in current game.
         /// </summary>
-        public BaseGameStatus Status
+        public int BravoScore
         {
-            get { return m_Status; }
-            set { m_Status = value; }
+            get { return m_BravoScore; }
+            set { m_BravoScore = value; }
         }
 
-        /// <summary>
-        /// Use this to get a player or to check if player is in game
-        /// </summary>
-        /// <param name="PlayerName">Player Name</param>
-        /// <param name="InAlpha">Returns null if player isn't in game</param>
-        /// <returns></returns>
-        public BasePlayer GetPlayer( string PlayerName, out bool InAlpha)
-        {
-            InAlpha = true;
-            BasePlayer b = m_CurrentMatch.AlphaTeam.TeamMembers.Find( item => item.PlayerName == PlayerName);
-            // Player is in alpha team - return player
-            if ( b != null) return b;
-
-            // even if not in bravo team we still return a null
-            b = m_CurrentMatch.BravoTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
-            InAlpha = false;
-            return b;
-        }
-
-        /// <summary>
-        /// Move players from wait list to assigned teams
-        /// </summary>
-        /// <param name="Alpha">Alpha Wait List</param>
-        /// <param name="Bravo">Bravo Wait List</param>
-        public void PrepareGameStart(List<string> Alpha, List<string> Bravo)
-        {
-            for (int i = 0; i < Alpha.Count; i++)
-                addPlayerToTeam(Alpha[i], true);
-            for (int i = 0; i < Bravo.Count; i++)
-                addPlayerToTeam(Bravo[i], false);
-        }
+        ///// <summary>
+        ///// Move players from wait list to assigned teams
+        ///// </summary>
+        ///// <param name="Alpha">Alpha Wait List</param>
+        ///// <param name="Bravo">Bravo Wait List</param>
+        //public void PrepareGameStart(List<string> Alpha, List<string> Bravo)
+        //{
+        //    for (int i = 0; i < Alpha.Count; i++)
+        //        addPlayerToTeam(Alpha[i], true);
+        //    for (int i = 0; i < Bravo.Count; i++)
+        //        addPlayerToTeam(Bravo[i], false);
+        //}
 
         public void NewPlayerJoin(string PlayerName)
         {

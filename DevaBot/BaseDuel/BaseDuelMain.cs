@@ -75,12 +75,12 @@ namespace DevaBot.BaseDuel
             if (!m_BaseGameOn || m_BlockedList.Contains(dp.PlayerName)) return;
 
             // Player is in the center start box
-            if (InRegion(dp.Position, m_BaseManager.Lobby.BaseDimension))
+            if (inRegion(dp.Position, m_BaseManager.Lobby.BaseDimension))
             {
                 // Game hasnt started yet
                 if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
                 {
-                    if (!InWaitList(dp.PlayerName) && CanWarp(dp))
+                    if (!inWaitList(dp.PlayerName) && canWarp(dp))
                         SendToWaitList(dp.PlayerName);
                     return;
                 }
@@ -88,7 +88,7 @@ namespace DevaBot.BaseDuel
                 if (m_CurrentGame.Status == BaseGameStatus.GameOn)
                 {
                     bool InAlpha;
-                    BasePlayer b = m_CurrentGame.GetPlayer(dp.PlayerName, out InAlpha);
+                    BasePlayer b = getPlayer(dp.PlayerName, out InAlpha);
 
                     // Player join during game code here
                     if (b == null )
@@ -97,7 +97,7 @@ namespace DevaBot.BaseDuel
                         if (!m_CurrentGame.AllowAfterStartJoin) return;
                         
                         m_CurrentGame.NewPlayerJoin(dp.PlayerName);
-                        b = m_CurrentGame.GetPlayer(dp.PlayerName, out InAlpha);
+                        b = getPlayer(dp.PlayerName, out InAlpha);
                     }
                     
                     // player is active
@@ -123,18 +123,18 @@ namespace DevaBot.BaseDuel
             else if (m_CurrentGame.Status == BaseGameStatus.GameOn)
             {
                 bool InAlpha;
-                BasePlayer b = m_CurrentGame.GetPlayer(dp.PlayerName, out InAlpha);
+                BasePlayer b = getPlayer(dp.PlayerName, out InAlpha);
 
                 // Player is not listed on teams and he isnt in center safe ?!?! how?
                 if (b == null) return;
 
                 // Player is in base
-                if (InRegion(dp.Position, m_BaseManager.CurrentBase.BaseDimension))
+                if (inRegion(dp.Position, m_BaseManager.CurrentBase.BaseDimension))
                 {
                     b.InLobby = false;
 
                     // Player is on opposing teams safe - Win ( if allowed by setting )
-                    if (m_CurrentGame.AllowSafeWin && InRegion(dp.Position, InAlpha ? m_BaseManager.CurrentBase.BravoSafe : m_BaseManager.CurrentBase.AlphaSafe))
+                    if (m_CurrentGame.AllowSafeWin && inRegion(dp.Position, InAlpha ? m_BaseManager.CurrentBase.BravoSafe : m_BaseManager.CurrentBase.AlphaSafe))
                     {
                         EndGame(WinType.SafeWin, InAlpha);
                     }
@@ -147,7 +147,7 @@ namespace DevaBot.BaseDuel
             // Check to see game is on and they are not on blocked list
             if (!m_BaseGameOn || m_BlockedList.Contains(dp.PlayerName)) return;
 
-            if (InFreq(dp.OldFrequency))
+            if (inFreq(dp.OldFrequency))
             {   RemovePlayer(dp.PlayerName);    }
         }
 
@@ -156,7 +156,7 @@ namespace DevaBot.BaseDuel
             // Check to see game is on and they are not on blocked list
             if (!m_BaseGameOn || m_BlockedList.Contains(dp.PlayerName)) return;
 
-            if (InFreq(dp.Frequency))
+            if (inFreq(dp.Frequency))
             { RemovePlayer(dp.PlayerName); }
         }
 
@@ -216,15 +216,16 @@ namespace DevaBot.BaseDuel
                 m_BravoWaitList = new List<string>();
             }
 
+            string aName = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[0].PlayerName;
+            string bName = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[0].PlayerName;
+
             // Grab coords from base and name of first person on team, to send team pm
-            string TeamName1 = m_AlternateWarp? m_CurrentGame.AlphaWarptoName:m_CurrentGame.BravoWarptoName;
-            string TeamName2= !m_AlternateWarp ? m_CurrentGame.AlphaWarptoName : m_CurrentGame.BravoWarptoName;
+            string TeamName1 = m_AlternateWarp ? aName : bName;
+            string TeamName2 = !m_AlternateWarp ? aName : bName;
             ushort x1 = m_AlternateWarp? m_BaseManager.CurrentBase.AlphaStartX: m_BaseManager.CurrentBase.BravoStartX;
             ushort y1 = m_AlternateWarp ? m_BaseManager.CurrentBase.AlphaStartY : m_BaseManager.CurrentBase.BravoStartY;
             ushort x2 = !m_AlternateWarp ? m_BaseManager.CurrentBase.AlphaStartX : m_BaseManager.CurrentBase.BravoStartX;
             ushort y2 = !m_AlternateWarp ? m_BaseManager.CurrentBase.AlphaStartY : m_BaseManager.CurrentBase.BravoStartY;
-
-            m_BDEventQueue.Enqueue(msg.arena("Team warp attempted on Player's [ " + TeamName1 + " | " + TeamName2 + " ]"));
 
             // Warp players to start - alternate each time you warp using the alternateWarp bool
             m_BDEventQueue.Enqueue(msg.teamPM(TeamName1,"?|warpto " + x1 + " " + y1 + "|shipreset"));
@@ -285,7 +286,7 @@ namespace DevaBot.BaseDuel
             }
             // Check if player is on a team
             bool InAlpha;
-            BasePlayer b = m_CurrentGame.GetPlayer(PlayerName, out InAlpha);
+            BasePlayer b = getPlayer(PlayerName, out InAlpha);
             // Player isnt on list
             if (b == null) return;
             b.Active = false;
@@ -386,7 +387,7 @@ namespace DevaBot.BaseDuel
         //                         Misc                                         //
         //----------------------------------------------------------------------//
         // Simple collision check
-        private bool InRegion(PlayerPositionEvent p, ushort[] region)
+        private bool inRegion(PlayerPositionEvent p, ushort[] region)
         {
             int x = p.MapPositionX;
             int y = p.MapPositionY;
@@ -394,24 +395,36 @@ namespace DevaBot.BaseDuel
         }
 
         // Player is in alpha or bravo wait list
-        private bool InWaitList(string PlayerName)
+        private bool inWaitList(string PlayerName)
         {
             return m_AlphaWaitList.Contains(PlayerName) || m_BravoWaitList.Contains(PlayerName);
         }
 
         // Player is on alpha/bravo freq
-        private bool InFreq(ushort freq)
+        private bool inFreq(ushort freq)
         {
             return m_CurrentGame.AlphaFreq == freq || m_CurrentGame.BravoFreq == freq;
         }
 
         // Check to see if player is allowed to warp, update warp stamp if so
-        private bool CanWarp(DevaPlayer bp)
+        private bool canWarp(DevaPlayer bp)
         {
             if ((DateTime.Now - bp.WarpStamp).TotalMilliseconds < 1200) return false;
 
             bp.WarpStamp = DateTime.Now;
             return true;
+        }
+        private BasePlayer getPlayer(string PlayerName, out bool InAlpha)
+        {
+            InAlpha = true;
+            BasePlayer b = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
+            // Player is in alpha team - return player
+            if (b != null) return b;
+
+            // even if not in bravo team we still return a null
+            b = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
+            InAlpha = false;
+            return b;
         }
     }
 }
