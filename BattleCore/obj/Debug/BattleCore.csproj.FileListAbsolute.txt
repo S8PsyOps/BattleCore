@@ -16,4 +16,3 @@ D:\Projects\GitHub\BattleCore\BattleCore\obj\Debug\BattleCore.dll
 D:\Projects\GitHub\BattleCore\BattleCore\obj\Debug\BattleCore.pdb
 D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.dll
 D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.pdb
-D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\AlphaCore.xml

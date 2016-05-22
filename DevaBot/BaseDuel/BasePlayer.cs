@@ -45,9 +45,5 @@ namespace DevaBot.BaseDuel
             get { return m_InLobby; }
             set { m_InLobby = value; }
         }
-
-        public void ResetPlayer()
-        {
-        }
     }
 }
