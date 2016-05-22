@@ -49,7 +49,7 @@ namespace DevaBot.BaseDuel
 
         private BaseGame m_CurrentGame;
         private BaseManager m_BaseManager;
-        private bool m_BaseGameOn = true;
+        private bool m_BaseGameOn = false;
         private Queue<EventArgs> m_BDEventQueue;
         private List<string> m_AlphaWaitList, m_BravoWaitList, m_BlockedList;
 

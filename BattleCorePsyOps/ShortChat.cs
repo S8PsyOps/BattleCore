@@ -37,19 +37,19 @@ namespace BattleCorePsyOps
         public ChatEvent debugChan(string Message)
         {
             if (!m_Debug) return null;
-            Message = "[DEBUG] " + Message;  
+            Message = "[ DEBUG ] " + Message;  
             return chan(1, Message);
         }
         public ChatEvent debugArena(string Message)
         {
             if (!m_Debug) return null;
-            Message = "[DEBUG] " + Message;
+            Message = "[ DEBUG ] " + Message;
             return arena(Message);
         }
         public ChatEvent debugArena(string Message, SoundCodes Sound)
         {
             if (!m_Debug) return null;
-            Message = "[DEBUG] " + Message;
+            Message = "[ DEBUG ] " + Message;
             return arena(Message, Sound);
         }
 

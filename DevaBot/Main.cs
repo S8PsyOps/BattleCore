@@ -36,6 +36,7 @@ namespace DevaBot
             RegisterCommand("!minfo", getMatchInfo);                RegisterCommand(".minfo", getMatchInfo);
             RegisterCommand("!startbd", StartBD);                   RegisterCommand(".startbd", StartBD);
             RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
+            RegisterCommand("!debug", doToggleDebug);               RegisterCommand(".debug", doToggleDebug);
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
@@ -51,6 +52,17 @@ namespace DevaBot
         //----------------------------------------------------------------------//
         //                         Commands                                     //
         //----------------------------------------------------------------------//
+        public void doToggleDebug(ChatEvent e)
+        {
+            if (!m_Initialized) return;
+
+            if (!IsMod(e, ModLevels.Mod)) return;
+
+            msg.DebugMode = !msg.DebugMode;
+            m_BaseDuelGame.setDebug(msg.DebugMode);
+
+            Game(msg.arena("[ Deva Main ] Debug mode has been toggled " + (msg.DebugMode?"On":"Off") + " by staff - " + e.PlayerName));
+        }
         public void doBaseDuelCommand(ChatEvent e)
         {
             if (!m_Initialized) return;
@@ -90,7 +102,13 @@ namespace DevaBot
         public void StartBD(ChatEvent e)
         {
             if (!m_Initialized) return;
-            m_BaseDuel.Command_StartGame(e.PlayerName);
+            //m_BaseDuel.Command_StartGame(e.PlayerName);
+
+            DevaPlayer dp = m_Players.GetPlayer(e);
+
+            // change command format to make compatible with older command syntax
+            e.Message = "!baseduel start";
+            SendPsyEvent(m_BaseDuelGame.BaseDuelCommands(dp, e));
         }
 
         //----------------------------------------------------------------------//
@@ -158,7 +176,7 @@ namespace DevaBot
 
                 // Once we have mapdata we initialize baseduel
                 m_BaseDuel = new BaseDuel.BaseDuelMain(e.MapData);
-                m_BaseDuelGame = new BaseDuel.BaseGameManager(e.MapData);
+                m_BaseDuelGame = new BaseDuel.BaseGameManager(e.MapData, msg.DebugMode);
 
                 // Requesting Player's Info
                 Game(new PlayerInfoEvent());
@@ -195,6 +213,7 @@ namespace DevaBot
 
             SendPsyEvent(m_Players.PlayerManagerEvents);
             SendPsyEvent(m_BaseDuel.BaseDuelEvents);
+            SendPsyEvent(m_BaseDuelGame.Events);
         }
 
         //----------------------------------------------------------------------//
