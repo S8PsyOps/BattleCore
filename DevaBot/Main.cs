@@ -128,12 +128,16 @@ namespace DevaBot
 
             DevaPlayer dp = m_Players.GetPlayer(e);
             m_BaseDuel.Event_PlayerLeft(dp);
+            SendPsyEvent(m_BaseDuelGame.Event_PlayerLeft(dp));
         }
         public void MonitorTeamChangeEvent(object sender, TeamChangeEvent e)
         {
             if (!m_Initialized) return;
 
             DevaPlayer dp = m_Players.GetPlayer(e);
+
+            SendPsyEvent(m_BaseDuelGame.Event_PlayerFreqChange(dp));
+
             m_BaseDuel.Event_TeamChange(dp);
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)

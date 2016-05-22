@@ -18,8 +18,10 @@ namespace DevaBot.BaseDuel
         {
 
             this.msg = new ShortChat();
+            this.msg.DebugMode = debugMode;
             this.m_Timer = new Timer();
             this.m_BaseManager = new BaseManager(MapData);
+            this.m_CurrentGame = new BaseGame();
             this.m_Base = m_BaseManager.CurrentBase;
             this.m_Lobby = m_BaseManager.Lobby;
             this.m_AlphaFreq = 887;
@@ -79,9 +81,6 @@ namespace DevaBot.BaseDuel
                 return q;
             }
 
-            // Just an extra check to make sure we have a command to parse
-            if (!e.Message.Contains(" ")) return q;
-
             if (data[1].Trim().ToLower() == "settings")
             {
                 // Module is off
@@ -132,6 +131,12 @@ namespace DevaBot.BaseDuel
         //----------------------------------------------------------------------//
         //                     Game Functions                                   //
         //----------------------------------------------------------------------//
+        private void startGame()
+        {
+            m_CurrentGame.Status = BaseGameStatus.GameOn;
+            m_BaseGameEvents.Enqueue(msg.macro("- Go Go Go! -    start code here."));
+        }
+
         private void toggleBaseDuel(DevaPlayer p, Queue<EventArgs> q)
         {
             // Turn On module
@@ -179,6 +184,32 @@ namespace DevaBot.BaseDuel
             q.Enqueue(msg.debugChan("Player[ " + p.PlayerName + " ] has been added to " + (alpha ? "Alpha" : "Bravo") + " wait list. AlphaCount[" + m_AlphaWaitList.Count + "] BravoCount[" + m_BravoWaitList.Count + "]"));
         }
 
+        private void removePlayer(DevaPlayer p, Queue<EventArgs> q)
+        {
+            // dont know if i need anything more than just this - this will do for now
+            if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
+            {
+                if (isOnWaitList(p.PlayerName))
+                    q.Enqueue(msg.debugChan("Removing Player[ " + p.PlayerName + " ] from wait list."));
+                m_AlphaWaitList.Remove(p.PlayerName);
+                m_BravoWaitList.Remove(p.PlayerName);
+                return;
+            }
+
+            // If a game is in progress we want to set the player to inactive - this way we can save stats after player leaves
+            if (m_CurrentGame.Status == BaseGameStatus.GameOn || m_CurrentGame.Status == BaseGameStatus.GameIntermission)
+            {
+                bool InAlpha;
+                BasePlayer b = getPlayer(p, out InAlpha);
+
+                if (b != null)
+                {
+                    q.Enqueue(msg.debugChan("Player[ " + p.PlayerName + " ] found in "+(InAlpha?"Alpha":"Bravo")+" Team. Player set to inactive."));
+                    b.Active = false;
+                }
+            }
+        }
+
         // Load next base using BaseManager but store it locally - just to cut down on some code length
         private void loadNextBase()
         {
@@ -191,10 +222,10 @@ namespace DevaBot.BaseDuel
         //----------------------------------------------------------------------//
         public Queue<EventArgs> Event_PlayerPosition(DevaPlayer p)
         {
-            if (m_BlockedList.Contains(p.PlayerName)) return null;
-
             // No need to deal with event if it is off
             if (m_CurrentGame == null) return null;
+
+            if (m_BlockedList.Contains(p.PlayerName)) return null;
 
             Queue<EventArgs> q = new Queue<EventArgs>();
 
@@ -205,6 +236,35 @@ namespace DevaBot.BaseDuel
                     addPlayerToWaitList(p, q);
                 }
             }
+            return q;
+        }
+
+        public Queue<EventArgs> Event_PlayerLeft(DevaPlayer p)
+        {
+            // No need to deal with event if it is off
+            if (m_CurrentGame == null) return null;
+
+            if (m_BlockedList.Contains(p.PlayerName)) return null;
+
+            Queue<EventArgs> q = new Queue<EventArgs>();
+
+            removePlayer(p, q);
+
+            return q;
+        }
+
+        public Queue<EventArgs> Event_PlayerFreqChange(DevaPlayer p)
+        {
+            // No need to deal with event if it is off
+            if (m_CurrentGame == null) return null;
+
+            // Maybe leave this out? if player gets blocked and not removed?
+            if (m_BlockedList.Contains(p.PlayerName)) return null;
+
+            Queue<EventArgs> q = new Queue<EventArgs>();
+
+            if (inGameFreqs(p.OldFrequency))
+                removePlayer(p, q);
 
             return q;
         }
@@ -228,7 +288,6 @@ namespace DevaBot.BaseDuel
                 m_Timer.Elapsed += new ElapsedEventHandler(Timer_ClearCheck);
                 m_Timer.Interval = m_TeamClearDelay * 1000;
             }
-
             m_Timer.Start();
         }
 
@@ -246,16 +305,15 @@ namespace DevaBot.BaseDuel
             m_Timer.Stop();
 
             if (canStartGame())
-            {
-                m_CurrentGame.Status = BaseGameStatus.GameOn;
-                m_BaseGameEvents.Enqueue(msg.macro("- Go Go Go! -    start code here."));
-            }
+            { startGame(); }
             else
-                m_BaseGameEvents.Enqueue(msg.macro("- Not enough players. Start Game cancelled. -"));
+            { m_BaseGameEvents.Enqueue(msg.macro("- Not enough players. Start Game cancelled. -")); }
         }
+
         public void Timer_ClearCheck(object source, ElapsedEventArgs e)
         {
         }
+
         //----------------------------------------------------------------------//
         //                             Misc                                     //
         //----------------------------------------------------------------------//
@@ -263,6 +321,22 @@ namespace DevaBot.BaseDuel
         public void setDebug(bool newMode)
         {
             msg.DebugMode = newMode;
+        }
+
+        // Grab player from one of the teams
+        private BasePlayer getPlayer( DevaPlayer p, out bool InAlpha)
+        {
+            BasePlayer b = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Find( item => item.PlayerName == p.PlayerName);
+
+            if ( b != null)
+            {
+                InAlpha = true;
+                return b;
+            }
+
+            b = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Find(item => item.PlayerName == p.PlayerName);
+            InAlpha = false;
+            return b;
         }
 
         // Simple collision check
@@ -309,28 +383,12 @@ namespace DevaBot.BaseDuel
         {
             if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
             {
-                if (m_AlphaWaitList.Count >= 1 && m_BravoWaitList.Count >= 1)
-                    return true;
-                return false;
+                return m_AlphaWaitList.Count >= 1 && m_BravoWaitList.Count >= 1;
             }
             else if (m_CurrentGame.Status == BaseGameStatus.GameIntermission)
             {
-                List<BasePlayer> a = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers;
-                List<BasePlayer> b = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers;
-
-                int aCount = 0;
-                int bCount = 0;
-
-                for (int i = 0; i < a.Count; i++)
-                    if (a[i].Active)
-                        aCount++;
-                for (int i = 0; i < b.Count; i++)
-                    if (b[i].Active)
-                        bCount++;
-
-                if (aCount >= 1 && bCount >= 1)
-                    return true;
-                return false;
+                return  m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count >= 1 &&
+                    m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.FindAll(item => item.Active).Count >= 1;
             }
             return false;
         }
