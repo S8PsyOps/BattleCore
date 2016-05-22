@@ -35,6 +35,7 @@ namespace DevaBot
             RegisterCommand("!ginfo", getGameInfo);                 RegisterCommand(".ginfo", getGameInfo);
             RegisterCommand("!minfo", getMatchInfo);                RegisterCommand(".minfo", getMatchInfo);
             RegisterCommand("!startbd", StartBD);                   RegisterCommand(".startbd", StartBD);
+            RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
@@ -45,9 +46,20 @@ namespace DevaBot
         private BaseDuel.BaseDuelMain m_BaseDuel;       // BaseDuel Game
         private PlayerManager m_Players;
 
+        private BaseDuel.BaseGameManager m_BaseDuelGame;
+
         //----------------------------------------------------------------------//
         //                         Commands                                     //
         //----------------------------------------------------------------------//
+        public void doBaseDuelCommand(ChatEvent e)
+        {
+            if (!m_Initialized) return;
+
+            DevaPlayer dp = m_Players.GetPlayer(e);
+
+            SendPsyEvent(m_BaseDuelGame.BaseDuelCommands(dp, e));
+        }
+
         // Turn BaseDuel On and Off
         public void toggleBaseDuel(ChatEvent e)
         {
@@ -118,6 +130,9 @@ namespace DevaBot
             if (!m_Initialized) return;
 
             DevaPlayer dp = m_Players.GetPlayer(e);
+
+            SendPsyEvent(m_BaseDuelGame.Event_PlayerPosition(dp));
+
             m_BaseDuel.Event_PlayerPosition(dp);
         }
 
@@ -143,6 +158,7 @@ namespace DevaBot
 
                 // Once we have mapdata we initialize baseduel
                 m_BaseDuel = new BaseDuel.BaseDuelMain(e.MapData);
+                m_BaseDuelGame = new BaseDuel.BaseGameManager(e.MapData);
 
                 // Requesting Player's Info
                 Game(new PlayerInfoEvent());
@@ -177,22 +193,22 @@ namespace DevaBot
 
             if (!m_Initialized) return;
 
-            SendEvent(m_Players.PlayerManagerEvents);
-            SendEvent(m_BaseDuel.BaseDuelEvents);
+            SendPsyEvent(m_Players.PlayerManagerEvents);
+            SendPsyEvent(m_BaseDuel.BaseDuelEvents);
         }
 
         //----------------------------------------------------------------------//
         //                         Misc                                         //
         //----------------------------------------------------------------------//
         // Helps check for numm events and also empties event queues
-        public void SendEvent(Queue<EventArgs> e)
+        public void SendPsyEvent(Queue<EventArgs> e)
         {
             if (e == null) return;
 
             while (e.Count > 0)
-                SendEvent(e.Dequeue());
+                SendPsyEvent(e.Dequeue());
         }
-        public void SendEvent(EventArgs e)
+        public void SendPsyEvent(EventArgs e)
         {
             if (e == null) return;
             Game(e);

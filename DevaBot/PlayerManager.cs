@@ -51,6 +51,9 @@ namespace DevaBot
         //----------------------------------------------------------------------//
         public DevaPlayer GetPlayer(PlayerLeftEvent e)
         { return getPlayer(e.PlayerName); }
+
+        public DevaPlayer GetPlayer(ChatEvent e)
+        { return getPlayer(e.PlayerName); }
         
         public DevaPlayer GetPlayer(PlayerEnteredEvent e)
         {
