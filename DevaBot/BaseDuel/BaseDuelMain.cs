@@ -208,11 +208,11 @@ namespace DevaBot.BaseDuel
         {
             int a = 0;
             int b = 0;
-            for (int i = 0; i < m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Count; i++)
-                if (m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].Active) a++;
+            for (int i = 0; i < m_CurrentGame.Round.AlphaTeam.TeamMembers.Count; i++)
+                if (m_CurrentGame.Round.AlphaTeam.TeamMembers[i].Active) a++;
 
-            for (int i = 0; i < m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Count; i++)
-                if (m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].Active) b++;
+            for (int i = 0; i < m_CurrentGame.Round.BravoTeam.TeamMembers.Count; i++)
+                if (m_CurrentGame.Round.BravoTeam.TeamMembers[i].Active) b++;
 
             AlphaCount = a;
             BravoCount = b;
@@ -238,8 +238,8 @@ namespace DevaBot.BaseDuel
         {
             BasePlayer b = new BasePlayer();
             b.PlayerName = PlayerName;
-            if (InAlpha) m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Add(b);
-            else m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Add(b);
+            if (InAlpha) m_CurrentGame.Round.AlphaTeam.TeamMembers.Add(b);
+            else m_CurrentGame.Round.BravoTeam.TeamMembers.Add(b);
         }
         private void StartGame()
         {
@@ -253,8 +253,8 @@ namespace DevaBot.BaseDuel
                 m_BravoWaitList = new List<string>();
             }
 
-            string aName = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[0].PlayerName;
-            string bName = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[0].PlayerName;
+            string aName = m_CurrentGame.Round.AlphaTeam.TeamMembers[0].PlayerName;
+            string bName = m_CurrentGame.Round.BravoTeam.TeamMembers[0].PlayerName;
 
             // Grab coords from base and name of first person on team, to send team pm
             string TeamName1 = m_AlternateWarp ? aName : bName;
@@ -270,7 +270,7 @@ namespace DevaBot.BaseDuel
             // change bool to alternate team warps again
             m_AlternateWarp = !m_AlternateWarp;
 
-            m_CurrentGame.CurrentMatch.StartTime = DateTime.Now;
+            m_CurrentGame.Round.StartTime = DateTime.Now;
             m_CurrentGame.Status = BaseGameStatus.GameOn;
         }
 
@@ -454,12 +454,12 @@ namespace DevaBot.BaseDuel
         private BasePlayer getPlayer(string PlayerName, out bool InAlpha)
         {
             InAlpha = true;
-            BasePlayer b = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
+            BasePlayer b = m_CurrentGame.Round.AlphaTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
             // Player is in alpha team - return player
             if (b != null) return b;
 
             // even if not in bravo team we still return a null
-            b = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
+            b = m_CurrentGame.Round.BravoTeam.TeamMembers.Find(item => item.PlayerName == PlayerName);
             InAlpha = false;
             return b;
         }
@@ -467,20 +467,20 @@ namespace DevaBot.BaseDuel
         {
             bool a = true;
             bool b = true;
-            for (int i = 0; i < m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Count; i++)
-                if (m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].Active && !m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].InLobby) a = false;
+            for (int i = 0; i < m_CurrentGame.Round.AlphaTeam.TeamMembers.Count; i++)
+                if (m_CurrentGame.Round.AlphaTeam.TeamMembers[i].Active && !m_CurrentGame.Round.AlphaTeam.TeamMembers[i].InLobby) a = false;
 
-            for (int i = 0; i < m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Count; i++)
-                if (m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].Active && !m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].InLobby) b = false;
+            for (int i = 0; i < m_CurrentGame.Round.BravoTeam.TeamMembers.Count; i++)
+                if (m_CurrentGame.Round.BravoTeam.TeamMembers[i].Active && !m_CurrentGame.Round.BravoTeam.TeamMembers[i].InLobby) b = false;
 
             Alpha = a;
             Bravo = b;
         }
        private void matchEnded(WinType winType, bool AlphaWon, short BaseNumber, out string TotalTime)
         {
-            m_CurrentGame.CurrentMatch.AlphaWon = AlphaWon;
-            m_CurrentGame.CurrentMatch.WinType = winType;
-            m_CurrentGame.CurrentMatch.BaseNumber = BaseNumber;
+            m_CurrentGame.Round.AlphaWon = AlphaWon;
+            m_CurrentGame.Round.WinType = winType;
+            m_CurrentGame.Round.BaseNumber = BaseNumber;
 
             if (winType != WinType.NoCount)
             {
@@ -488,22 +488,22 @@ namespace DevaBot.BaseDuel
                 else m_CurrentGame.BravoScore++;
             }
 
-            m_CurrentGame.CurrentMatch.MatchEnded();
+            m_CurrentGame.Round.RoundEnded();
             saveMatch();
 
-            for (int i = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Count; i-- > 0; )
+            for (int i = m_CurrentGame.Round.AlphaTeam.TeamMembers.Count; i-- > 0; )
             {
-                if (!m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].Active)
-                    m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Remove(m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i]);
+                if (!m_CurrentGame.Round.AlphaTeam.TeamMembers[i].Active)
+                    m_CurrentGame.Round.AlphaTeam.TeamMembers.Remove(m_CurrentGame.Round.AlphaTeam.TeamMembers[i]);
                 else
                 {
                     //m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].ResetPlayer();
                 }
             }
-            for (int i = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Count; i-- > 0; )
+            for (int i = m_CurrentGame.Round.BravoTeam.TeamMembers.Count; i-- > 0; )
             {
-                if (!m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].Active)
-                    m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Remove(m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i]);
+                if (!m_CurrentGame.Round.BravoTeam.TeamMembers[i].Active)
+                    m_CurrentGame.Round.BravoTeam.TeamMembers.Remove(m_CurrentGame.Round.BravoTeam.TeamMembers[i]);
                 else
                 {
                     //m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].ResetPlayer();
@@ -511,62 +511,62 @@ namespace DevaBot.BaseDuel
             }
 
             // make sure to send back time
-            TotalTime = m_CurrentGame.CurrentMatch.TotalTimeFormatted;
+            TotalTime = m_CurrentGame.Round.TotalTimeFormatted;
         }
 
         private void saveMatch()
         {
-            BaseMatch newMatch = new BaseMatch();
-            newMatch.AlphaTeam = m_CurrentGame.CurrentMatch.AlphaTeam;
-            newMatch.AlphaWon = m_CurrentGame.CurrentMatch.AlphaWon;
-            newMatch.BaseNumber = m_CurrentGame.CurrentMatch.BaseNumber;
-            newMatch.BravoTeam = m_CurrentGame.CurrentMatch.BravoTeam;
-            newMatch.TotalTime = m_CurrentGame.CurrentMatch.TotalTime;
-            newMatch.WinType = m_CurrentGame.CurrentMatch.WinType;
-            m_CurrentGame.Matches.Add(newMatch);
+            BaseRound newMatch = new BaseRound();
+            newMatch.AlphaTeam = m_CurrentGame.Round.AlphaTeam;
+            newMatch.AlphaWon = m_CurrentGame.Round.AlphaWon;
+            newMatch.BaseNumber = m_CurrentGame.Round.BaseNumber;
+            newMatch.BravoTeam = m_CurrentGame.Round.BravoTeam;
+            newMatch.TotalTime = m_CurrentGame.Round.TotalTime;
+            newMatch.WinType = m_CurrentGame.Round.WinType;
+            m_CurrentGame.AllRounds.Add(newMatch);
         }
         private void getGameInfo(string PlayerName)
         {
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Game Info -----------------------------------"));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "GameStatus      :".PadRight(20) + m_CurrentGame.Status.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "----------------"));
-            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Team Name :".PadRight(20) + m_CurrentGame.CurrentMatch.AlphaTeam.TeamName.ToString().PadLeft(25)));
+            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Team Name :".PadRight(20) + m_CurrentGame.Round.AlphaTeam.TeamName.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Freq      :".PadRight(20) + m_CurrentGame.AlphaFreq.ToString().PadLeft(25)));
-            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Team Count      :".PadRight(20) + m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
+            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Team Count      :".PadRight(20) + m_CurrentGame.Round.AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Score     :".PadRight(20) + m_CurrentGame.AlphaScore.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Players --"));
-            for (int i = 0; i < m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Count; i++)
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].PlayerName.PadRight(20) + ("Active :" + m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers[i].Active).PadLeft(25)));
+            for (int i = 0; i < m_CurrentGame.Round.AlphaTeam.TeamMembers.Count; i++)
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, m_CurrentGame.Round.AlphaTeam.TeamMembers[i].PlayerName.PadRight(20) + ("Active :" + m_CurrentGame.Round.AlphaTeam.TeamMembers[i].Active).PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "----------------"));
-            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Team Name :".PadRight(20) + m_CurrentGame.CurrentMatch.BravoTeam.TeamName.ToString().PadLeft(25)));
+            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Team Name :".PadRight(20) + m_CurrentGame.Round.BravoTeam.TeamName.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Freq      :".PadRight(20) + m_CurrentGame.BravoFreq.ToString().PadLeft(25)));
-            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Team Count      :".PadRight(20) + m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
+            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Team Count      :".PadRight(20) + m_CurrentGame.Round.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Score     :".PadRight(20) + m_CurrentGame.BravoScore.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Players --"));
-            for (int i = 0; i < m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Count; i++)
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].PlayerName.PadRight(20) + ("Active :" + m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers[i].Active).PadLeft(25)));
+            for (int i = 0; i < m_CurrentGame.Round.BravoTeam.TeamMembers.Count; i++)
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, m_CurrentGame.Round.BravoTeam.TeamMembers[i].PlayerName.PadRight(20) + ("Active :" + m_CurrentGame.Round.BravoTeam.TeamMembers[i].Active).PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "----------------"));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Allow Safe Win  :".PadRight(20) + m_CurrentGame.AllowSafeWin.ToString().PadLeft(25)));
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Join After Start:".PadRight(20) + m_CurrentGame.AllowSafeWin.ToString().PadLeft(25)));
-            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Matches stored  :".PadRight(20) + m_CurrentGame.Matches.Count.ToString().PadLeft(25)));
+            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Matches stored  :".PadRight(20) + m_CurrentGame.AllRounds.Count.ToString().PadLeft(25)));
         }
         private void getMatchInfo(string PlayerName)
         {
             m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Match Info ----------------------------------"));
-            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Matches Stored    :".PadRight(20) + m_CurrentGame.Matches.Count.ToString().PadLeft(25)));
-            for (int i = 0; i < m_CurrentGame.Matches.Count; i++)
+            m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Matches Stored    :".PadRight(20) + m_CurrentGame.AllRounds.Count.ToString().PadLeft(25)));
+            for (int i = 0; i < m_CurrentGame.AllRounds.Count; i++)
             {
                 m_BDEventQueue.Enqueue(msg.pm(PlayerName, "----------------"));
-                if (m_CurrentGame.Matches[i].WinType != WinType.NoCount)
-                    m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Winner          :".PadRight(20) + (m_CurrentGame.Matches[i].AlphaWon ? "Alpha Team" : "Bravo Team").ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Win Type        :".PadRight(20) + m_CurrentGame.Matches[i].WinType.ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Match Time      :".PadRight(20) + m_CurrentGame.Matches[i].TotalTimeFormatted.ToString().PadLeft(25)));
+                if (m_CurrentGame.AllRounds[i].WinType != WinType.NoCount)
+                    m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Winner          :".PadRight(20) + (m_CurrentGame.AllRounds[i].AlphaWon ? "Alpha Team" : "Bravo Team").ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Win Type        :".PadRight(20) + m_CurrentGame.AllRounds[i].WinType.ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Match Time      :".PadRight(20) + m_CurrentGame.AllRounds[i].TotalTimeFormatted.ToString().PadLeft(25)));
                 m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Match Number    :".PadRight(20) + (i + 1).ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Base Number     :".PadRight(20) + m_CurrentGame.Matches[i].BaseNumber.ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Team Name :".PadRight(20) + m_CurrentGame.Matches[i].AlphaTeam.TeamName.ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Team Count:".PadRight(20) + m_CurrentGame.Matches[i].AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Team Name :".PadRight(20) + m_CurrentGame.Matches[i].BravoTeam.TeamName.ToString().PadLeft(25)));
-                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Team Count:".PadRight(20) + m_CurrentGame.Matches[i].BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Base Number     :".PadRight(20) + m_CurrentGame.AllRounds[i].BaseNumber.ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Team Name :".PadRight(20) + m_CurrentGame.AllRounds[i].AlphaTeam.TeamName.ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Alpha Team Count:".PadRight(20) + m_CurrentGame.AllRounds[i].AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Team Name :".PadRight(20) + m_CurrentGame.AllRounds[i].BravoTeam.TeamName.ToString().PadLeft(25)));
+                m_BDEventQueue.Enqueue(msg.pm(PlayerName, "Bravo Team Count:".PadRight(20) + m_CurrentGame.AllRounds[i].BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
             }
         }
     }
