@@ -46,7 +46,7 @@
     <Compile Include="BaseDuel\BaseGameManager.cs" />
     <Compile Include="BaseDuel\Bases\Base.cs" />
     <Compile Include="BaseDuel\Bases\BaseLoader.cs" />
-    <Compile Include="BaseDuel\BaseRound.cs" />
+    <Compile Include="BaseDuel\BaseMatch.cs" />
     <Compile Include="BaseDuel\BaseDuelMain.cs" />
     <Compile Include="BaseDuel\BasePlayer.cs" />
     <Compile Include="BaseDuel\Bases\BaseManager.cs" />

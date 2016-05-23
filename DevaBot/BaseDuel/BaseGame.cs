@@ -14,8 +14,8 @@ namespace DevaBot.BaseDuel
         public BaseGame()
         {
             this.msg = new ShortChat();
-            this.m_Round = new BaseRound();
-            this.m_MatchesPlayed = new List<BaseRound>();
+            this.m_CurrentMatch = new BaseMatch();
+            this.m_MatchesPlayed = new List<BaseMatch>();
             this.m_Status = BaseGameStatus.GameIdle;
             this.m_AllowSafeWin = true;
             this.m_AllowAfterStartJoin = true;
@@ -24,8 +24,8 @@ namespace DevaBot.BaseDuel
         }
         
         ShortChat msg;
-        private BaseRound m_Round;
-        private List<BaseRound> m_MatchesPlayed;
+        private BaseMatch m_CurrentMatch;
+        private List<BaseMatch> m_MatchesPlayed;
         private BaseGameStatus m_Status;
         private ushort m_AlphaFreq, m_BravoFreq;
         private bool m_AllowSafeWin;
@@ -36,16 +36,16 @@ namespace DevaBot.BaseDuel
         /// <summary>
         /// Current match being played
         /// </summary>
-        public BaseRound Round
+        public BaseMatch CurrentMatch
         {
-            get { return m_Round; }
-            set { m_Round = value; }
+            get { return m_CurrentMatch; }
+            set { m_CurrentMatch = value; }
         }
 
         /// <summary>
         /// List of all played matches in the current game.
         /// </summary>
-        public List<BaseRound> AllRounds
+        public List<BaseMatch> Matches
         {
             get { return m_MatchesPlayed; }
             set { m_MatchesPlayed = value; }

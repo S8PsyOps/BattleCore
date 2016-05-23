@@ -105,7 +105,7 @@ namespace DevaBot.BaseDuel
                 if (!moduleIsOn(q, e)) return q;
 
                 // only start game if pre-game
-                if (m_Timer.Enabled || m_CurrentGame.Status != BaseGameStatus.GameIdle)
+                if (m_CurrentGame.Status != BaseGameStatus.GameIdle)
                 {
                     q.Enqueue(msg.pm(e.PlayerName, "There is currently a game in progress. Please wait until game is over before using this command."));
                     return q;
@@ -133,42 +133,8 @@ namespace DevaBot.BaseDuel
         //----------------------------------------------------------------------//
         private void startGame()
         {
-            if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
-            {
-                // Move players from wait list to teams
-                while (m_AlphaWaitList.Count > 0)
-                {
-                    BasePlayer b = new BasePlayer();
-                    b.PlayerName = m_AlphaWaitList[0];
-                    b.Active = true;
-                    b.InLobby = false;
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers.Add(b);
-                    m_AlphaWaitList.RemoveAt(0);
-                }
-                while (m_BravoWaitList.Count > 0)
-                {
-                    BasePlayer b = new BasePlayer();
-                    b.PlayerName = m_BravoWaitList[0];
-                    b.Active = true;
-                    b.InLobby = false;
-                    m_CurrentGame.Round.BravoTeam.TeamMembers.Add(b);
-                    m_BravoWaitList.RemoveAt(0);
-                }
-            }
-
-            // find the first active player to use as reference on a team pm
-            string a_name = m_CurrentGame.Round.AlphaTeam.TeamMembers.Find(item => item.Active).PlayerName;
-            string b_name = m_CurrentGame.Round.BravoTeam.TeamMembers.Find(item => item.Active).PlayerName;
-
-            // send players to start and reset ships
-            m_BaseGameEvents.Enqueue(msg.teamPM(a_name,"?|warpto " + m_Base.AlphaStartX + " " + m_Base.AlphaStartY + "|shipreset"));
-            m_BaseGameEvents.Enqueue(msg.teamPM(b_name, "?|warpto " + m_Base.BravoStartX + " " + m_Base.BravoStartY + "|shipreset"));
-
-            m_BaseGameEvents.Enqueue(msg.macro("- Go Go Go! -    start code here."));
-            // Record start time
-            m_CurrentGame.Round.StartTime = DateTime.Now;
-            // set status
             m_CurrentGame.Status = BaseGameStatus.GameOn;
+            m_BaseGameEvents.Enqueue(msg.macro("- Go Go Go! -    start code here."));
         }
 
         private void toggleBaseDuel(DevaPlayer p, Queue<EventArgs> q)
@@ -270,32 +236,6 @@ namespace DevaBot.BaseDuel
                     addPlayerToWaitList(p, q);
                 }
             }
-            if (m_CurrentGame.Status == BaseGameStatus.GameOn)
-            {
-                bool InAlpha;
-                BasePlayer b = getPlayer(p, out InAlpha);
-
-                if (b == null) return q;
-
-                if (inRegion(p.Position, m_Lobby.BaseDimension))
-                {
-                    b.InLobby = true;
-
-                    if (m_Timer.Enabled) return q;
-
-                    bool alphaOut = !(m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
-                    bool bravoOut = !(m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
-
-                    if (alphaOut || bravoOut)
-                        setupTimer(false);
-                    m_BaseGameEvents.Enqueue(msg.debugChan("Starting Clear Timer"));
-                    
-                }
-                else if (inRegion(p.Position, m_Base.BaseDimension))
-                {
-                    b.InLobby = false;
-                }
-            }
             return q;
         }
 
@@ -372,27 +312,6 @@ namespace DevaBot.BaseDuel
 
         public void Timer_ClearCheck(object source, ElapsedEventArgs e)
         {
-            m_BaseGameEvents.Enqueue(msg.debugChan("- All out timer expired. -"));
-            m_Timer.Stop();
-
-            // make sure a team is still out
-            bool alphaOut = !(m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
-            bool bravoOut = !(m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
-
-            if (alphaOut || bravoOut)
-            {
-                if (alphaOut == bravoOut)
-                {
-                    m_BaseGameEvents.Enqueue(msg.macro("- No Count Round. -"));
-                }
-                else
-                {
-                    m_BaseGameEvents.Enqueue(msg.macro("- [ "+(alphaOut?"Alpha Team":"Bravo Team")+" ] wins the round by clearing base. -"));
-                }
-                m_CurrentGame.Status = BaseGameStatus.GameIntermission;
-                m_BaseGameEvents.Enqueue(msg.macro("- Next round starts in " + m_StartGameDelay + " seconds. Change ships now if needed. -"));
-                setupTimer(true);
-            }
         }
 
         //----------------------------------------------------------------------//
@@ -407,7 +326,7 @@ namespace DevaBot.BaseDuel
         // Grab player from one of the teams
         private BasePlayer getPlayer( DevaPlayer p, out bool InAlpha)
         {
-            BasePlayer b = m_CurrentGame.Round.AlphaTeam.TeamMembers.Find( item => item.PlayerName == p.PlayerName);
+            BasePlayer b = m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.Find( item => item.PlayerName == p.PlayerName);
 
             if ( b != null)
             {
@@ -415,7 +334,7 @@ namespace DevaBot.BaseDuel
                 return b;
             }
 
-            b = m_CurrentGame.Round.BravoTeam.TeamMembers.Find(item => item.PlayerName == p.PlayerName);
+            b = m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.Find(item => item.PlayerName == p.PlayerName);
             InAlpha = false;
             return b;
         }
@@ -468,8 +387,8 @@ namespace DevaBot.BaseDuel
             }
             else if (m_CurrentGame.Status == BaseGameStatus.GameIntermission)
             {
-                return  m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count >= 1 &&
-                    m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count >= 1;
+                return  m_CurrentGame.CurrentMatch.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count >= 1 &&
+                    m_CurrentGame.CurrentMatch.BravoTeam.TeamMembers.FindAll(item => item.Active).Count >= 1;
             }
             return false;
         }
@@ -485,13 +404,11 @@ namespace DevaBot.BaseDuel
             q.Enqueue(msg.pm(PlayerName, "Join after Start :".PadRight(20) + m_CurrentGame.AllowAfterStartJoin.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "Safe win enabled :".PadRight(20) + m_CurrentGame.AllowSafeWin.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "------------------------"));
-            q.Enqueue(msg.pm(PlayerName, "Alpha Team Name  :".PadRight(20) + m_CurrentGame.Round.AlphaTeam.TeamName.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_CurrentGame.Round.AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_CurrentGame.AlphaFreq.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Alpha Team Name  :".PadRight(20) + m_CurrentGame.CurrentMatch.AlphaTeam.TeamName.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Alpha Frequency  :".PadRight(20) + m_CurrentGame.AlphaFreq.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "------------------------"));
-            q.Enqueue(msg.pm(PlayerName, "Bravo Team Name  :".PadRight(20) + m_CurrentGame.Round.BravoTeam.TeamName.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_CurrentGame.Round.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_CurrentGame.BravoFreq.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Bravo Team Name  :".PadRight(20) + m_CurrentGame.CurrentMatch.BravoTeam.TeamName.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Bravo Frequency  :".PadRight(20) + m_CurrentGame.BravoFreq.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "Base Loader Settings -----------------"));
             q.Enqueue(msg.pm(PlayerName, "Current Base     :".PadRight(20) + (m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1).ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "Total Bases      :".PadRight(20) + m_BaseManager.Bases.Count.ToString().PadLeft(25)));
