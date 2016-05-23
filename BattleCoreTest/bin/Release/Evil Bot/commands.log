@@ -38,6 +38,7 @@
 5/22/2016 3:43:44 AM (Public) PsyOps> !startbd
 5/22/2016 4:06:43 AM (Public) PsyOps> !startbd
 5/22/2016 6:09:44 AM (Public) PsyOps> !startbd
+<<<<<<< HEAD
 5/22/2016 10:30:35 PM (Private) Ahmad~> !help
 5/22/2016 10:30:35 PM (Private) Ahmad~> !help
 5/22/2016 10:30:36 PM (Private) Ahmad~> !help
@@ -46,3 +47,5 @@
 5/22/2016 10:31:22 PM (Private) Ahmad~> !help stats
 5/22/2016 10:31:22 PM (Private) Ahmad~> !help stats
 5/22/2016 10:31:23 PM (Private) Ahmad~> !help stats
+=======
+>>>>>>> parent of cfb992a... BaseGameManager
