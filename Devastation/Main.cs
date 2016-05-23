@@ -11,7 +11,7 @@ using BattleCore.Events;
 // My chat module
 using BattleCorePsyOps;
 
-namespace DevaBot
+namespace Devastation
 {
     // Add the attribute and the base class
     [Behavior("DevaMain", "true", "0.01", "PsyOps", "Main Devastation Bot.")]
@@ -30,10 +30,7 @@ namespace DevaBot
             this.m_GameTimer.Start();
 
             // Registered commands
-            RegisterCommand("!toggle.baseduel", toggleBaseDuel);    RegisterCommand(".toggle.baseduel", toggleBaseDuel);
             RegisterCommand("!pinfo", getPlayerInfo);               RegisterCommand(".pinfo", getPlayerInfo);
-            RegisterCommand("!ginfo", getGameInfo);                 RegisterCommand(".ginfo", getGameInfo);
-            RegisterCommand("!minfo", getMatchInfo);                RegisterCommand(".minfo", getMatchInfo);
             RegisterCommand("!startbd", StartBD);                   RegisterCommand(".startbd", StartBD);
             RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
             RegisterCommand("!debug", doToggleDebug);               RegisterCommand(".debug", doToggleDebug);
@@ -44,10 +41,8 @@ namespace DevaBot
         private bool m_StartIni, m_Initialized;         // Bool to help initialize bot
         private string m_BotName, m_ArenaName;          // Store bot info
         private byte[] m_MapInfo;                       // Byte array containing map info
-        private BaseDuel.BaseDuelMain m_BaseDuel;       // BaseDuel Game
+        private BaseDuel.Main m_BaseDuel;           // BaseDuel Game
         private PlayerManager m_Players;
-
-        private BaseDuel.BaseGameManager m_BaseDuelGame;
 
         //----------------------------------------------------------------------//
         //                         Commands                                     //
@@ -59,7 +54,7 @@ namespace DevaBot
             if (!IsMod(e, ModLevels.Mod)) return;
 
             msg.DebugMode = !msg.DebugMode;
-            m_BaseDuelGame.setDebug(msg.DebugMode);
+            m_BaseDuel.setDebug(msg.DebugMode);
 
             Game(msg.arena("[ Deva Main ] Debug mode has been toggled " + (msg.DebugMode?"On":"Off") + " by staff - " + e.PlayerName));
         }
@@ -69,15 +64,7 @@ namespace DevaBot
 
             DevaPlayer dp = m_Players.GetPlayer(e);
 
-            SendPsyEvent(m_BaseDuelGame.BaseDuelCommands(dp, e));
-        }
-
-        // Turn BaseDuel On and Off
-        public void toggleBaseDuel(ChatEvent e)
-        {
-            Game(null);
-            if (!m_Initialized || !IsMod(e,ModLevels.Mod)) return;
-            m_BaseDuel.Command_ToggleBaseDuel();
+            SendPsyEvent(m_BaseDuel.BaseDuelCommands(dp, e));
         }
 
         // Print out player info from playermanager
@@ -85,18 +72,6 @@ namespace DevaBot
         {
             if (!m_Initialized) return;
             m_Players.PrintPlayerInfo(e.PlayerName);
-        }
-
-        public void getGameInfo(ChatEvent e)
-        {
-            if (!m_Initialized) return;
-            m_BaseDuel.Command_GetGameInfo(e.PlayerName);
-        }
-
-        public void getMatchInfo(ChatEvent e)
-        {
-            if (!m_Initialized) return;
-            m_BaseDuel.Command_GetMatchInfo(e.PlayerName);
         }
 
         public void StartBD(ChatEvent e)
@@ -108,7 +83,7 @@ namespace DevaBot
 
             // change command format to make compatible with older command syntax
             e.Message = "!baseduel start";
-            SendPsyEvent(m_BaseDuelGame.BaseDuelCommands(dp, e));
+            SendPsyEvent(m_BaseDuel.BaseDuelCommands(dp, e));
         }
 
         //----------------------------------------------------------------------//
@@ -128,7 +103,7 @@ namespace DevaBot
 
             DevaPlayer dp = m_Players.GetPlayer(e);
             m_BaseDuel.Event_PlayerLeft(dp);
-            SendPsyEvent(m_BaseDuelGame.Event_PlayerLeft(dp));
+            SendPsyEvent(m_BaseDuel.Event_PlayerLeft(dp));
         }
         public void MonitorTeamChangeEvent(object sender, TeamChangeEvent e)
         {
@@ -136,9 +111,7 @@ namespace DevaBot
 
             DevaPlayer dp = m_Players.GetPlayer(e);
 
-            SendPsyEvent(m_BaseDuelGame.Event_PlayerFreqChange(dp));
-
-            m_BaseDuel.Event_TeamChange(dp);
+            SendPsyEvent(m_BaseDuel.Event_PlayerFreqChange(dp));
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)
         {
@@ -153,7 +126,7 @@ namespace DevaBot
 
             DevaPlayer dp = m_Players.GetPlayer(e);
 
-            SendPsyEvent(m_BaseDuelGame.Event_PlayerPosition(dp));
+            SendPsyEvent(m_BaseDuel.Event_PlayerPosition(dp));
 
             m_BaseDuel.Event_PlayerPosition(dp);
         }
@@ -179,8 +152,7 @@ namespace DevaBot
                 m_MapInfo = e.MapData;
 
                 // Once we have mapdata we initialize baseduel
-                m_BaseDuel = new BaseDuel.BaseDuelMain(e.MapData);
-                m_BaseDuelGame = new BaseDuel.BaseGameManager(e.MapData, msg.DebugMode);
+                m_BaseDuel = new BaseDuel.Main(e.MapData, msg.DebugMode);
 
                 // Requesting Player's Info
                 Game(new PlayerInfoEvent());
@@ -216,8 +188,7 @@ namespace DevaBot
             if (!m_Initialized) return;
 
             SendPsyEvent(m_Players.PlayerManagerEvents);
-            SendPsyEvent(m_BaseDuel.BaseDuelEvents);
-            SendPsyEvent(m_BaseDuelGame.Events);
+            SendPsyEvent(m_BaseDuel.Events);
         }
 
         //----------------------------------------------------------------------//

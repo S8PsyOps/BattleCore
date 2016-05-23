@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using BattleCore;
 using BattleCore.Events;
 using BattleCorePsyOps;
 
@@ -13,95 +14,125 @@ namespace Devastation.BaseDuel
         public BaseGame()
         {
             this.msg = new ShortChat();
+            this.m_Round = new BaseRound();
+            this.m_MatchesPlayed = new List<BaseRound>();
+            this.m_Status = BaseGameStatus.GameIdle;
+            this.m_AllowSafeWin = true;
+            this.m_AllowAfterStartJoin = true;
+            this.m_AlphaScore = 0;
+            this.m_BravoScore = 0;
+            this.m_MinimumWin = 5;
+            this.m_WinBy = 2;
         }
-
-        private BaseTeam m_AlphaTeam, m_BravoTeam;
+        
+        ShortChat msg;
+        private BaseRound m_Round;
+        private List<BaseRound> m_MatchesPlayed;
+        private BaseGameStatus m_Status;
         private ushort m_AlphaFreq, m_BravoFreq;
-        private DateTime m_StartTime;
-        private BaseMatch m_CurrentMatch;
-        private List<BaseMatch> m_Matches;
-        private ShortChat msg;
-        private bool m_Alternate;
+        private bool m_AllowSafeWin;
+        private bool m_AllowAfterStartJoin;
+        private int m_AlphaScore;
+        private int m_BravoScore;
+        private int m_MinimumWin;
+        private int m_WinBy;
 
-        public int MatchCount
-        { get { return m_Matches.Count; } }
-
-        public void CreateFreqs(ushort AlphaFreq, ushort BravoFreq)
+        /// <summary>
+        /// Current match being played
+        /// </summary>
+        public BaseRound Round
         {
-            this.m_AlphaFreq = AlphaFreq;
-            this.m_BravoFreq = BravoFreq;
+            get { return m_Round; }
+            set { m_Round = value; }
         }
 
-        public void CreateTeams(List<string> m_AlphaWaitList, List<string> m_BravoWaitList)
+        /// <summary>
+        /// List of all played matches in the current game.
+        /// </summary>
+        public List<BaseRound> AllRounds
         {
-            m_AlphaTeam = new BaseTeam();
-            while (m_AlphaWaitList.Count > 0)
-            {
-                m_AlphaTeam.PlayerJoin(m_AlphaWaitList[0]);
-                m_AlphaWaitList.RemoveAt(0);
-            }
-            m_BravoTeam = new BaseTeam();
-            while (m_BravoWaitList.Count > 0)
-            {
-                m_BravoTeam.PlayerJoin(m_BravoWaitList[0]);
-                m_BravoWaitList.RemoveAt(0);
-            }
-
-            m_Matches = new List<BaseMatch>();
-            ResetMatch();
+            get { return m_MatchesPlayed; }
+            set { m_MatchesPlayed = value; }
         }
 
-        private void ResetMatch()
+        /// <summary>
+        /// Current status of Game
+        /// </summary>
+        public BaseGameStatus Status
         {
-            m_CurrentMatch = new BaseMatch();
-            m_CurrentMatch.CreateTeams(m_AlphaTeam, m_BravoTeam);
+            get { return m_Status; }
+            set { m_Status = value; }
         }
 
-        public void MatchOver(bool AlphaWon, WinType winType)
+        /// <summary>
+        /// Alpha Team's Freq
+        /// </summary>
+        public ushort AlphaFreq
         {
-            m_CurrentMatch.WinType = winType;
-            m_Matches.Add(m_CurrentMatch);
-            ResetMatch();
+            get { return m_AlphaFreq; }
+            set { m_AlphaFreq = value; }
+        }
+        /// <summary>
+        /// Bravo Team's Freq
+        /// </summary>
+        public ushort BravoFreq
+        {
+            get { return m_BravoFreq; }
+            set { m_BravoFreq = value; }
         }
 
-        public BasePlayer GetPlayer(string PlayerName, out bool alpha)
+        /// <summary>
+        /// Allow players to join after game has already started
+        /// </summary>
+        public bool AllowAfterStartJoin
         {
-            return m_CurrentMatch.GetPlayer(PlayerName, out alpha);
+            get { return m_AllowAfterStartJoin; }
+            set { m_AllowAfterStartJoin = value; }
         }
 
-        public void WarpPlayersToStart(Base LoadedBase, Queue<EventArgs> Q)
+        /// <summary>
+        /// If you want to allow Teams to win by going into opposing team's safe.
+        /// </summary>
+        public bool AllowSafeWin
         {
-            m_Alternate = !m_Alternate;
-
-            Q.Enqueue(msg.teamPM(
-                (m_Alternate ? m_AlphaTeam.TeamList[0].PlayerName : m_BravoTeam.TeamList[0].PlayerName),
-                "?|warpto " + (m_Alternate ? LoadedBase.AlphaStartX : LoadedBase.BravoStartX) + " " + 
-                (m_Alternate ? LoadedBase.AlphaStartY:LoadedBase.BravoStartY) + "|shipreset"
-                ));
-            Q.Enqueue(msg.teamPM(
-               (!m_Alternate ? m_AlphaTeam.TeamList[0].PlayerName : m_BravoTeam.TeamList[0].PlayerName),
-               "?|warpto " + (!m_Alternate ? LoadedBase.AlphaStartX : LoadedBase.BravoStartX) + " " +
-               (!m_Alternate ? LoadedBase.AlphaStartY : LoadedBase.BravoStartY) + "|shipreset"
-               ));
+            get { return m_AllowSafeWin; }
+            set { m_AllowSafeWin = true; }
         }
 
-        public void RemovePlayer(string PlayerName)
+        /// <summary>
+        /// Alpha Teams current score in current game.
+        /// </summary>
+        public int AlphaScore
         {
-            bool alpha;
-            BasePlayer b = m_CurrentMatch.GetPlayer(PlayerName, out alpha);
-            b.Active = false;
-
-            // Check match for uneven teams here --
+            get { return m_AlphaScore; }
+            set { m_AlphaScore = value; }
         }
 
-        public void GetTeams(out BaseTeam AlphaTeam, out BaseTeam BravoTeam)
+        /// <summary>
+        /// Bravo Teams current score in current game.
+        /// </summary>
+        public int BravoScore
         {
-            m_CurrentMatch.GetTeams( out AlphaTeam, out BravoTeam);
+            get { return m_BravoScore; }
+            set { m_BravoScore = value; }
         }
 
-        public bool TeamIsOut( out bool alpha, out bool bravo)
+        /// <summary>
+        /// Minimum amount of points for a team before they can win
+        /// </summary>
+        public int MinimumWin
         {
-            return m_CurrentMatch.TeamIsOut(out alpha, out bravo);
+            get { return m_MinimumWin; }
+            set { m_MinimumWin = value; }
+        }
+
+        /// <summary>
+        /// The amount of points you have to win by.
+        /// </summary>
+        public int WinBy
+        {
+            get { return m_WinBy; }
+            set { m_WinBy = value; }
         }
     }
 }

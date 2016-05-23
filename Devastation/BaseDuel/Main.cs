@@ -10,11 +10,11 @@ using BattleCorePsyOps;
 // Needed for timers
 using System.Timers;
 
-namespace DevaBot.BaseDuel
+namespace Devastation.BaseDuel
 {
-    class BaseGameManager
+    class Main
     {
-        public BaseGameManager( byte[] MapData, bool debugMode)
+        public Main( byte[] MapData, bool debugMode)
         {
 
             this.msg = new ShortChat();
@@ -37,6 +37,7 @@ namespace DevaBot.BaseDuel
             this.m_TeamClearDelay = 5;
 
             this.m_BaseGameEvents = new Queue<EventArgs>();
+            this.m_GamesPlayed = new List<BaseGame>();
         }
 
         private ShortChat msg;
@@ -55,6 +56,7 @@ namespace DevaBot.BaseDuel
         private ushort m_AlphaFreq, m_BravoFreq, m_MaxArenaFreq;
         private List<string> m_AlphaWaitList, m_BravoWaitList, m_BlockedList;
         private Queue<EventArgs> m_BaseGameEvents;
+        private List<BaseGame> m_GamesPlayed;
 
         public Queue<EventArgs> Events
         {
@@ -330,6 +332,25 @@ namespace DevaBot.BaseDuel
             {
                 m_BaseGameEvents.Enqueue(msg.arena((m_CurrentGame.AlphaScore > m_CurrentGame.BravoScore ? "Alpha Team" : "Bravo Team") + " wins the game. Final Score Alpha[ " + m_CurrentGame.AlphaScore + " ] [ " + m_CurrentGame.BravoScore + " ]Bravo.   -Print out here."));
                 m_CurrentGame.Status = BaseGameStatus.GameHold;
+                saveGame();
+
+                List<BasePlayer> aTeam = m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active);
+                List<BasePlayer> bTeam = m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active);
+
+                while (aTeam.Count > 0)
+                {
+                    m_AlphaWaitList.Add(aTeam[0].PlayerName);
+                    aTeam.RemoveAt(0);
+                }
+
+                while (bTeam.Count > 0)
+                {
+                    m_BravoWaitList.Add(bTeam[0].PlayerName);
+                    bTeam.RemoveAt(0);
+                }
+
+                m_CurrentGame = new BaseGame();
+
                 return;
             }
 
@@ -351,6 +372,24 @@ namespace DevaBot.BaseDuel
             // Save it
             m_CurrentGame.AllRounds.Add(saved);
         }
+
+        private void saveGame()
+        {
+            BaseGame saved = new BaseGame();
+            saved.AllowAfterStartJoin = m_CurrentGame.AllowAfterStartJoin;
+            saved.AllowSafeWin = m_CurrentGame.AllowSafeWin;
+            saved.AllRounds = m_CurrentGame.AllRounds;
+            saved.AlphaFreq = m_CurrentGame.AlphaFreq;
+            saved.AlphaScore = m_CurrentGame.AlphaScore;
+            saved.BravoFreq = m_CurrentGame.BravoFreq;
+            saved.BravoScore = m_CurrentGame.BravoScore;
+            saved.MinimumWin = m_CurrentGame.MinimumWin;
+            saved.Round = m_CurrentGame.Round;
+            saved.Status = m_CurrentGame.Status;
+            saved.WinBy = m_CurrentGame.WinBy;
+            m_GamesPlayed.Add(saved);
+        }
+
         private void prepForNextRound()
         {
             // Update players

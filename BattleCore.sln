@@ -13,9 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleCoreCfg", "BattleCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleCorePsyOps", "BattleCorePsyOps\BattleCorePsyOps.csproj", "{18F50DF6-56CB-4043-AD2F-F3BD6F062FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devastation", "Devastation\Devastation.csproj", "{76FEDF94-1662-4031-861D-C9290C3A0DDA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevaBot", "DevaBot\DevaBot.csproj", "{86EC84A2-02A2-4002-8768-7FA506C33833}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devastation", "Devastation\Devastation.csproj", "{86EC84A2-02A2-4002-8768-7FA506C33833}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{18F50DF6-56CB-4043-AD2F-F3BD6F062FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18F50DF6-56CB-4043-AD2F-F3BD6F062FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18F50DF6-56CB-4043-AD2F-F3BD6F062FEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76FEDF94-1662-4031-861D-C9290C3A0DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76FEDF94-1662-4031-861D-C9290C3A0DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76FEDF94-1662-4031-861D-C9290C3A0DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76FEDF94-1662-4031-861D-C9290C3A0DDA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86EC84A2-02A2-4002-8768-7FA506C33833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86EC84A2-02A2-4002-8768-7FA506C33833}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86EC84A2-02A2-4002-8768-7FA506C33833}.Release|Any CPU.ActiveCfg = Release|Any CPU

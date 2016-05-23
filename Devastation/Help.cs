@@ -13,14 +13,14 @@ using BattleCorePsyOps;
 namespace Devastation
 {
     // Add the attribute and the base class
-    [Behavior("Help", "false", "0.01", "PsyOps", "Module to assist with Help commands.")]
+    [Behavior("Help", "true", "0.01", "PsyOps", "Module to assist with Help commands.")]
     public class Help : BotEventListener
     {
         public Help()
         {
             RegisterCommand("!refreshhelp", Refresh);
             RegisterCommand(".refreshhelp", Refresh);
-            RegisterTimedEvent("HelpStart",1000,StartBot);
+            RegisterTimedEvent("HelpStart", 1000, StartBot);
         }
 
         private List<HelpMessage> m_MasterHelpList = new List<HelpMessage>();
@@ -65,11 +65,12 @@ namespace Devastation
         }
         public void MonitorPlayerChat(object sender, ChatEvent c)
         {
-            if (c.Message.ToLower().StartsWith("!help") || c.Message.ToLower().StartsWith(".help")) DoHelpCommand(c);
+            if (c.Message.ToLower().StartsWith("!help") || c.Message.ToLower().StartsWith(".help") || c.Message.ToLower().StartsWith("!halp") || c.Message.ToLower().StartsWith(".halp")) DoHelpCommand(c);
         }
         public void DoHelpCommand(ChatEvent c)
         {
-            if (c.Message.Trim().ToLower().Remove(0, 1) == "help")
+            string cmd = c.Message.Trim().ToLower().Remove(0, 1);
+            if (cmd == "help" || cmd == "halp")
             {
                 PrintHelpMessage(c.PlayerName, "overview");
                 return;
@@ -142,7 +143,7 @@ namespace Devastation
                     { Game(msg.arena("Help File [" + command + "] Load Error:" + ex)); }
                 }
 
-                //Game(msg.arena("Help Files Loaded. Command total:[" + m_MasterHelpList.Count + "]"));
+                Game(msg.arena("Help Files Loaded. Command total:[" + m_MasterHelpList.Count + "]"));
             }
             else
                 Game(msg.arena("Help directory not found."));
@@ -153,3 +154,4 @@ namespace Devastation
         }
     }
 }
+

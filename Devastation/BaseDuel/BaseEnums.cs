@@ -21,25 +21,18 @@ namespace Devastation.BaseDuel
         Custom
     }
 
-    public enum GameMode
+    public enum BaseGameStatus
     {
-        AhmadMode,
-        BaseOpsMode
-    }
-
-    public enum GameStatus
-    {
-        Disabled,
         GameIdle,
-        GameInProgress,
+        GameOn,
         GameIntermission,
-        GameOnHold
+        GameHold
     }
 
     public enum WinType
     {
         SafeWin,
-        AllOut,
+        BaseClear,
         NoCount
     }
 }

@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DevaBot.BaseDuel
+namespace Devastation.BaseDuel
 {
-    class BaseMatch
+    class BaseRound
     {
-        public BaseMatch()
+        public BaseRound()
         {
             m_AlphaTeam = new BaseTeam();
             m_BravoTeam = new BaseTeam();
             m_StartTime = new DateTime();
-            m_MatchTotalTime = new TimeSpan();
+            m_TotalTime = new TimeSpan();
         }
 
         private BaseTeam m_AlphaTeam;
         private BaseTeam m_BravoTeam;
         private DateTime m_StartTime;
-        private TimeSpan m_MatchTotalTime;
+        private TimeSpan m_TotalTime;
         private short m_BaseNumber;
         private WinType m_WinType;
         private bool m_AlphaWon;
@@ -74,22 +74,22 @@ namespace DevaBot.BaseDuel
         /// <summary>
         /// Stop the match and store the time
         /// </summary>
-        public void MatchEnded()
+        public void RoundEnded()
         {
-            m_MatchTotalTime = DateTime.Now - m_StartTime;
+            m_TotalTime = DateTime.Now - m_StartTime;
         }
 
         public TimeSpan TotalTime
         {
-            get { return m_MatchTotalTime; }
-            set { m_MatchTotalTime = value; }
+            get { return m_TotalTime; }
+            set { m_TotalTime = value; }
         }
         public string TotalTimeFormatted
         {
             get { return
-                m_MatchTotalTime.Hours.ToString().PadLeft(2, '0') + "h:" 
-                + m_MatchTotalTime.Minutes.ToString().PadLeft(2, '0') + "m:"
-                + m_MatchTotalTime.Seconds.ToString().PadLeft(2, '0') + "s";
+                m_TotalTime.Hours.ToString().PadLeft(2, '0') + "h:" 
+                + m_TotalTime.Minutes.ToString().PadLeft(2, '0') + "m:"
+                + m_TotalTime.Seconds.ToString().PadLeft(2, '0') + "s";
             }
         }
     }

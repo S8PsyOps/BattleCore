@@ -7,161 +7,151 @@ using BattleCore;
 using BattleCore.Events;
 using BattleCorePsyOps;
 
-namespace Devastation.BaseDuel
+namespace Devastation
 {
     class PlayerManager
     {
         public PlayerManager()
         {
-            m_PlayerList = new List<DevaPlayer>();
-            m_PlayerListChat = new Queue<EventArgs>();
             msg = new ShortChat();
+            m_PMEventQueue = new Queue<EventArgs>();
+            m_MasterList = new List<DevaPlayer>();
         }
 
-        private Queue<EventArgs> m_PlayerListChat;      // This holds all messages that need to go out
-        private ShortChat msg;                          // Custom Chat module
-        private List<DevaPlayer> m_PlayerList;          // Holds all players in arena and status
+        private Queue<EventArgs> m_PMEventQueue;
+        private ShortChat msg;
+        private List<DevaPlayer> m_MasterList;
 
-        public List<DevaPlayer> List
-        { get { return m_PlayerList; } }
-
-        //----------------------------------------------------------------------//
-        //                         Events                                       //
-        //----------------------------------------------------------------------//
-        public void RemovePlayer(string PlayerName)
-        {
-            DevaPlayer BDplayer = m_PlayerList.Find(item => item.PlayerName.ToLower() == PlayerName.ToLower());
-
-            if (BDplayer == null) return;
-            m_PlayerList.Remove(BDplayer);
-        }
-        public DevaPlayer GetPlayer(PlayerLeftEvent e)
-        {
-            DevaPlayer BDplayer = m_PlayerList.Find(item => item.PlayerName.ToLower() == e.PlayerName.ToLower());
-            return BDplayer;
-        }
-        public DevaPlayer GetPlayer(PlayerEnteredEvent e)
-        {
-            DevaPlayer BDplayer = m_PlayerList.Find(item => item.PlayerName.ToLower() == e.PlayerName.ToLower());
-
-            if (BDplayer != null)
-                m_PlayerListChat.Enqueue(msg.chan(1, "Error: Player[ " + e.PlayerName + " ] was found on list when it was supposed to be null."));
-
-            // Create baseplayer and use playerenter to fill info in
-            BDplayer = new DevaPlayer();
-            BDplayer.PlayerEntered = e;
-
-            //m_PlayerListChat.Enqueue(msg.chan(1, "Player[ " + BDplayer.PlayerName + " ] Squad[ " + BDplayer.SquadName + " ] added to playerlist."));
-            m_PlayerList.Add(BDplayer);
-
-            return BDplayer;
-        }
-        public DevaPlayer GetPlayer(PlayerPositionEvent e)
-        {
-            DevaPlayer BDplayer = m_PlayerList.Find(item => item.PlayerName.ToLower() == e.PlayerName.ToLower());
-
-            if (BDplayer == null)
-            {
-                m_PlayerListChat.Enqueue(msg.chan(1, "Error: Player[ " + e.PlayerName + " ] was NOT found on list. (PlayerPositionEvent)"));
-                return null;
-            }
-            ModUpdate(BDplayer, e.ModLevel);
-            BDplayer.Position = e;
-            return BDplayer;
-        }
-        public DevaPlayer GetPlayer(TeamChangeEvent e)
-        {
-            DevaPlayer BDplayer = m_PlayerList.Find(item => item.PlayerName.ToLower() == e.PlayerName.ToLower());
-
-            if (BDplayer == null)
-            {
-                m_PlayerListChat.Enqueue(msg.chan(1, "Error: Player[ " + e.PlayerName + " ] was NOT found on list. (TeamChangeEvent)"));
-                return null;
-            }
-            ModUpdate(BDplayer, e.ModLevel);
-            if ((DateTime.Now - BDplayer.SCTimeStamp).TotalMilliseconds > 15) BDplayer.OldShip = BDplayer.Ship;
-
-            BDplayer.OldFrequency = BDplayer.Frequency;
-            BDplayer.Frequency = e.Frequency;
-
-            return BDplayer;
-        }
-        public DevaPlayer GetPlayer(ShipChangeEvent e)
-        {
-            DevaPlayer BDplayer = m_PlayerList.Find(item => item.PlayerName.ToLower() == e.PlayerName.ToLower());
-
-            if (BDplayer == null)
-            {
-                m_PlayerListChat.Enqueue(msg.chan(1, "Error: Player[ " + e.PlayerName + " ] was NOT found on list. (ShipChangeEvent)"));
-                return null;
-            }
-            ModUpdate(BDplayer, e.ModLevel);
-            BDplayer.SCTimeStamp = DateTime.Now;
-
-            if (e.ModLevel != ModLevels.None && e.ModLevel != BDplayer.ModLevel)
-            {
-                BDplayer.ModLevel = e.ModLevel;
-                m_PlayerListChat.Enqueue(msg.chan(1, "Staff Position Auto-Detected. Player[ " + BDplayer.PlayerName + " ] ModLevel[ " + BDplayer.ModLevel + " ]"));
-            }
-
-            if (BDplayer.Frequency != 7265) BDplayer.OldFrequency = BDplayer.Frequency;
-
-            BDplayer.OldShip = e.PreviousShipType;
-            BDplayer.Ship = e.ShipType;
-            return BDplayer;
-        }
+        /// <summary>
+        /// Master list of players
+        /// </summary>
+        public List<DevaPlayer> MasterList
+        {   get { return m_MasterList; }    }
 
         //----------------------------------------------------------------------//
         //                         Commands                                     //
         //----------------------------------------------------------------------//
+        public void PrintPlayerInfo(string PlayerName)
+        {
+            DevaPlayer bp = getPlayer(PlayerName); 
+
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "Player info -------"));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "Name:".PadRight(20) + bp.PlayerName.PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "Squad:".PadRight(20) + bp.SquadName.PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "ModLevel:".PadRight(20) + bp.ModLevel.ToString().PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "OldFreq:".PadRight(20) + bp.OldFrequency.ToString().PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "Freq:".PadRight(20) + bp.Frequency.ToString().PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "OldShip:".PadRight(20) + bp.OldShip.ToString().PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "Ship:".PadRight(20) + bp.Ship.ToString().PadLeft(20)));
+            m_PMEventQueue.Enqueue(msg.pm(PlayerName, "Loc:".PadRight(20) + ("X:" + bp.Position.MapPositionX + "  Y:" + bp.Position.MapPositionY).PadLeft(20)));
+        }
 
         //----------------------------------------------------------------------//
-        //                         Misc Functions                               //
+        //                         Events                                       //
         //----------------------------------------------------------------------//
-        public DevaPlayer GetPlayer(string PlayerName)
+        public DevaPlayer GetPlayer(PlayerLeftEvent e)
+        { return getPlayer(e.PlayerName); }
+
+        public DevaPlayer GetPlayer(ChatEvent e)
+        { return getPlayer(e.PlayerName); }
+        
+        public DevaPlayer GetPlayer(PlayerEnteredEvent e)
         {
-            return m_PlayerList.Find(item => item.PlayerName.ToLower() == PlayerName.ToLower());
+            // Grab player info
+            DevaPlayer dp = getPlayer(e.PlayerName);
+            // Update all info using player entered event
+            dp.PlayerEntered = e;
+            // return info
+            return dp;
         }
 
-        // Use PlayerInfoEvent to create our PlayerList
-        public void UpdatePlayerList(PlayerInfoEvent pIE)
+        public DevaPlayer GetPlayer(TeamChangeEvent e)
         {
-            int Spec = 0, InShip = 0;
+            DevaPlayer dp = getPlayer(e.PlayerName);
 
-            for (int i = 0; i < pIE.PlayerList.Count; i += 1)
+            // Update old ship to new ship if its not a spec event
+            if ((DateTime.Now - dp.SCTimeStamp).TotalMilliseconds > 20)
+            { dp.OldShip = dp.Ship; }
+            // Update player freq info
+            dp.OldFrequency = dp.Frequency;
+            dp.Frequency = e.Frequency;
+            // send it back
+            return dp;
+        }
+
+        public DevaPlayer GetPlayer(ShipChangeEvent e)
+        {
+            // Grab player info
+            DevaPlayer dp = getPlayer(e.PlayerName);
+            // Update sc timestamp
+            dp.SCTimeStamp = DateTime.Now;
+            // Special case update for freq
+            if (dp.Frequency != 7265) dp.OldFrequency = dp.Frequency;
+            // Ship updates
+            dp.OldShip = e.PreviousShipType;
+            dp.Ship = e.ShipType;
+            //return info
+            return dp;
+        }
+        public DevaPlayer GetPlayer(PlayerPositionEvent e)
+        {
+            // Grab player info
+            DevaPlayer dp = getPlayer(e.PlayerName);
+            // Update PlayerPosition
+            dp.Position = e;
+            //return info
+            return dp;
+        }
+
+        /// <summary>
+        /// Use PlayerInfoEvent to fill in and populate PlayerList on start up.
+        /// </summary>
+        public PlayerInfoEvent PlayerInfoEvent
+        {
+            set
             {
-                if (pIE.PlayerList[i].Ship == ShipTypes.Spectator) Spec++;
-                else InShip++;
-
-                DevaPlayer BDplayer = new DevaPlayer();
-                BDplayer.PlayerInfo = pIE.PlayerList[i];
-                m_PlayerList.Add(BDplayer);
+                for (int i = 0; i < value.PlayerList.Count; i += 1)
+                {
+                    DevaPlayer dp = new DevaPlayer();
+                    dp.PlayerInfo = value.PlayerList[i];
+                    m_MasterList.Add(dp);
+                }
             }
-
-            //m_PlayerListChat.Enqueue(msg.chan(1, "Arena List stored. Spec[ " + Spec + " ] InGame[ " + InShip + " ]"));
         }
-        public void UpdateModPlayerList(PlayerInfoEvent pIE)
+
+        private DevaPlayer getPlayer(string PlayerName)
         {
-            for (int i = 0; i < pIE.PlayerList.Count; i += 1)
+            DevaPlayer dp = m_MasterList.Find(item => item.PlayerName == PlayerName);
+
+            if (dp != null) return dp;
+
+            dp = new DevaPlayer();
+            dp.PlayerName = PlayerName;
+            m_MasterList.Add(dp);
+            return m_MasterList.Find(item => item.PlayerName == PlayerName);
+        }
+
+        // Any messages needed to be sent or events just add to this queue
+        public EventArgs PlayerManagerEvents
+        {
+            get
             {
-                DevaPlayer match = m_PlayerList.Find(item => item.PlayerName.ToLower() == pIE.PlayerList[i].PlayerName.ToLower());
-                if (match != null)  ModUpdate(match, pIE.PlayerList[i].ModeratorLevel);
+                if (m_PMEventQueue == null || m_PMEventQueue.Count == 0) return null;
+                return m_PMEventQueue.Dequeue();
             }
         }
-        private void ModUpdate(DevaPlayer b, ModLevels m)
-        {
-            if (b.ModLevel == m) return;
 
-            b.ModLevel = m;
-            m_PlayerListChat.Enqueue(msg.chan(1,"ModCheckUpdate. Player[ "+b.PlayerName+" ]  ModLevel[ "+b.ModLevel+" ]."));
-        }
+        //----------------------------------------------------------------------//
+        //                         Misc Stuffs                                  //
+        //----------------------------------------------------------------------//
 
-        // Request for next message to send from Q
-        public EventArgs MessageToSend()
+        public void RemovePlayer(string PlayerName)
         {
-            if (m_PlayerListChat.Count > 0)
-                return m_PlayerListChat.Dequeue();
-            return null;
+            // Grab player info
+            DevaPlayer dp = getPlayer(PlayerName);
+
+            // UPDATE PLAYER INFO TO DB
+            m_MasterList.Remove(dp);
         }
     }
 }

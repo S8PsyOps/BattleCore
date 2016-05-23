@@ -7,7 +7,7 @@ using BattleCore;
 using BattleCore.Events;
 using BattleCorePsyOps;
 
-namespace DevaBot.BaseDuel
+namespace Devastation.BaseDuel
 {
     class BaseManager
     {

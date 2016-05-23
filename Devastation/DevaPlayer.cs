@@ -6,7 +6,7 @@ using System.Text;
 using BattleCore;
 using BattleCore.Events;
 
-namespace Devastation.BaseDuel
+namespace Devastation
 {
     class DevaPlayer
     {
@@ -82,7 +82,7 @@ namespace Devastation.BaseDuel
             get { return m_ShipChangeTS; }
             set { m_ShipChangeTS = value; }
         }
-        public DateTime WarpTimeStamp
+        public DateTime WarpStamp
         {
             get { return m_WarpStamp; }
             set { m_WarpStamp = value; }
