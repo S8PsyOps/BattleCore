@@ -21,6 +21,8 @@ namespace DevaBot.BaseDuel
             this.m_AllowAfterStartJoin = true;
             this.m_AlphaScore = 0;
             this.m_BravoScore = 0;
+            this.m_MinimumWin = 5;
+            this.m_WinBy = 2;
         }
         
         ShortChat msg;
@@ -32,6 +34,8 @@ namespace DevaBot.BaseDuel
         private bool m_AllowAfterStartJoin;
         private int m_AlphaScore;
         private int m_BravoScore;
+        private int m_MinimumWin;
+        private int m_WinBy;
 
         /// <summary>
         /// Current match being played
@@ -111,6 +115,24 @@ namespace DevaBot.BaseDuel
         {
             get { return m_BravoScore; }
             set { m_BravoScore = value; }
+        }
+
+        /// <summary>
+        /// Minimum amount of points for a team before they can win
+        /// </summary>
+        public int MinimumWin
+        {
+            get { return m_MinimumWin; }
+            set { m_MinimumWin = value; }
+        }
+
+        /// <summary>
+        /// The amount of points you have to win by.
+        /// </summary>
+        public int WinBy
+        {
+            get { return m_WinBy; }
+            set { m_WinBy = value; }
         }
     }
 }

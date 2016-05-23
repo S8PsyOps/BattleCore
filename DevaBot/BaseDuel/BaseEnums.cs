@@ -32,7 +32,7 @@ namespace DevaBot.BaseDuel
     public enum WinType
     {
         SafeWin,
-        AllOut,
+        BaseClear,
         NoCount
     }
 }

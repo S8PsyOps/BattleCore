@@ -372,7 +372,7 @@ namespace DevaBot.BaseDuel
             if (aTeam || bTeam)
             {
                 if (aTeam == bTeam) EndGame(WinType.NoCount, false);
-                else EndGame(WinType.AllOut, !aTeam);
+                else EndGame(WinType.BaseClear, !aTeam);
             }
 
             m_AllOutTimer.Stop();
