@@ -11,7 +11,83 @@ namespace BattleCorePsyOps
 {
     public class ShortChat
     {
-        private bool m_Debug = false;
+        public ShortChat()
+        {
+            this.m_Debug = false;
+            this.m_asss = false;
+            this.m_MessageQ = new Queue<EventArgs>();
+            this.m_SafeMessageQ = new Queue<EventArgs>();
+            this.m_SafeMessageQDelay = 250;
+            this.m_SafeMessageQTimeStamp = DateTime.Now;
+        }
+
+        public ShortChat(List<SSPlayer> PlayerList)
+        {
+            this.m_Debug = false;
+            this.m_asss = false;
+            this.m_PlayerList = PlayerList;
+            this.m_MessageQ = new Queue<EventArgs>();
+            this.m_SafeMessageQ = new Queue<EventArgs>();
+            this.m_SafeMessageQDelay = 250;
+            this.m_SafeMessageQTimeStamp = DateTime.Now;
+        }
+
+        private bool m_Debug;
+        private bool m_asss;
+        private List<SSPlayer> m_PlayerList;
+        private Queue<EventArgs> m_MessageQ;
+        private Queue<EventArgs> m_SafeMessageQ;
+        private double m_SafeMessageQDelay;
+        private DateTime m_SafeMessageQTimeStamp;
+
+        /// <summary>
+        /// Attach this to your game timer. This will send messages from other modules.
+        /// </summary>
+        public Queue<EventArgs> Events
+        {
+            get 
+            {
+                // SafeQ is a safety for any biller commands or messages. This will add a buffer between messages 
+                // so bot does not get kicked for spamming
+                if (m_SafeMessageQ.Count > 0 && (DateTime.Now - m_SafeMessageQTimeStamp).TotalMilliseconds >= m_SafeMessageQDelay)
+                {
+                    m_SafeMessageQTimeStamp = DateTime.Now;
+                    m_MessageQ.Enqueue(m_SafeMessageQ.Dequeue());
+                }
+
+                return m_MessageQ; 
+            }
+        }
+
+        /// <summary>
+        /// <para>ShortChat should be used in main module.</para>
+        /// <para>Use this to send messages from outside your main module.</para>
+        /// </summary>
+        /// <param name="e">Whatever event you want to send</param>
+        public void Send(EventArgs e)
+        {
+            m_MessageQ.Enqueue(e);
+        }
+
+        /// <summary>
+        /// <para>ShortChat should be used in main module.</para>
+        /// <para>Use this to send messages from outside your main module.</para>
+        /// </summary>
+        /// <param name="e">Whatever event you want to send</param>
+        public void SendSafe(EventArgs e)
+        {
+            m_SafeMessageQ.Enqueue(e);
+        }
+
+        /// <summary>
+        ///<para>A few commands are asss only and will not work unless you set this to true.</para>
+        ///<para>Some are also sent differently.</para>
+        /// </summary>
+        public bool IsASSS
+        {
+            get { return m_asss; }
+            set { m_asss = value; }
+        }
 
         /// <summary>
         /// Used for debug mode. Assign the chat using .debug and it will send it to your first chat assigned
@@ -23,29 +99,55 @@ namespace BattleCorePsyOps
             get { return m_Debug; }
             set { m_Debug = value; }
         }
+
         /// <summary>
-        /// <para>Use this if you want to only send message when debug is set to true.</para>
+        /// <para>Use this if you want to only send message when debug is set to true. [Channel]</para>
         /// <para>Make sure to:</para>
         /// <para>1: have your bot set ?chat [Your Debug Chat], any chat,any chat   (debug chat must be your first registered chat)</para>
         /// <para>2: set debug to true if you want to use it</para>
         /// <para>3: use this method to send it</para>
         /// <para>Usage: ShortChat msg = new ShortChat()</para>
-        /// <para>Game(msg.debug("Message to send"));</para>
+        /// <para>Game(msg.debugChan("Message to send"));</para>
         /// </summary>
-        /// <param name="Message"></param>
-        /// <returns></returns>
+        /// <param name="Message">Message to send</param>
+        /// <returns>Returns Configured ChatEvent</returns>
         public ChatEvent debugChan(string Message)
         {
             if (!m_Debug) return null;
             Message = "[ DEBUG ] " + Message;  
             return chan(1, Message);
         }
+
+        /// <summary>
+        /// <para>Use this if you want to only send message when debug is set to true. [Arena]</para>
+        /// <para>Make sure to:</para>
+        /// <para>1: have your bot set ?chat [Your Debug Chat], any chat,any chat   (debug chat must be your first registered chat)</para>
+        /// <para>2: set debug to true if you want to use it</para>
+        /// <para>3: use this method to send it</para>
+        /// <para>Usage: ShortChat msg = new ShortChat()</para>
+        /// <para>Game(msg.debugArena("Message to send"));</para>
+        /// </summary>
+        /// <param name="Message">Message to send</param>
+        /// <returns>Returns Configured ChatEvent</returns>
         public ChatEvent debugArena(string Message)
         {
             if (!m_Debug) return null;
             Message = "[ DEBUG ] " + Message;
             return arena(Message);
         }
+
+        /// <summary>
+        /// <para>Use this if you want to only send message when debug is set to true. [Arena]</para>
+        /// <para>Make sure to:</para>
+        /// <para>1: have your bot set ?chat [Your Debug Chat], any chat,any chat   (debug chat must be your first registered chat)</para>
+        /// <para>2: set debug to true if you want to use it</para>
+        /// <para>3: use this method to send it</para>
+        /// <para>Usage: ShortChat msg = new ShortChat()</para>
+        /// <para>Game(msg.debugChan("Message to send"));</para>
+        /// </summary>
+        /// <param name="Message">Message to send</param>
+        ///  /// <param name="SoundCode">Sound code you want to use</param>
+        /// <returns>Returns Configured ChatEvent</returns>
         public ChatEvent debugArena(string Message, SoundCodes Sound)
         {
             if (!m_Debug) return null;
@@ -58,7 +160,7 @@ namespace BattleCorePsyOps
         /// </summary>
         /// <param name="PlayerName">Player's Name</param>
         /// <param name="Message">Message to send</param>
-        /// <returns>Return ChatEvent</returns>
+        /// <returns>Returns Configured ChatEvent</returns>
         public ChatEvent pm(string PlayerName, string Message)
         {
             ChatEvent ce = new ChatEvent();
@@ -67,6 +169,7 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.Private;
             return ce;
         }
+
         /// <summary>
         /// Private Message(with attached sound code): [Example] /Hello %2
         /// </summary>
@@ -83,6 +186,7 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.Private;
             return ce;
         }
+
         /// <summary>
         /// Remote Private Message:  [Example] :PsyOps: Hello
         /// </summary>
@@ -110,6 +214,7 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.Team;
             return ce;
         }
+
         /// <summary>
         /// Team Message(with attached sound code): [Example] //Hello %2
         /// </summary>
@@ -124,13 +229,14 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.Team;
             return ce;
         }
+
         /// <summary>
         /// Sends message to a players team (frequency): [Example] "Hello
         /// </summary>
         /// <param name="PlayerName">Player's Name</param>
         /// <param name="Message">Message to send</param>
         /// <returns>Returns Configured ChatEvent</returns>
-        public ChatEvent teamPM(string PlayerName, string Message)
+        public ChatEvent team_pm(string PlayerName, string Message)
         {
             ChatEvent ce = new ChatEvent();
             ce.Message = Message;
@@ -138,6 +244,7 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.TeamPrivate;
             return ce;
         }
+
         /// <summary>
         /// Sends message to a player's team (frequency)(with attached sound code): [Example] "Hello %2
         /// </summary>
@@ -145,7 +252,7 @@ namespace BattleCorePsyOps
         /// <param name="Message">Message to send</param>
         /// <param name="SoundCode">Sound code</param>
         /// <returns>Returns Configured ChatEvent</returns>
-        public ChatEvent teamPM(string PlayerName, string Message, SoundCodes SoundCode)
+        public ChatEvent team_pm(string PlayerName, string Message, SoundCodes SoundCode)
         {
             ChatEvent ce = new ChatEvent();
             ce.Message = Message;
@@ -153,6 +260,36 @@ namespace BattleCorePsyOps
             ce.SoundCode = SoundCode;
             ce.ChatType = ChatTypes.TeamPrivate;
             return ce;
+        }
+
+        /// <summary>
+        /// <para>Send a private team message using freq number.</para>
+        /// <para>YOU MUST SEND A PLAYER LIST ON INITIALIZATION FOR THIS TO WORK</para>
+        /// </summary>
+        /// <param name="Frequency">Freq number to send message to</param>
+        /// <param name="Message">Message to send</param>
+        /// <returns>Returns Configured ChatEvent</returns>
+        public ChatEvent team_pm(ushort Frequency, string Message)
+        {
+            if (m_PlayerList == null) return null;
+            SSPlayer ssp = m_PlayerList.Find(player => player.Frequency == Frequency);
+            if (ssp == null) return null;
+            return team_pm(ssp.PlayerName, Message);
+        }
+
+        /// <summary>
+        /// <para>Send a private team message using freq number with attached sound code.</para>
+        /// <para>YOU MUST SEND A PLAYER LIST ON INITIALIZATION FOR THIS TO WORK</para>
+        /// </summary>
+        /// <param name="Frequency">Freq number to send message to</param>
+        /// <param name="Message">Message to send</param>
+        /// <returns>Returns Configured ChatEvent</returns>
+        public ChatEvent team_pm(ushort Frequency, string Message, SoundCodes SoundCode)
+        {
+            if (m_PlayerList == null) return null;
+            SSPlayer ssp = m_PlayerList.Find(player => player.Frequency == Frequency);
+            if (ssp == null) return null;
+            return team_pm(ssp.PlayerName, Message, SoundCode);
         }
 
         /// <summary>
@@ -178,6 +315,7 @@ namespace BattleCorePsyOps
         {
             return arena(Message,SoundCodes.None);
         }
+
         /// <summary>
         /// Arena Message(with attached sound code): [Example] *arena Hello %2
         /// </summary>
@@ -233,6 +371,7 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.Public;
             return ce;
         }
+
         /// <summary>
         /// Public Message (with attached sound code): [Example] Hello %2
         /// </summary>
@@ -260,6 +399,7 @@ namespace BattleCorePsyOps
             ce.ChatType = ChatTypes.Zone;
             return ce;
         }
+
         /// <summary>
         /// Zone Message(with attached sound code): [Example] *zone Hello %2
         /// </summary>
@@ -284,11 +424,15 @@ namespace BattleCorePsyOps
         public ChatEvent warn(string PlayerName, string Message)
         {
             ChatEvent ce = new ChatEvent();
-            ce.Message = "*warn " + Message;
+            if (m_asss)
+                ce.Message = "?warn " + Message;
+            else
+                ce.Message = "*warn " + Message;
             ce.PlayerName = PlayerName;
             ce.ChatType = ChatTypes.Private;
             return ce;
         }
+
         /// <summary>
         /// Shortened *warpto command (not by much)
         /// </summary>
@@ -299,11 +443,15 @@ namespace BattleCorePsyOps
         public ChatEvent warp(string PlayerName, int xTiles, int yTiles)
         {
             ChatEvent ce = new ChatEvent();
-            ce.Message = "*warpto " + xTiles + " " + yTiles;
+            if (m_asss)
+                ce.Message = "?warpto " + xTiles + " " + yTiles;
+            else
+                ce.Message = "*warpto " + xTiles + " " + yTiles;
             ce.PlayerName = PlayerName;
             ce.ChatType = ChatTypes.Private;
             return ce;
         }
+
         /// <summary>
         /// Use this to format a channel message properly
         /// </summary>
@@ -325,6 +473,8 @@ namespace BattleCorePsyOps
         /// <returns></returns>
         public ChatEvent mod(string Message)
         {
+            if (!m_asss) return null;
+
             ChatEvent ce = new ChatEvent();
             ce.Message = "\\" + Message;
             ce.ChatType = ChatTypes.Public;

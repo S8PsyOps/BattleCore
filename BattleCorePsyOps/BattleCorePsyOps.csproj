@@ -66,8 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SSPlayer.cs" />
     <Compile Include="ShortChat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SSPlayerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BattleCore.Events\BattleCore.Events.csproj">
