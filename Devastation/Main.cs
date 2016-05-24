@@ -20,9 +20,10 @@ namespace Devastation
     {
         public Main()
         {
-            this.msg = new ShortChat();
-            msg.DebugMode = true;
-            this.m_Players = new PlayerManager();
+            this.m_Players = new SSPlayerManager(7265);
+            this.msg = new ShortChat(m_Players.PlayerList);
+            this.msg.DebugMode = true;
+            this.msg.IsASSS = true;
 
             this.m_GameTimer = new Timer();
             this.m_GameTimer.Elapsed += new ElapsedEventHandler(GameTimer);
@@ -30,10 +31,10 @@ namespace Devastation
             this.m_GameTimer.Start();
 
             // Registered commands
-            RegisterCommand("!pinfo", getPlayerInfo);               RegisterCommand(".pinfo", getPlayerInfo);
             RegisterCommand("!startbd", StartBD);                   RegisterCommand(".startbd", StartBD);
             RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
             RegisterCommand("!debug", doToggleDebug);               RegisterCommand(".debug", doToggleDebug);
+            RegisterCommand("!test", Test);
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
@@ -42,7 +43,14 @@ namespace Devastation
         private string m_BotName, m_ArenaName;          // Store bot info
         private byte[] m_MapInfo;                       // Byte array containing map info
         private BaseDuel.Main m_BaseDuel;               // BaseDuel Game
-        private PlayerManager m_Players;
+        //private PlayerManager m_Players;
+        SSPlayerManager m_Players;
+
+        public void Test(ChatEvent e)
+        {
+            for (int i = 0; i < 50; i++)
+                msg.SendSafe(msg.chan(1, "Test [ "+i+" ] spam safety."));
+        }
 
         //----------------------------------------------------------------------//
         //                         Commands                                     //
@@ -62,28 +70,20 @@ namespace Devastation
         {
             if (!m_Initialized) return;
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
+            SSPlayer ssp = m_Players.GetPlayer(e);
 
-            SendPsyEvent(m_BaseDuel.BaseDuelCommands(dp, e));
-        }
-
-        // Print out player info from playermanager
-        public void getPlayerInfo(ChatEvent e)
-        {
-            if (!m_Initialized) return;
-            m_Players.PrintPlayerInfo(e.PlayerName);
+            m_BaseDuel.BaseDuelCommands(ssp, e);
         }
 
         public void StartBD(ChatEvent e)
         {
             if (!m_Initialized) return;
-            //m_BaseDuel.Command_StartGame(e.PlayerName);
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
+            SSPlayer ssp = m_Players.GetPlayer(e);
 
             // change command format to make compatible with older command syntax
             e.Message = "!baseduel start";
-            SendPsyEvent(m_BaseDuel.BaseDuelCommands(dp, e));
+            m_BaseDuel.BaseDuelCommands(ssp, e);
         }
 
         //----------------------------------------------------------------------//
@@ -95,40 +95,38 @@ namespace Devastation
 
             if (!m_Initialized) return;
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
+            SSPlayer ssp = m_Players.GetPlayer(e);
         }
         public void MonitorPlayerLeftEvent(object sender, PlayerLeftEvent e)
         {
             if (!m_Initialized) return;
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
-            m_BaseDuel.Event_PlayerLeft(dp);
-            SendPsyEvent(m_BaseDuel.Event_PlayerLeft(dp));
+            SSPlayer ssp = m_Players.GetPlayer(e);
+            m_BaseDuel.Event_PlayerLeft(ssp);
+            m_BaseDuel.Event_PlayerLeft(ssp);
         }
         public void MonitorTeamChangeEvent(object sender, TeamChangeEvent e)
         {
             if (!m_Initialized) return;
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
+            SSPlayer ssp = m_Players.GetPlayer(e);
 
-            SendPsyEvent(m_BaseDuel.Event_PlayerFreqChange(dp));
+            m_BaseDuel.Event_PlayerFreqChange(ssp);
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)
         {
             if (!m_Initialized) return;
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
+            SSPlayer ssp = m_Players.GetPlayer(e);
             
         }
         public void MonitorPlayerPositionEvent(object sender, PlayerPositionEvent e)
         {
             if (!m_Initialized) return;
 
-            DevaPlayer dp = m_Players.GetPlayer(e);
+            SSPlayer ssp = m_Players.GetPlayer(e);
 
-            SendPsyEvent(m_BaseDuel.Event_PlayerPosition(dp));
-
-            m_BaseDuel.Event_PlayerPosition(dp);
+            m_BaseDuel.Event_PlayerPosition(ssp);
         }
 
         //----------------------------------------------------------------------//
@@ -151,9 +149,6 @@ namespace Devastation
                 m_ArenaName = e.MapFile.Replace(".lvl", "");
                 m_MapInfo = e.MapData;
 
-                // Once we have mapdata we initialize baseduel
-                m_BaseDuel = new BaseDuel.Main(e.MapData, msg.DebugMode);
-
                 // Requesting Player's Info
                 Game(new PlayerInfoEvent());
             }
@@ -164,6 +159,8 @@ namespace Devastation
             {
                 // Load all player info from the event and build list
                 m_Players.PlayerInfoEvent = e;
+                // Once we have mapdata we initialize baseduel
+                m_BaseDuel = new BaseDuel.Main(m_MapInfo, m_Players, msg);
 
                 m_GameTimer.Stop();
                 m_GameTimer = new Timer();
@@ -187,8 +184,7 @@ namespace Devastation
 
             if (!m_Initialized) return;
 
-            SendPsyEvent(m_Players.PlayerManagerEvents);
-            SendPsyEvent(m_BaseDuel.Events);
+            SendPsyEvent(msg.Events);
         }
 
         //----------------------------------------------------------------------//

@@ -50,11 +50,9 @@
     <Compile Include="BaseDuel\BasePlayer.cs" />
     <Compile Include="BaseDuel\Bases\BaseManager.cs" />
     <Compile Include="BaseDuel\BaseTeam.cs" />
-    <Compile Include="DevaPlayer.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MapData.cs" />
-    <Compile Include="PlayerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
