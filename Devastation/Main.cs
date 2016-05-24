@@ -41,7 +41,7 @@ namespace Devastation
         private bool m_StartIni, m_Initialized;         // Bool to help initialize bot
         private string m_BotName, m_ArenaName;          // Store bot info
         private byte[] m_MapInfo;                       // Byte array containing map info
-        private BaseDuel.Main m_BaseDuel;           // BaseDuel Game
+        private BaseDuel.Main m_BaseDuel;               // BaseDuel Game
         private PlayerManager m_Players;
 
         //----------------------------------------------------------------------//

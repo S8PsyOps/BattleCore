@@ -21,7 +21,6 @@ namespace Devastation.BaseDuel
             this.msg.DebugMode = debugMode;
             this.m_Timer = new Timer();
             this.m_BaseManager = new BaseManager(MapData);
-            this.m_CurrentGame = new BaseGame();
             this.m_Base = m_BaseManager.CurrentBase;
             this.m_Lobby = m_BaseManager.Lobby;
             this.m_AlphaFreq = 887;
@@ -38,11 +37,14 @@ namespace Devastation.BaseDuel
 
             this.m_BaseGameEvents = new Queue<EventArgs>();
             this.m_GamesPlayed = new List<BaseGame>();
+            this.m_BDGame = new BaseGame();
+            this.m_BDGame.AlphaFreq = m_AlphaFreq;
+            this.m_BDGame.BravoFreq = m_BravoFreq;
         }
 
         private ShortChat msg;
         
-        private BaseGame m_CurrentGame;
+        private BaseGame m_BDGame;
         private Timer m_Timer;
         private double m_StartGameDelay;
         private double m_StartGameDelay_Elapsed;
@@ -103,6 +105,17 @@ namespace Devastation.BaseDuel
                 return q;
             }
 
+            if (data[1].Trim().ToLower() == "reset")
+            {
+                // Module is off
+                if (!moduleIsOn(q, e)) return q;
+
+                if (m_BDGame.Status == BaseGameStatus.GameOn)
+                    resetGame();
+
+                return q;
+            }
+
             if (data[1].Trim().ToLower() == "rounds")
             {
                 // Module is off
@@ -127,7 +140,7 @@ namespace Devastation.BaseDuel
                 if (!moduleIsOn(q, e)) return q;
 
                 // only start game if pre-game
-                if (m_Timer.Enabled || m_CurrentGame.Status != BaseGameStatus.GameIdle)
+                if (m_Timer.Enabled || m_BDGame.Status != BaseGameStatus.GameIdle)
                 {
                     q.Enqueue(msg.pm(e.PlayerName, "There is currently a game in progress. Please wait until game is over before using this command."));
                     return q;
@@ -137,7 +150,7 @@ namespace Devastation.BaseDuel
                 if (canStartGame())
                 {
                     m_BaseGameEvents.Enqueue(msg.macro("- Game starting in "+ m_StartGameDelay+" seconds -"));
-                    setupTimer(true);
+                    timer_Setup(true);
                     return q;
                 }
                 else // Not enough players
@@ -188,7 +201,7 @@ namespace Devastation.BaseDuel
         //----------------------------------------------------------------------//
         private void startGame()
         {
-            if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
+            if (m_BDGame.Status == BaseGameStatus.GameIdle)
             {
                 // Move players from wait list to teams
                 while (m_AlphaWaitList.Count > 0)
@@ -197,7 +210,7 @@ namespace Devastation.BaseDuel
                     b.PlayerName = m_AlphaWaitList[0];
                     b.Active = true;
                     b.InLobby = false;
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers.Add(b);
+                    m_BDGame.Round.AlphaTeam.TeamMembers.Add(b);
                     m_AlphaWaitList.RemoveAt(0);
                 }
                 while (m_BravoWaitList.Count > 0)
@@ -206,17 +219,17 @@ namespace Devastation.BaseDuel
                     b.PlayerName = m_BravoWaitList[0];
                     b.Active = true;
                     b.InLobby = false;
-                    m_CurrentGame.Round.BravoTeam.TeamMembers.Add(b);
+                    m_BDGame.Round.BravoTeam.TeamMembers.Add(b);
                     m_BravoWaitList.RemoveAt(0);
                 }
             }
             // get next round rdy
-            else if (m_CurrentGame.Status == BaseGameStatus.GameIntermission)
+            else if (m_BDGame.Status == BaseGameStatus.GameIntermission)
                 prepForNextRound();
 
             // find the first active player to use as reference on a team pm
-            string a_name = m_CurrentGame.Round.AlphaTeam.TeamMembers.Find(item => item.Active).PlayerName;
-            string b_name = m_CurrentGame.Round.BravoTeam.TeamMembers.Find(item => item.Active).PlayerName;
+            string a_name = m_BDGame.Round.AlphaTeam.TeamMembers.Find(item => item.Active).PlayerName;
+            string b_name = m_BDGame.Round.BravoTeam.TeamMembers.Find(item => item.Active).PlayerName;
 
             // send players to start and reset ships
             m_BaseGameEvents.Enqueue(msg.teamPM(a_name,"?|warpto " + m_Base.AlphaStartX + " " + m_Base.AlphaStartY + "|shipreset"));
@@ -225,15 +238,15 @@ namespace Devastation.BaseDuel
             int baseNum = m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1;
             m_BaseGameEvents.Enqueue(msg.macro("- Go Go Go! -    BaseNum[ "+baseNum+" ]"));
             // Record start time
-            m_CurrentGame.Round.StartTime = DateTime.Now;
+            m_BDGame.Round.StartTime = DateTime.Now;
             // set status
-            m_CurrentGame.Status = BaseGameStatus.GameOn;
+            m_BDGame.Status = BaseGameStatus.GameOn;
         }
 
         private void toggleBaseDuel(DevaPlayer p, Queue<EventArgs> q)
         {
             // Turn On module
-            if (m_CurrentGame == null)
+            if (m_BDGame == null)
             {
                 // reset vars
                 resetBaseDuel();
@@ -245,17 +258,17 @@ namespace Devastation.BaseDuel
             }
 
             // Turn Module Off
-            m_CurrentGame = null;
+            m_BDGame = null;
             q.Enqueue(msg.arena("[ BaseDuel ] Module unloaded by staff - " + p.PlayerName));
         }
 
         // reset all vars to baseduel
         private void resetBaseDuel()
         {
-            m_CurrentGame = new BaseGame();
-            m_CurrentGame.AlphaFreq = m_AlphaFreq;
-            m_CurrentGame.BravoFreq = m_BravoFreq;
-            m_CurrentGame.Status = BaseGameStatus.GameIdle;
+            m_BDGame = new BaseGame();
+            m_BDGame.AlphaFreq = m_AlphaFreq;
+            m_BDGame.BravoFreq = m_BravoFreq;
+            m_BDGame.Status = BaseGameStatus.GameIdle;
 
             m_AlphaWaitList = new List<string>();
             m_BravoWaitList = new List<string>();
@@ -273,14 +286,14 @@ namespace Devastation.BaseDuel
             bool alpha = m_AlphaWaitList.Contains(p.PlayerName);
 
             // set them to right freq
-            q.Enqueue(msg.pm(p.PlayerName, "?|setfreq " + (alpha ? m_AlphaFreq.ToString() : m_BravoFreq.ToString()) + "|shipreset"));
+            q.Enqueue(msg.pm(p.PlayerName, "?|setfreq " + (alpha ? m_BDGame.AlphaFreq.ToString() : m_BDGame.BravoFreq.ToString()) + "|shipreset"));
             q.Enqueue(msg.debugChan("Player[ " + p.PlayerName + " ] has been added to " + (alpha ? "Alpha" : "Bravo") + " wait list. AlphaCount[" + m_AlphaWaitList.Count + "] BravoCount[" + m_BravoWaitList.Count + "]"));
         }
 
         private void removePlayer(DevaPlayer p, Queue<EventArgs> q)
         {
             // dont know if i need anything more than just this - this will do for now
-            if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
+            if (m_BDGame.Status == BaseGameStatus.GameIdle)
             {
                 if (isOnWaitList(p.PlayerName))
                     q.Enqueue(msg.debugChan("Removing Player[ " + p.PlayerName + " ] from wait list."));
@@ -290,7 +303,7 @@ namespace Devastation.BaseDuel
             }
 
             // If a game is in progress we want to set the player to inactive - this way we can save stats after player leaves
-            if (m_CurrentGame.Status == BaseGameStatus.GameOn || m_CurrentGame.Status == BaseGameStatus.GameIntermission)
+            if (m_BDGame.Status == BaseGameStatus.GameOn || m_BDGame.Status == BaseGameStatus.GameIntermission)
             {
                 bool InAlpha;
                 BasePlayer b = getPlayer(p, out InAlpha);
@@ -303,9 +316,26 @@ namespace Devastation.BaseDuel
             }
         }
 
-        private void RoundFinished( WinType winType, bool AlphaWon)
+        private void saveGame()
         {
-            m_CurrentGame.Status = BaseGameStatus.GameIntermission;
+            BaseGame saved = new BaseGame();
+            saved.AllowAfterStartJoin = m_BDGame.AllowAfterStartJoin;
+            saved.AllowSafeWin = m_BDGame.AllowSafeWin;
+            saved.AllRounds = m_BDGame.AllRounds;
+            saved.AlphaFreq = m_BDGame.AlphaFreq;
+            saved.AlphaScore = m_BDGame.AlphaScore;
+            saved.BravoFreq = m_BDGame.BravoFreq;
+            saved.BravoScore = m_BDGame.BravoScore;
+            saved.MinimumWin = m_BDGame.MinimumWin;
+            saved.Round = m_BDGame.Round;
+            saved.Status = m_BDGame.Status;
+            saved.WinBy = m_BDGame.WinBy;
+            m_GamesPlayed.Add(saved);
+        }
+
+        private void roundFinished( WinType winType, bool AlphaWon)
+        {
+            m_BDGame.Status = BaseGameStatus.GameIntermission;
 
             if (winType == WinType.NoCount)
             {
@@ -314,109 +344,102 @@ namespace Devastation.BaseDuel
             else
             {
                 // assign points
-                if (AlphaWon) m_CurrentGame.AlphaScore++;
-                else m_CurrentGame.BravoScore++;
+                if (AlphaWon) m_BDGame.AlphaScore++;
+                else m_BDGame.BravoScore++;
 
-                m_BaseGameEvents.Enqueue(msg.macro("- " + (AlphaWon ? "Alpha Team" : "Bravo Team") + " wins the round by: " + winType + ".  - Alpha[ " + m_CurrentGame.AlphaScore + " ][ " + m_CurrentGame.BravoScore + " ]Bravo -"));
+                m_BaseGameEvents.Enqueue(msg.macro("- " + (AlphaWon ? "Alpha Team" : "Bravo Team") + " wins the round by: " + winType + ".  - Alpha[ " + m_BDGame.AlphaScore + " ][ " + m_BDGame.BravoScore + " ]Bravo -"));
             }
 
-            m_CurrentGame.Round.AlphaWon = AlphaWon;
-            m_CurrentGame.Round.WinType = winType;
+            m_BDGame.Round.AlphaWon = AlphaWon;
+            m_BDGame.Round.WinType = winType;
             saveRound();
 
             //only load next base if it wasnt nocount
             if (winType != WinType.NoCount) loadNextBase();
 
             // Check for end of game
-            if ((m_CurrentGame.AlphaScore >= m_CurrentGame.MinimumWin || m_CurrentGame.BravoScore >= m_CurrentGame.MinimumWin) && Math.Abs(m_CurrentGame.AlphaScore - m_CurrentGame.BravoScore) >= 2)
+            if ((m_BDGame.AlphaScore >= m_BDGame.MinimumWin || m_BDGame.BravoScore >= m_BDGame.MinimumWin) && Math.Abs(m_BDGame.AlphaScore - m_BDGame.BravoScore) >= 2)
             {
-                m_BaseGameEvents.Enqueue(msg.arena((m_CurrentGame.AlphaScore > m_CurrentGame.BravoScore ? "Alpha Team" : "Bravo Team") + " wins the game. Final Score Alpha[ " + m_CurrentGame.AlphaScore + " ] [ " + m_CurrentGame.BravoScore + " ]Bravo.   -Print out here."));
-                m_CurrentGame.Status = BaseGameStatus.GameHold;
+                m_BaseGameEvents.Enqueue(msg.arena((m_BDGame.AlphaScore > m_BDGame.BravoScore ? "Alpha Team" : "Bravo Team") + " wins the game. Final Score Alpha[ " + m_BDGame.AlphaScore + " ] [ " + m_BDGame.BravoScore + " ]Bravo.   -Print out here."));
+                //m_BDGame.Status = BaseGameStatus.GameHold;
                 saveGame();
-
-                List<BasePlayer> aTeam = m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active);
-                List<BasePlayer> bTeam = m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active);
-
-                while (aTeam.Count > 0)
-                {
-                    m_AlphaWaitList.Add(aTeam[0].PlayerName);
-                    aTeam.RemoveAt(0);
-                }
-
-                while (bTeam.Count > 0)
-                {
-                    m_BravoWaitList.Add(bTeam[0].PlayerName);
-                    bTeam.RemoveAt(0);
-                }
-
-                m_CurrentGame = new BaseGame();
-
+                resetGame();
                 return;
             }
 
             m_BaseGameEvents.Enqueue(msg.macro("- Next round starts in " + m_StartGameDelay + " seconds. Change ships now if needed. -"));
-            setupTimer(true);
+            timer_Setup(true);
+        }
+
+        private void resetGame()
+        {
+            List<BasePlayer> aTeam = m_BDGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active);
+            List<BasePlayer> bTeam = m_BDGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active);
+
+            while (aTeam.Count > 0)
+            {
+                m_AlphaWaitList.Add(aTeam[0].PlayerName);
+                aTeam.RemoveAt(0);
+            }
+
+            while (bTeam.Count > 0)
+            {
+                m_BravoWaitList.Add(bTeam[0].PlayerName);
+                bTeam.RemoveAt(0);
+            }
+
+            m_BDGame = new BaseGame();
+            m_BDGame.AlphaFreq = m_AlphaFreq;
+            m_BDGame.BravoFreq = m_BravoFreq;
+            m_BDGame.Status = BaseGameStatus.GameIdle;
+            m_BaseGameEvents.Enqueue(msg.pm(m_AlphaWaitList[0], "?prize warp"));
+            m_BaseGameEvents.Enqueue(msg.pm(m_BravoWaitList[0], "?prize warp"));
+
+            if (m_Timer.Enabled) m_Timer.Stop();
         }
 
         private void saveRound()
         {
             // Copy over round so we can save it
             BaseRound saved = new BaseRound();
-            saved.AlphaTeam = m_CurrentGame.Round.AlphaTeam;
-            saved.BravoTeam = m_CurrentGame.Round.BravoTeam;
-            saved.AlphaWon = m_CurrentGame.Round.AlphaWon;
+            saved.AlphaTeam = m_BDGame.Round.AlphaTeam;
+            saved.BravoTeam = m_BDGame.Round.BravoTeam;
+            saved.AlphaWon = m_BDGame.Round.AlphaWon;
             saved.BaseNumber = (short)(m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1);
-            saved.StartTime = m_CurrentGame.Round.StartTime;
-            saved.TotalTime = DateTime.Now - m_CurrentGame.Round.StartTime;
-            saved.WinType = m_CurrentGame.Round.WinType;
+            saved.StartTime = m_BDGame.Round.StartTime;
+            saved.TotalTime = DateTime.Now - m_BDGame.Round.StartTime;
+            saved.WinType = m_BDGame.Round.WinType;
             // Save it
-            m_CurrentGame.AllRounds.Add(saved);
-        }
-
-        private void saveGame()
-        {
-            BaseGame saved = new BaseGame();
-            saved.AllowAfterStartJoin = m_CurrentGame.AllowAfterStartJoin;
-            saved.AllowSafeWin = m_CurrentGame.AllowSafeWin;
-            saved.AllRounds = m_CurrentGame.AllRounds;
-            saved.AlphaFreq = m_CurrentGame.AlphaFreq;
-            saved.AlphaScore = m_CurrentGame.AlphaScore;
-            saved.BravoFreq = m_CurrentGame.BravoFreq;
-            saved.BravoScore = m_CurrentGame.BravoScore;
-            saved.MinimumWin = m_CurrentGame.MinimumWin;
-            saved.Round = m_CurrentGame.Round;
-            saved.Status = m_CurrentGame.Status;
-            saved.WinBy = m_CurrentGame.WinBy;
-            m_GamesPlayed.Add(saved);
+            m_BDGame.AllRounds.Add(saved);
         }
 
         private void prepForNextRound()
         {
             // Update players
-            for (int i = m_CurrentGame.Round.AlphaTeam.TeamMembers.Count; i-- > 0; )
+            for (int i = m_BDGame.Round.AlphaTeam.TeamMembers.Count; i-- > 0; )
             {
-                if (!m_CurrentGame.Round.AlphaTeam.TeamMembers[i].Active)
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers.Remove(m_CurrentGame.Round.AlphaTeam.TeamMembers[i]);
+                if (!m_BDGame.Round.AlphaTeam.TeamMembers[i].Active)
+                    m_BDGame.Round.AlphaTeam.TeamMembers.Remove(m_BDGame.Round.AlphaTeam.TeamMembers[i]);
                 else
                 {
-                    string name = m_CurrentGame.Round.AlphaTeam.TeamMembers[i].PlayerName;
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers[i] = new BasePlayer();
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers[i].PlayerName = name;
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers[i].Active = true;
-                    m_CurrentGame.Round.AlphaTeam.TeamMembers[i].InLobby = true;
+                    string name = m_BDGame.Round.AlphaTeam.TeamMembers[i].PlayerName;
+                    m_BDGame.Round.AlphaTeam.TeamMembers[i] = new BasePlayer();
+                    m_BDGame.Round.AlphaTeam.TeamMembers[i].PlayerName = name;
+                    m_BDGame.Round.AlphaTeam.TeamMembers[i].Active = true;
+                    m_BDGame.Round.AlphaTeam.TeamMembers[i].InLobby = true;
                 }
             }
-            for (int i = m_CurrentGame.Round.BravoTeam.TeamMembers.Count; i-- > 0; )
+            for (int i = m_BDGame.Round.BravoTeam.TeamMembers.Count; i-- > 0; )
             {
-                if (!m_CurrentGame.Round.BravoTeam.TeamMembers[i].Active)
-                    m_CurrentGame.Round.BravoTeam.TeamMembers.Remove(m_CurrentGame.Round.BravoTeam.TeamMembers[i]);
+                if (!m_BDGame.Round.BravoTeam.TeamMembers[i].Active)
+                    m_BDGame.Round.BravoTeam.TeamMembers.Remove(m_BDGame.Round.BravoTeam.TeamMembers[i]);
                 else
                 {
-                    string name = m_CurrentGame.Round.BravoTeam.TeamMembers[i].PlayerName;
-                    m_CurrentGame.Round.BravoTeam.TeamMembers[i] = new BasePlayer();
-                    m_CurrentGame.Round.BravoTeam.TeamMembers[i].PlayerName = name;
-                    m_CurrentGame.Round.BravoTeam.TeamMembers[i].Active = true;
-                    m_CurrentGame.Round.BravoTeam.TeamMembers[i].InLobby = true;
+                    string name = m_BDGame.Round.BravoTeam.TeamMembers[i].PlayerName;
+                    m_BDGame.Round.BravoTeam.TeamMembers[i] = new BasePlayer();
+                    m_BDGame.Round.BravoTeam.TeamMembers[i].PlayerName = name;
+                    m_BDGame.Round.BravoTeam.TeamMembers[i].Active = true;
+                    m_BDGame.Round.BravoTeam.TeamMembers[i].InLobby = true;
                 }
             }
         }
@@ -434,13 +457,13 @@ namespace Devastation.BaseDuel
         public Queue<EventArgs> Event_PlayerPosition(DevaPlayer p)
         {
             // No need to deal with event if it is off
-            if (m_CurrentGame == null) return null;
+            if (m_BDGame == null) return null;
 
             if (m_BlockedList.Contains(p.PlayerName)) return null;
 
             Queue<EventArgs> q = new Queue<EventArgs>();
 
-            if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
+            if (m_BDGame.Status == BaseGameStatus.GameIdle)
             {
                 if ( inRegion(p.Position,m_Lobby.BaseDimension) && ( p.Frequency <= m_MaxArenaFreq || inGameFreqs(p.Frequency)) && !isOnWaitList(p.PlayerName))
                 {
@@ -450,12 +473,35 @@ namespace Devastation.BaseDuel
                     addPlayerToWaitList(p, q);
                 }
             }
-            if (m_CurrentGame.Status == BaseGameStatus.GameOn)
+            if (m_BDGame.Status == BaseGameStatus.GameOn)
             {
                 bool InAlpha;
                 BasePlayer b = getPlayer(p, out InAlpha);
 
-                if (b == null) return q;
+                // Allow players to join after game start
+                if (b == null)
+                {
+                    if (m_BDGame.AllowAfterStartJoin && inRegion(p.Position, m_Lobby.BaseDimension))
+                    {
+                        b = new BasePlayer();
+                        b.PlayerName = p.PlayerName;
+                        b.InLobby = true;
+                        b.Active = true;
+
+                        int aCount = m_BDGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count;
+                        int bCount = m_BDGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count;
+
+                        if (aCount <= bCount)
+                            m_BDGame.Round.AlphaTeam.TeamMembers.Add(b);
+                        else
+                            m_BDGame.Round.BravoTeam.TeamMembers.Add(b);
+
+                        q.Enqueue(msg.pm(p.PlayerName, "?|setfreq " + (aCount <= bCount ? m_AlphaFreq.ToString() : m_BravoFreq.ToString()) + "|shipreset"));
+
+                        return q;
+                    }
+                    return q;
+                }
 
                 if (inRegion(p.Position, m_Lobby.BaseDimension))
                 {
@@ -468,9 +514,7 @@ namespace Devastation.BaseDuel
 
                         // Check for BaseClear and start timer
                         bool alpha, bravo;
-                        if (teamIsOut( out alpha, out bravo))   setupTimer(false);
-
-                        m_BaseGameEvents.Enqueue(msg.debugChan("Starting Clear Timer"));
+                        if (teamIsOut( out alpha, out bravo))   timer_Setup(false);
                     }
                     else
                     {
@@ -486,8 +530,8 @@ namespace Devastation.BaseDuel
                     if (inRegion(p.Position, (InAlpha ? m_BaseManager.CurrentBase.BravoSafe : m_BaseManager.CurrentBase.AlphaSafe)))
                     {
                         // adding an extra 3 second start for BaseClear check - if not timer gets set auto at start
-                        if ((DateTime.Now - m_CurrentGame.Round.StartTime).TotalMilliseconds >= 3000)
-                            RoundFinished(WinType.SafeWin, InAlpha);
+                        if ((DateTime.Now - m_BDGame.Round.StartTime).TotalMilliseconds >= 3000)
+                            roundFinished(WinType.SafeWin, InAlpha);
                     }
                 }
             }
@@ -497,7 +541,7 @@ namespace Devastation.BaseDuel
         public Queue<EventArgs> Event_PlayerLeft(DevaPlayer p)
         {
             // No need to deal with event if it is off
-            if (m_CurrentGame == null) return null;
+            if (m_BDGame == null) return null;
 
             if (m_BlockedList.Contains(p.PlayerName)) return null;
 
@@ -511,7 +555,7 @@ namespace Devastation.BaseDuel
         public Queue<EventArgs> Event_PlayerFreqChange(DevaPlayer p)
         {
             // No need to deal with event if it is off
-            if (m_CurrentGame == null) return null;
+            if (m_BDGame == null) return null;
 
             // Maybe leave this out? if player gets blocked and not removed?
             if (m_BlockedList.Contains(p.PlayerName)) return null;
@@ -527,7 +571,7 @@ namespace Devastation.BaseDuel
         //----------------------------------------------------------------------//
         //                       Timer Stuff                                    //
         //----------------------------------------------------------------------//
-        public void setupTimer(bool GameStart)
+        public void timer_Setup(bool GameStart)
         {
             m_Timer = new Timer();
 
@@ -535,18 +579,19 @@ namespace Devastation.BaseDuel
             if (GameStart)
             {
                 m_StartGameDelay_Elapsed = m_StartGameDelay;
-                m_Timer.Elapsed += new ElapsedEventHandler(CountDown_StartGame);
+                m_Timer.Elapsed += new ElapsedEventHandler(timer_StartGame);
                 m_Timer.Interval = 1000;
             }
             else
             {
-                m_Timer.Elapsed += new ElapsedEventHandler(Timer_ClearCheck);
+                m_BaseGameEvents.Enqueue(msg.debugChan("Starting Clear Timer"));
+                m_Timer.Elapsed += new ElapsedEventHandler(timer_BaseClear);
                 m_Timer.Interval = m_TeamClearDelay * 1000;
             }
             m_Timer.Start();
         }
 
-        public void CountDown_StartGame(object source, ElapsedEventArgs e)
+        public void timer_StartGame(object source, ElapsedEventArgs e)
         {
             m_StartGameDelay_Elapsed--;
 
@@ -565,7 +610,7 @@ namespace Devastation.BaseDuel
             { m_BaseGameEvents.Enqueue(msg.macro("- Not enough players. Start Game cancelled. -")); }
         }
 
-        public void Timer_ClearCheck(object source, ElapsedEventArgs e)
+        public void timer_BaseClear(object source, ElapsedEventArgs e)
         {
             m_BaseGameEvents.Enqueue(msg.debugChan("- All out timer expired. -"));
             m_Timer.Stop();
@@ -575,7 +620,7 @@ namespace Devastation.BaseDuel
 
             if (teamIsOut(out alpha, out bravo))
             {
-                RoundFinished(alpha == bravo?WinType.NoCount:WinType.BaseClear, !alpha);
+                roundFinished(alpha == bravo?WinType.NoCount:WinType.BaseClear, !alpha);
             }
         }
 
@@ -591,15 +636,15 @@ namespace Devastation.BaseDuel
         private bool teamIsOut(out bool alpha, out bool bravo)
         {
             // make sure a team is still out
-            alpha = !(m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
-            bravo = !(m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
+            alpha = !(m_BDGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
+            bravo = !(m_BDGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).FindAll(item => !item.InLobby).Count >= 1);
             return alpha || bravo;
         }
 
         // Grab player from one of the teams
         private BasePlayer getPlayer( DevaPlayer p, out bool InAlpha)
         {
-            BasePlayer b = m_CurrentGame.Round.AlphaTeam.TeamMembers.Find( item => item.PlayerName == p.PlayerName);
+            BasePlayer b = m_BDGame.Round.AlphaTeam.TeamMembers.Find( item => item.PlayerName == p.PlayerName);
 
             if ( b != null)
             {
@@ -607,7 +652,7 @@ namespace Devastation.BaseDuel
                 return b;
             }
 
-            b = m_CurrentGame.Round.BravoTeam.TeamMembers.Find(item => item.PlayerName == p.PlayerName);
+            b = m_BDGame.Round.BravoTeam.TeamMembers.Find(item => item.PlayerName == p.PlayerName);
             InAlpha = false;
             return b;
         }
@@ -639,7 +684,7 @@ namespace Devastation.BaseDuel
         // Checks to see if module is loaded - returns message if not
         private bool moduleIsOn(Queue<EventArgs> q, ChatEvent e)
         {
-            if (m_CurrentGame != null) return true;
+            if (m_BDGame != null) return true;
 
             q.Enqueue(msg.pm(e.PlayerName,"Module is currently not loaded."));
             return false;
@@ -654,15 +699,13 @@ namespace Devastation.BaseDuel
         // Player Count check to make sure we can start game
         private bool canStartGame()
         {
-            if (m_CurrentGame.Status == BaseGameStatus.GameIdle)
-            {
-                return m_AlphaWaitList.Count >= 1 && m_BravoWaitList.Count >= 1;
-            }
-            else if (m_CurrentGame.Status == BaseGameStatus.GameIntermission)
-            {
-                return  m_CurrentGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count >= 1 &&
-                    m_CurrentGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count >= 1;
-            }
+            if (m_BDGame.Status == BaseGameStatus.GameIdle)
+               return m_AlphaWaitList.Count >= 1 && m_BravoWaitList.Count >= 1;    
+            
+            if (m_BDGame.Status == BaseGameStatus.GameIntermission)
+                return  m_BDGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count >= 1 &&
+                    m_BDGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count >= 1;
+            
             return false;
         }
 
@@ -673,17 +716,17 @@ namespace Devastation.BaseDuel
         {
             // Show player how it was loaded
             q.Enqueue(msg.pm(PlayerName, "BaseDuel Settings ---------------------------"));
-            q.Enqueue(msg.pm(PlayerName, "Status           :".PadRight(20) + m_CurrentGame.Status.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Join after Start :".PadRight(20) + m_CurrentGame.AllowAfterStartJoin.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Safe win enabled :".PadRight(20) + m_CurrentGame.AllowSafeWin.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Status           :".PadRight(20) + m_BDGame.Status.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Join after Start :".PadRight(20) + m_BDGame.AllowAfterStartJoin.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Safe win enabled :".PadRight(20) + m_BDGame.AllowSafeWin.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "------------------------"));
-            q.Enqueue(msg.pm(PlayerName, "Alpha Team Name  :".PadRight(20) + m_CurrentGame.Round.AlphaTeam.TeamName.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_CurrentGame.Round.AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_CurrentGame.AlphaFreq.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Alpha Team Name  :".PadRight(20) + m_BDGame.Round.AlphaTeam.TeamName.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_BDGame.Round.AlphaTeam.TeamMembers.Count.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_BDGame.AlphaFreq.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "------------------------"));
-            q.Enqueue(msg.pm(PlayerName, "Bravo Team Name  :".PadRight(20) + m_CurrentGame.Round.BravoTeam.TeamName.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_CurrentGame.Round.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
-            q.Enqueue(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_CurrentGame.BravoFreq.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Bravo Team Name  :".PadRight(20) + m_BDGame.Round.BravoTeam.TeamName.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_BDGame.Round.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
+            q.Enqueue(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_BDGame.BravoFreq.ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "Base Loader Settings -----------------"));
             q.Enqueue(msg.pm(PlayerName, "Current Base     :".PadRight(20) + (m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1).ToString().PadLeft(25)));
             q.Enqueue(msg.pm(PlayerName, "Total Bases      :".PadRight(20) + m_BaseManager.Bases.Count.ToString().PadLeft(25)));
@@ -695,16 +738,16 @@ namespace Devastation.BaseDuel
         {
             // Spit out round info from round list
             q.Enqueue(msg.pm(PlayerName, "All Rounds in Game --------------------------"));
-            for (int i = 0; i < m_CurrentGame.AllRounds.Count; i++)
+            for (int i = 0; i < m_BDGame.AllRounds.Count; i++)
             {
                 q.Enqueue(msg.pm(PlayerName, "Round Number  :".PadRight(20) + (i + 1).ToString().PadLeft(25)));
-                q.Enqueue(msg.pm(PlayerName, "Date          :".PadRight(20) + m_CurrentGame.AllRounds[i].StartTime.ToShortDateString().PadLeft(25)));
-                q.Enqueue(msg.pm(PlayerName, "Time          :".PadRight(20) + m_CurrentGame.AllRounds[i].StartTime.ToShortTimeString().PadLeft(25)));
-                q.Enqueue(msg.pm(PlayerName, "Duration      :".PadRight(20) + m_CurrentGame.AllRounds[i].TotalTimeFormatted.ToString().PadLeft(25)));
-                q.Enqueue(msg.pm(PlayerName, "Win Type      :".PadRight(20) + m_CurrentGame.AllRounds[i].WinType.ToString().PadLeft(25)));
-                if (m_CurrentGame.AllRounds[i].WinType != WinType.NoCount)
-                    q.Enqueue(msg.pm(PlayerName, "Winner        :".PadRight(20) + (m_CurrentGame.AllRounds[i].AlphaWon?"Alpha Team":"Bravo Team").ToString().PadLeft(25)));
-                q.Enqueue(msg.pm(PlayerName, "Base Number   :".PadRight(20) + m_CurrentGame.AllRounds[i].BaseNumber.ToString().PadLeft(25)));
+                q.Enqueue(msg.pm(PlayerName, "Date          :".PadRight(20) + m_BDGame.AllRounds[i].StartTime.ToShortDateString().PadLeft(25)));
+                q.Enqueue(msg.pm(PlayerName, "Time          :".PadRight(20) + m_BDGame.AllRounds[i].StartTime.ToShortTimeString().PadLeft(25)));
+                q.Enqueue(msg.pm(PlayerName, "Duration      :".PadRight(20) + m_BDGame.AllRounds[i].TotalTimeFormatted.ToString().PadLeft(25)));
+                q.Enqueue(msg.pm(PlayerName, "Win Type      :".PadRight(20) + m_BDGame.AllRounds[i].WinType.ToString().PadLeft(25)));
+                if (m_BDGame.AllRounds[i].WinType != WinType.NoCount)
+                    q.Enqueue(msg.pm(PlayerName, "Winner        :".PadRight(20) + (m_BDGame.AllRounds[i].AlphaWon?"Alpha Team":"Bravo Team").ToString().PadLeft(25)));
+                q.Enqueue(msg.pm(PlayerName, "Base Number   :".PadRight(20) + m_BDGame.AllRounds[i].BaseNumber.ToString().PadLeft(25)));
                 q.Enqueue(msg.pm(PlayerName, "---------------------------------------------"));
             }
         }
