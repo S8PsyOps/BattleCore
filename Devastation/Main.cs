@@ -100,17 +100,20 @@ namespace Devastation
         public void MonitorPlayerLeftEvent(object sender, PlayerLeftEvent e)
         {
             if (!m_Initialized) return;
-
+            // Grab player from list - need to make sure and remove at end of method
             SSPlayer ssp = m_Players.GetPlayer(e);
+            
             m_BaseDuel.Event_PlayerLeft(ssp);
-            m_BaseDuel.Event_PlayerLeft(ssp);
+
+            // removing here allows you to pull all needed info inbetween, then you can delete
+            m_Players.RemovePlayer(ssp);
         }
         public void MonitorTeamChangeEvent(object sender, TeamChangeEvent e)
         {
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
-
+            
             m_BaseDuel.Event_PlayerFreqChange(ssp);
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)
