@@ -15,7 +15,7 @@ namespace Devastation.BaseDuel
         {
             this.msg = new ShortChat();
             this.m_Round = new BaseRound();
-            this.m_MatchesPlayed = new List<BaseRound>();
+            this.m_RoundsPlayed = new List<BaseRound>();
             this.m_Status = BaseGameStatus.GameIdle;
             this.m_AllowSafeWin = true;
             this.m_AllowAfterStartJoin = true;
@@ -27,7 +27,7 @@ namespace Devastation.BaseDuel
         
         ShortChat msg;
         private BaseRound m_Round;
-        private List<BaseRound> m_MatchesPlayed;
+        private List<BaseRound> m_RoundsPlayed;
         private BaseGameStatus m_Status;
         private ushort m_AlphaFreq, m_BravoFreq;
         private bool m_AllowSafeWin;
@@ -51,8 +51,8 @@ namespace Devastation.BaseDuel
         /// </summary>
         public List<BaseRound> AllRounds
         {
-            get { return m_MatchesPlayed; }
-            set { m_MatchesPlayed = value; }
+            get { return m_RoundsPlayed; }
+            set { m_RoundsPlayed = value; }
         }
 
         /// <summary>
