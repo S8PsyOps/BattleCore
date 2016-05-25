@@ -7,11 +7,12 @@ namespace Devastation.BaseDuel
 {
     class BasePlayer
     {
-        public BasePlayer()
+        public BasePlayer(string PlayerName)
         {
-            m_WarpStamp = DateTime.Now;
-            m_InLobby = true;
-            m_Active = true;
+            this.m_WarpStamp = DateTime.Now;
+            this.m_InLobby = true;
+            this.m_Active = true;
+            this.m_PlayerName = PlayerName;
         }
 
         private string m_PlayerName;

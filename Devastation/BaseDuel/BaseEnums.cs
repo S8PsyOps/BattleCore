@@ -13,6 +13,13 @@ namespace Devastation
         Off = 3
     }
 
+    public enum TimerType
+    {
+        GameStart,
+        BaseClear,
+        InactiveReset
+    }
+
     public enum BaseMode
     {
         Shuffle,

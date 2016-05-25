@@ -50,6 +50,7 @@
     <Compile Include="BaseDuel\BasePlayer.cs" />
     <Compile Include="BaseDuel\Bases\BaseManager.cs" />
     <Compile Include="BaseDuel\BaseTeam.cs" />
+    <Compile Include="BaseDuel\MainBackup.cs" />
     <Compile Include="BaseRace\BaseRace.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Main.cs" />

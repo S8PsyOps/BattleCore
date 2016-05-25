@@ -62,7 +62,6 @@ namespace Devastation
             if (!IsMod(e, ModLevels.Mod)) return;
 
             msg.DebugMode = !msg.DebugMode;
-            m_BaseDuel.setDebug(msg.DebugMode);
 
             Game(msg.arena("[ Deva Main ] Debug mode has been toggled " + (msg.DebugMode?"On":"Off") + " by staff - " + e.PlayerName));
         }
@@ -197,6 +196,14 @@ namespace Devastation
             {
                 // Grab bot and map info and store it
                 m_BotName = e.BotName;
+
+                if (e.MapFile == null)
+                {
+                    Game(msg.arena("[ Deva Main ] Error: Map file received null, resending bot into request."));
+                    Game(new BotInfoRequest());
+                    return;
+                }
+
                 m_ArenaName = e.MapFile.Replace(".lvl", "");
                 m_MapInfo = e.MapData;
 
