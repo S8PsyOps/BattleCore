@@ -8,7 +8,7 @@
     <ProjectGuid>{86EC84A2-02A2-4002-8768-7FA506C33833}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DevaBot</RootNamespace>
+    <RootNamespace>Devastation</RootNamespace>
     <AssemblyName>DevaBot</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,9 +50,10 @@
     <Compile Include="BaseDuel\BasePlayer.cs" />
     <Compile Include="BaseDuel\Bases\BaseManager.cs" />
     <Compile Include="BaseDuel\BaseTeam.cs" />
+    <Compile Include="BaseRace\BaseRace.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="MapData.cs" />
+    <Compile Include="BaseDuel\Bases\MapData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

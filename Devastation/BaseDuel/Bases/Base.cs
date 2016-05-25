@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Devastation.BaseDuel
+namespace Devastation
 {
-    class Base
+    public class Base
     {
         private int m_BaseNumber;
         private String m_BaseName = "~none~";

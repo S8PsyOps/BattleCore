@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Devastation.BaseDuel
+namespace Devastation
 {
     public enum BaseSize
     {

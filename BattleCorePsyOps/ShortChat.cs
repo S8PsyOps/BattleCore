@@ -15,10 +15,6 @@ namespace BattleCorePsyOps
         {
             this.m_Debug = false;
             this.m_asss = false;
-            this.m_MessageQ = new Queue<EventArgs>();
-            this.m_SafeMessageQ = new Queue<EventArgs>();
-            this.m_SafeMessageQDelay = 250;
-            this.m_SafeMessageQTimeStamp = DateTime.Now;
         }
 
         public ShortChat(List<SSPlayer> PlayerList)
@@ -26,58 +22,11 @@ namespace BattleCorePsyOps
             this.m_Debug = false;
             this.m_asss = false;
             this.m_PlayerList = PlayerList;
-            this.m_MessageQ = new Queue<EventArgs>();
-            this.m_SafeMessageQ = new Queue<EventArgs>();
-            this.m_SafeMessageQDelay = 250;
-            this.m_SafeMessageQTimeStamp = DateTime.Now;
         }
 
         private bool m_Debug;
         private bool m_asss;
         private List<SSPlayer> m_PlayerList;
-        private Queue<EventArgs> m_MessageQ;
-        private Queue<EventArgs> m_SafeMessageQ;
-        private double m_SafeMessageQDelay;
-        private DateTime m_SafeMessageQTimeStamp;
-
-        /// <summary>
-        /// Attach this to your game timer. This will send messages from other modules.
-        /// </summary>
-        public Queue<EventArgs> Events
-        {
-            get 
-            {
-                // SafeQ is a safety for any biller commands or messages. This will add a buffer between messages 
-                // so bot does not get kicked for spamming
-                if (m_SafeMessageQ.Count > 0 && (DateTime.Now - m_SafeMessageQTimeStamp).TotalMilliseconds >= m_SafeMessageQDelay)
-                {
-                    m_SafeMessageQTimeStamp = DateTime.Now;
-                    m_MessageQ.Enqueue(m_SafeMessageQ.Dequeue());
-                }
-
-                return m_MessageQ; 
-            }
-        }
-
-        /// <summary>
-        /// <para>ShortChat should be used in main module.</para>
-        /// <para>Use this to send messages from outside your main module.</para>
-        /// </summary>
-        /// <param name="e">Whatever event you want to send</param>
-        public void Send(EventArgs e)
-        {
-            m_MessageQ.Enqueue(e);
-        }
-
-        /// <summary>
-        /// <para>ShortChat should be used in main module.</para>
-        /// <para>Use this to send messages from outside your main module.</para>
-        /// </summary>
-        /// <param name="e">Whatever event you want to send</param>
-        public void SendSafe(EventArgs e)
-        {
-            m_SafeMessageQ.Enqueue(e);
-        }
 
         /// <summary>
         ///<para>A few commands are asss only and will not work unless you set this to true.</para>

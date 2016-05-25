@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyGame.cs" />
     <Compile Include="SSPlayer.cs" />
     <Compile Include="ShortChat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

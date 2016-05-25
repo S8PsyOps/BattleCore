@@ -24,6 +24,7 @@ namespace Devastation
             this.msg = new ShortChat(m_Players.PlayerList);
             this.msg.DebugMode = true;
             this.msg.IsASSS = true;
+            this.myGame = new MyGame();
 
             this.m_GameTimer = new Timer();
             this.m_GameTimer.Elapsed += new ElapsedEventHandler(GameTimer);
@@ -31,26 +32,25 @@ namespace Devastation
             this.m_GameTimer.Start();
 
             // Registered commands
-            RegisterCommand("!startbd", StartBD);                   RegisterCommand(".startbd", StartBD);
+            RegisterCommand("!startbd", doStartBD);                 RegisterCommand(".startbd", doStartBD);
             RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
+            RegisterCommand("!baserace", doBaseRaceCommand);        RegisterCommand(".baserace", doBaseRaceCommand);
+            RegisterCommand("!br", doBaseRaceCommand);              RegisterCommand(".br", doBaseRaceCommand);
             RegisterCommand("!debug", doToggleDebug);               RegisterCommand(".debug", doToggleDebug);
-            RegisterCommand("!test", Test);
+            RegisterCommand("!switch", doSwitch);                   RegisterCommand(".switch", doSwitch);
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
+        private MyGame myGame;
         private Timer m_GameTimer;                      // Main timer for bot
         private bool m_StartIni, m_Initialized;         // Bool to help initialize bot
         private string m_BotName, m_ArenaName;          // Store bot info
         private byte[] m_MapInfo;                       // Byte array containing map info
         private BaseDuel.Main m_BaseDuel;               // BaseDuel Game
-        //private PlayerManager m_Players;
         SSPlayerManager m_Players;
+        BaseRace m_BaseRace;
 
-        public void Test(ChatEvent e)
-        {
-            for (int i = 0; i < 50; i++)
-                msg.SendSafe(msg.chan(1, "Test [ "+i+" ] spam safety."));
-        }
+        
 
         //----------------------------------------------------------------------//
         //                         Commands                                     //
@@ -66,24 +66,44 @@ namespace Devastation
 
             Game(msg.arena("[ Deva Main ] Debug mode has been toggled " + (msg.DebugMode?"On":"Off") + " by staff - " + e.PlayerName));
         }
+
+        public void doBaseRaceCommand(ChatEvent e)
+        {
+            if (!m_Initialized) return;
+
+            if (e.Message.StartsWith("!br")) e.Message = e.Message.Replace("!br",".baserace");
+            else if (e.Message.StartsWith(".br")) e.Message = e.Message.Replace(".br", ".baserace");
+
+            if (e.Message.StartsWith("!")) e.Message = e.Message.Replace("!", ".");
+            m_BaseRace.BaseRaceCommands(e);
+        }
+
         public void doBaseDuelCommand(ChatEvent e)
         {
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
 
+            if (e.Message.StartsWith("!")) e.Message = e.Message.Replace("!", ".");
             m_BaseDuel.BaseDuelCommands(ssp, e);
         }
 
-        public void StartBD(ChatEvent e)
+        public void doStartBD(ChatEvent e)
         {
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
 
             // change command format to make compatible with older command syntax
-            e.Message = "!baseduel start";
+            e.Message = ".baseduel start";
             m_BaseDuel.BaseDuelCommands(ssp, e);
+        }
+
+        public void doSwitch(ChatEvent e)
+        {
+            // changing command to compatible !baseduel command
+            e.Message = ".baseduel switch";
+            SendCoreEvent(e);
         }
 
         //----------------------------------------------------------------------//
@@ -96,6 +116,9 @@ namespace Devastation
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
+
+            m_BaseDuel.Event_PlayerEntered(ssp);
+            m_BaseRace.Event_PlayerEntered(ssp);
         }
         public void MonitorPlayerLeftEvent(object sender, PlayerLeftEvent e)
         {
@@ -103,35 +126,30 @@ namespace Devastation
             // Grab player from list - need to make sure and remove at end of method
             SSPlayer ssp = m_Players.GetPlayer(e);
             
+            // Update baseduel
             m_BaseDuel.Event_PlayerLeft(ssp);
-
-<<<<<<< HEAD
-            SSPlayer ssp = m_Players.GetPlayer(e);
-            m_BaseDuel.Event_PlayerLeft(ssp);
-            m_BaseDuel.Event_PlayerLeft(ssp);
-=======
+            m_BaseRace.Event_PlayerLeft(ssp);
+            
             // removing here allows you to pull all needed info inbetween, then you can delete
             m_Players.RemovePlayer(ssp);
->>>>>>> origin/master
         }
         public void MonitorTeamChangeEvent(object sender, TeamChangeEvent e)
         {
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
-<<<<<<< HEAD
-
-=======
             
->>>>>>> origin/master
             m_BaseDuel.Event_PlayerFreqChange(ssp);
+            m_BaseRace.Event_PlayerFreqChange(ssp);
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)
         {
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
-            
+
+            m_BaseDuel.Event_ShipChange(ssp);
+            m_BaseRace.Event_ShipChange(ssp);
         }
         public void MonitorPlayerPositionEvent(object sender, PlayerPositionEvent e)
         {
@@ -140,6 +158,26 @@ namespace Devastation
             SSPlayer ssp = m_Players.GetPlayer(e);
 
             m_BaseDuel.Event_PlayerPosition(ssp);
+            m_BaseRace.Event_PlayerPosition(ssp);
+        }
+
+        public void MonitorTurretEvent(object sender, ModifyTurretEvent e)
+        {
+            if (!m_Initialized) return;//65535
+
+            SSPlayer attacher = m_Players.GetPlayer(e.TurretAttacherName);
+            SSPlayer host = m_Players.GetPlayer(e.TurretHostName);
+
+            if (e.TurretHostId == 65535)
+            {
+                m_BaseDuel.Event_PlayerTurretAttach(attacher, host);
+                m_BaseRace.Event_PlayerTurretAttach(attacher, host);
+                return;
+            }
+
+            m_BaseDuel.Event_PlayerTurretDetach(attacher);
+            m_BaseRace.Event_PlayerTurretDetach(attacher);
+
         }
 
         //----------------------------------------------------------------------//
@@ -173,7 +211,8 @@ namespace Devastation
                 // Load all player info from the event and build list
                 m_Players.PlayerInfoEvent = e;
                 // Once we have mapdata we initialize baseduel
-                m_BaseDuel = new BaseDuel.Main(m_MapInfo, m_Players, msg);
+                m_BaseDuel = new BaseDuel.Main(m_MapInfo, m_Players, msg, myGame);
+                m_BaseRace = new BaseRace(m_Players, m_MapInfo, msg,myGame);
 
                 m_GameTimer.Stop();
                 m_GameTimer = new Timer();
@@ -197,7 +236,7 @@ namespace Devastation
 
             if (!m_Initialized) return;
 
-            SendPsyEvent(msg.Events);
+            SendPsyEvent(myGame.EmptyQueue);
         }
 
         //----------------------------------------------------------------------//

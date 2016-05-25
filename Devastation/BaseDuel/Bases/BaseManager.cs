@@ -7,9 +7,9 @@ using BattleCore;
 using BattleCore.Events;
 using BattleCorePsyOps;
 
-namespace Devastation.BaseDuel
+namespace Devastation
 {
-    class BaseManager
+    public class BaseManager
     {
 
         private ShortChat msg;                 // Custom chat module

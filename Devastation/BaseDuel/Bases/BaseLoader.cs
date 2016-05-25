@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 
-namespace Devastation.BaseDuel
+namespace Devastation
 {
-    class BaseLoader
+    public class BaseLoader
     {
         // Holds tileID using a multi dimensional array m_MapGrid[xCoor][yCoor]
         private byte[][] m_MapTileIDs;
