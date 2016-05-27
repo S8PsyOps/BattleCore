@@ -1,0 +1,17 @@
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\IRCBridge.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\IRCBridge.pdb
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\log4net.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\Meebey.SmartIrc4net.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\BattleCorePsyOps.pdb
+D:\Projects\GitHub\BattleCore\IRCBridge\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\IRCBridge\obj\Debug\IRCBridge.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\IRCBridge\obj\Debug\IRCBridge.dll
+D:\Projects\GitHub\BattleCore\IRCBridge\obj\Debug\IRCBridge.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Evil Bot\IRCBridge.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Evil Bot\IRCBridge.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Deva Bot\IRCBridge.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Deva Bot\IRCBridge.pdb

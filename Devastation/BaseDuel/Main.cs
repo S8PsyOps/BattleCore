@@ -25,7 +25,7 @@ namespace Devastation.BaseDuel
             this.m_MaxArenaFreq = 100;
             this.m_BlockedList = new List<string>();
             this.m_StartGameDelay = 10;
-            this.m_StartGameShow = 3;
+            this.m_StartGameShow = 5;
             this.m_TeamClearDelay = 5;
             this.m_GamesPlayed = new List<BaseGame>();
             this.m_BaseGame = new BaseGame();
@@ -34,10 +34,13 @@ namespace Devastation.BaseDuel
             this.m_Players = PlayerManager;
             this.msg = msg;
             this.myGame = myGame;
+            this.m_SpamSetting = ChatTypes.Arena;
+            this.m_SpamZoneTimeLimit = 5;
+            this.m_SpamZoneTimeStamp = DateTime.Now;
         }
 
         private ShortChat msg;                      // Module to make sending chat messages easier
-        private BaseGame m_BaseGame;                    // This holds all the baseduel game info
+        private BaseGame m_BaseGame;                // This holds all the baseduel game info
         
         private Timer m_Timer;                      // Main timer for any needed timed events
         private double m_StartGameDelay;            // Delay in start of game (seconds)
@@ -58,6 +61,9 @@ namespace Devastation.BaseDuel
         private List<BaseGame> m_GamesPlayed;       // List of games that have been recorded
         private SSPlayerManager m_Players;          // Player tracker code
         private MyGame myGame;
+        private ChatTypes m_SpamSetting;
+        private int m_SpamZoneTimeLimit;
+        private DateTime m_SpamZoneTimeStamp;
 
         //----------------------------------------------------------------------//
         //                         Commands                                     //
@@ -73,7 +79,7 @@ namespace Devastation.BaseDuel
         /// <param name="p">Deva Player</param>
         /// <param name="e">Command sent</param>
         /// <returns></returns>
-        public void BaseDuelCommands(SSPlayer p, ChatEvent e)
+        public void Commands(SSPlayer p, ChatEvent e)
         {
             if (m_BlockedList.Contains(p.PlayerName)) return;
 
@@ -83,7 +89,8 @@ namespace Devastation.BaseDuel
             {
                 // Module is off
                 if (!moduleIsOn(e)) return ;
-
+                e.Message = "!help baseduel commands";
+                myGame.CoreSend(e);
                 return;
             }
 
@@ -93,6 +100,11 @@ namespace Devastation.BaseDuel
             {
                 case "start":
                     command_Start(e);
+                    return;
+
+                case "commands":
+                    e.Message = "!help baseduel commands";
+                    myGame.CoreSend(e);
                     return;
 
                 case "toggle":
@@ -113,14 +125,66 @@ namespace Devastation.BaseDuel
 
                     return;
 
+                case "spam":
+                    spamZone(e);
+                    return;
+
+                case "restart":
+                    if (!moduleIsOn(e)) return;
+                    round_Restart(e.PlayerName);
+                    return;
+
                 case "reset":
+                    if (!moduleIsOn(e)) return;
+                    //if (m_BaseGame.Status != BaseGameStatus.GameIdle)
+                        game_Reset();
                     return;
 
                 case "rounds":
-
+                    if (!moduleIsOn(e)) return;
+                    show_Rounds(p.PlayerName);
                     return;
             }
             return;
+        }
+
+        private void spamZone(ChatEvent e)
+        {
+            if ((DateTime.Now - m_SpamZoneTimeStamp).TotalSeconds < m_SpamZoneTimeLimit) return;
+            m_SpamZoneTimeStamp = DateTime.Now;
+
+            string message = "A BaseDuel game is about to begin. Come to Devastation and join the battle! -" + e.PlayerName;
+
+            myGame.Send(msg.zone(message));
+            myGame.SafeSend(msg.chan(2,message));
+        }
+
+        // Including the old command system and changing it to new system
+        // Then resending it into core
+        public void CompatibleCommands(ChatEvent c)
+        {
+            string command = c.Message.ToLower().Trim();
+
+            if (command.StartsWith("!")) command = command.Replace("!",".");
+
+            if (command.StartsWith(".bd"))
+            {
+                c.Message = command.Replace(".bd", ".baseduel");
+                myGame.CoreSend(c);
+                return;
+            }
+
+            switch (command)
+            {
+                case ".startbd":
+                    c.Message = ".baseduel start";
+                    myGame.CoreSend(c);
+                    return;
+                case ".shuffleteam":
+                    c.Message = ".baseduel shuffle";
+                    myGame.CoreSend(c);
+                    return;
+            }
         }
 
         private void command_Toggle(SSPlayer p)
@@ -129,9 +193,10 @@ namespace Devastation.BaseDuel
             if (m_BaseGame == null)
             {
                 // reset vars
-                baseduel_Reset();
+                module_Reset();
 
                 // Send Arena Message
+                show_StartSpam();
                 myGame.Send(msg.arena("[ BaseDuel ] Module loaded by staff - " + p.PlayerName));
                 show_GameSettings(p.PlayerName);
                 return;
@@ -158,7 +223,8 @@ namespace Devastation.BaseDuel
             // start game - enough players
             if (allow_GameStart(true))
             {
-                myGame.Send(msg.macro("- Game starting in " + m_StartGameDelay + " seconds -"));
+                sendBotSpam("- Starting BaseDuel in " + m_StartGameDelay + " seconds - " + e.PlayerName);
+                //myGame.Send(msg.macro("- Game starting in " + m_StartGameDelay + " seconds -"));
 
                 // Move players from pub to private freqs and add them to teams
                 List<SSPlayer> aTeam = m_Players.PlayerList.FindAll(item => item.Frequency == 0 && !m_BlockedList.Contains(item.PlayerName));
@@ -228,7 +294,7 @@ namespace Devastation.BaseDuel
         //                     Game Functions                                   //
         //----------------------------------------------------------------------//
         // reset all vars to baseduel
-        private void baseduel_Reset()
+        private void module_Reset()
         {
             m_BaseGame = new BaseGame();
             m_BaseGame.AlphaFreq = m_AlphaFreq;
@@ -247,7 +313,11 @@ namespace Devastation.BaseDuel
             myGame.Send(msg.team_pm(m_BravoFreq, "?|warpto " + m_Base.BravoStartX + " " + m_Base.BravoStartY + "|shipreset"));
 
             int baseNum = m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1;
-            myGame.Send(msg.macro("- Go Go Go! -    BaseNum[ " + baseNum + " ]"));
+            sendBotSpam("- Go Go Go Go Go Go! -");
+            sendBotSpam("- Current Base        : " + baseNum);
+            sendBotSpam("- Team vs Team Rules  : " + (m_BaseGame.AllowSafeWin?"BaseClear and Safes":"BaseClear"));
+            sendBotSpam("- Auto Scoring        : Not implemented yet.");
+            //myGame.Send(msg.macro("- Go Go Go! -    BaseNum[ " + baseNum + " ]"));
             // Record start time
             m_BaseGame.Round.StartTime = DateTime.Now;
             // set status
@@ -274,11 +344,23 @@ namespace Devastation.BaseDuel
 
         private void game_Reset()
         {
+            m_BaseGame = new BaseGame();
+            m_BaseGame.AlphaFreq = m_AlphaFreq;
+            m_BaseGame.BravoFreq = m_BravoFreq;
+            m_BaseGame.Status = BaseGameStatus.GameIdle;
+
+            myGame.Send(msg.team_pm(m_AlphaFreq, "?|prize warp|setfreq 0|shipreset|"));
+            myGame.Send(msg.team_pm(m_BravoFreq, "?|prize warp|setfreq 1|shipreset|"));
+
             // Stop timer just in case the all out timer started
             if (m_Timer.Enabled) m_Timer.Stop();
         }
 
         private void round_Finished(WinType winType, bool AlphaWon)
+        {
+            round_Finished(winType,AlphaWon,"");
+        }
+        private void round_Finished(WinType winType, bool AlphaWon, string PlayerName)
         {
             m_BaseGame.Status = BaseGameStatus.GameIntermission;
 
@@ -288,10 +370,16 @@ namespace Devastation.BaseDuel
                 if (AlphaWon) m_BaseGame.AlphaScore++;
                 else m_BaseGame.BravoScore++;
 
-                myGame.Send(msg.macro("- " + (AlphaWon ? "Alpha Team" : "Bravo Team") + " wins the round by: " + winType + ".  - Alpha[ " + m_BaseGame.AlphaScore + " ][ " + m_BaseGame.BravoScore + " ]Bravo -"));
+                if (winType == WinType.BaseClear)
+                    sendBotSpam((!AlphaWon ? "- AlphaTeam" : "- BravoTeam")+ " is all dead! " + (AlphaWon ? "[ AlphaTeam Win ]" : "[ BravoTeam Win ]"));
+                else if (winType == WinType.SafeWin)
+                    sendBotSpam("- [ " + PlayerName + " ] makes it into enemy Safe! " + (AlphaWon ? "[ AlphaTeam Win ]" : "[ BravoTeam Win ]"));
+
+                sendBotSpam("-           ---- Alpha -- Bravo ----");
+                sendBotSpam("-                  " + m_BaseGame.AlphaScore.ToString().PadLeft(2) + "       " +m_BaseGame.BravoScore.ToString().PadLeft(2));
             }
             else
-                myGame.Send(msg.macro("- No Count Round. -"));
+                sendBotSpam("- No Count Round. -");
 
             m_BaseGame.Round.AlphaWon = AlphaWon;
             m_BaseGame.Round.WinType = winType;
@@ -309,7 +397,7 @@ namespace Devastation.BaseDuel
                 return;
             }
 
-            myGame.Send(msg.macro("- Next round starts in " + m_StartGameDelay + " seconds. Change ships now if needed. -"));
+            sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -");
             timer_Setup(TimerType.GameStart);
         }
 
@@ -328,15 +416,52 @@ namespace Devastation.BaseDuel
             m_BaseGame.AllRounds.Add(saved);
         }
 
+        private void round_Restart(string PlayerName)
+        {
+            m_BaseGame.Status = BaseGameStatus.GameIntermission;
+            if (m_Timer.Enabled) m_Timer.Stop();
+            round_ResetPLayers();
+            timer_Setup(TimerType.GameStart);
+            sendBotSpam("- Round has been reset! - " + PlayerName);
+            sendBotSpam("- Starting same round in " + m_StartGameDelay + " seconds! -");
+        }
+
         private void round_ResetPLayers()
         {
+            // Update players
+            for (int i = m_BaseGame.Round.AlphaTeam.TeamMembers.Count; i-- > 0; )
+            {
+                if (!m_BaseGame.Round.AlphaTeam.TeamMembers[i].Active)
+                    m_BaseGame.Round.AlphaTeam.TeamMembers.Remove(m_BaseGame.Round.AlphaTeam.TeamMembers[i]);
+                else
+                {
+                    string name = m_BaseGame.Round.AlphaTeam.TeamMembers[i].PlayerName;
+                    m_BaseGame.Round.AlphaTeam.TeamMembers[i] = new BasePlayer(name);
+                }
+            }
+            for (int i = m_BaseGame.Round.BravoTeam.TeamMembers.Count; i-- > 0; )
+            {
+                if (!m_BaseGame.Round.BravoTeam.TeamMembers[i].Active)
+                    m_BaseGame.Round.BravoTeam.TeamMembers.Remove(m_BaseGame.Round.BravoTeam.TeamMembers[i]);
+                else
+                {
+                    string name = m_BaseGame.Round.BravoTeam.TeamMembers[i].PlayerName;
+                    m_BaseGame.Round.BravoTeam.TeamMembers[i] = new BasePlayer(name);
+                }
+            }
         }
 
         private void player_Remove(SSPlayer p)
         {
             // If a game is in progress we want to set the player to inactive - this way we can save stats after player leaves
-            if (m_BaseGame.Status == BaseGameStatus.GameOn)
+            if (m_BaseGame.Status != BaseGameStatus.GameIdle)
             {
+                bool InAlpha;
+                BasePlayer b = getPlayer(p, out InAlpha);
+
+                if (b == null) return;
+
+                b.Active = true;
             }
         }
 
@@ -351,7 +476,40 @@ namespace Devastation.BaseDuel
         //                         Events                                       //
         //----------------------------------------------------------------------//
         public void Event_ShipChange(SSPlayer ssp){}
-        public void Event_PlayerTurretAttach(SSPlayer attacher, SSPlayer host) { }
+        public void Event_PlayerTurretAttach(SSPlayer attacher, SSPlayer host) 
+        {
+            // Game is not turned on
+            if (m_BaseGame == null) return;
+
+            if (m_BaseGame.Status != BaseGameStatus.GameIdle)
+            {
+                // Grab player info
+                bool h_InAlpha, a_InAlpha;
+                // Host
+                BasePlayer bHost = getPlayer(host, out h_InAlpha);
+                // Attacher
+                BasePlayer bAttach = getPlayer(host, out a_InAlpha);
+
+                // do nothing they are not in game - wtf these better not mismatch
+                if (bHost == null || bAttach == null) return;
+
+                // Track host to see what region he is in
+                if (player_InRegion(host.Position, m_Lobby.BaseDimension))
+                {
+                    bHost.InLobby = true;
+                    bAttach.InLobby = true;
+                    myGame.SafeSend(msg.debugChan("Player[ " + attacher.PlayerName + " ] just attached to [ "+host.PlayerName+" ] - In lobby area. "));
+                    return;
+                }
+                // I will not perform another check inside base dimension
+                // assumption is if not in center, you are in base ( if player is somewhere else it can break bot)
+
+                bHost.InLobby = false;
+                bAttach.InLobby = false;
+                myGame.SafeSend(msg.debugChan("Player[ " + attacher.PlayerName + " ] just attached to [ " + host.PlayerName + " ] - In Base area. "));
+            }
+        }
+
         public void Event_PlayerTurretDetach(SSPlayer ssp) { }
         public void Event_PlayerEntered(SSPlayer ssp) { }
 
@@ -360,14 +518,41 @@ namespace Devastation.BaseDuel
             // Game is not turned on
             if (m_BaseGame == null) return;
 
-            if (m_BaseGame.Status != BaseGameStatus.GameIdle)
+            if (m_BaseGame.Status == BaseGameStatus.GameOn)
             {
                 // Grab player info
                 bool InAlpha;
                 BasePlayer b = getPlayer(ssp, out InAlpha);
 
                 // do nothing they are not in game
-                if (b == null) return;
+                if (b == null)
+                {
+                    if ((ssp.Frequency == 0 || ssp.Frequency == 1) && m_BaseGame.AllowAfterStartJoin)
+                    {
+                        int aCount = m_BaseGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count;
+                        int bCount = m_BaseGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count;
+
+                        if (aCount <= bCount)
+                        {
+                            m_BaseGame.Round.AlphaTeam.TeamMembers.Add(new BasePlayer(ssp.PlayerName));
+                            myGame.Send(msg.pm(ssp.PlayerName, "?|setfreq " + m_AlphaFreq + "|shipreset"));
+                        }
+                        else
+                        {
+                            m_BaseGame.Round.BravoTeam.TeamMembers.Add(new BasePlayer(ssp.PlayerName));
+                            myGame.Send(msg.pm(ssp.PlayerName, "?|setfreq " + m_BravoFreq + "|shipreset"));
+                        }
+                    }
+                    return;
+                }
+
+                // Player is out of team freq - put him back
+                if (ssp.Frequency == 0 || ssp.Frequency == 1)
+                {
+                    myGame.Send(msg.pm(ssp.PlayerName, "?|setfreq " + (InAlpha?m_AlphaFreq:m_BravoFreq) + "|shipreset"));
+                    if (!b.Active) b.Active = true;
+                    return;
+                }
 
                 // Only do collision on IsSafe - cuts down on checks
                 if (ssp.Position.ShipState.IsSafe)
@@ -402,7 +587,7 @@ namespace Devastation.BaseDuel
                     // Check player against opposing team safe
                     if (m_BaseGame.AllowSafeWin && player_InRegion(ssp.Position,InAlpha?m_Base.BravoSafe:m_Base.AlphaSafe))
                     {
-                        round_Finished(WinType.SafeWin, InAlpha);
+                        round_Finished(WinType.SafeWin, InAlpha, ssp.PlayerName);
                     }
                 }
             }
@@ -412,8 +597,6 @@ namespace Devastation.BaseDuel
         {
             // No need to deal with event if it is off
             if (m_BaseGame == null) return;
-
-
             player_Remove(ssp);
         }
 
@@ -422,7 +605,8 @@ namespace Devastation.BaseDuel
             // No need to deal with event if it is off
             if (m_BaseGame == null) return;
 
-
+            if (ssp.OldFrequency == m_AlphaFreq || m_BravoFreq == ssp.OldFrequency)
+                player_Remove(ssp);
         }
 
         //----------------------------------------------------------------------//
@@ -452,9 +636,14 @@ namespace Devastation.BaseDuel
         {
             m_StartGameDelay_Elapsed--;
 
-            if (m_StartGameDelay_Elapsed <= m_StartGameShow && m_StartGameDelay_Elapsed != 0)
+            if (m_StartGameDelay_Elapsed <= m_StartGameShow /*&& m_StartGameDelay_Elapsed != 0*/)
             {
-                myGame.Send(msg.macro("- " + m_StartGameDelay_Elapsed + " -", SoundCodes.MessageAlarm));
+                //myGame.Send(msg.macro("- " + m_StartGameDelay_Elapsed + " -", SoundCodes.MessageAlarm));
+                myGame.Send(msg.pub("*objon " + m_StartGameDelay_Elapsed));
+                if (m_StartGameDelay_Elapsed != 0)
+                    myGame.Send(msg.arena("", SoundCodes.MessageAlarm));
+                else
+                    myGame.Send(msg.arena("", SoundCodes.Goal));
             }
 
             if (m_StartGameDelay_Elapsed > 0) return;
@@ -462,9 +651,10 @@ namespace Devastation.BaseDuel
             m_Timer.Stop();
 
             if (allow_GameStart(false)) game_Start();
-            else    myGame.Send(msg.macro("- Not enough players. Start Game cancelled. -")); 
-        }
+            else sendBotSpam("- Not enough players. Start Game cancelled. -");
+            //myGame.Send(msg.macro("- Not enough players. Start Game cancelled. -")); 
 
+        }
         private void timer_BaseClear(object source, ElapsedEventArgs e)
         {
             myGame.Send(msg.debugChan("- All out timer expired. -"));
@@ -482,6 +672,14 @@ namespace Devastation.BaseDuel
         //----------------------------------------------------------------------//
         //                             Misc                                     //
         //----------------------------------------------------------------------//
+        private void sendBotSpam(string Message)
+        {
+            ChatEvent spam = new ChatEvent();
+            spam.Message = Message;
+            spam.ChatType = m_SpamSetting;
+            myGame.Send(spam);
+        }
+
         private bool teamIsOut(out bool alpha, out bool bravo)
         {
             // make sure a team is still out
@@ -588,6 +786,17 @@ namespace Devastation.BaseDuel
                 myGame.Send(msg.pm(PlayerName, "Base Number   :".PadRight(20) + m_BaseGame.AllRounds[i].BaseNumber.ToString().PadLeft(25)));
                 myGame.Send(msg.pm(PlayerName, "---------------------------------------------"));
             }
+        }
+
+        private void show_StartSpam()
+        {
+            myGame.Send(msg.arena("._______       __        ________  _______  ________   ____  ____   _______  ___   BaseDuel Bot"));
+            myGame.Send(msg.arena("|   _  \"\\     /\"\"\\      /\"       )/\"     \"||\"      \"\\ (\"  _||_ \" | /\"     \"||\"  |  Written by: PsyOps"));
+            myGame.Send(msg.arena("(. |_)  :)   /    \\    (:   \\___/(: ______)(.  ___  :)|   (  ) : |(: ______)||  |          __"));
+            myGame.Send(msg.arena("|:     \\/   /' /\\  \\    \\___  \\   \\/    |  |: \\   ) ||(:  |  | . ) \\/    |  |:  |          | \\_"));
+            myGame.Send(msg.arena("(|  _  \\\\  //  __'  \\    __/  \\\\  // ___)_ (| (___\\ || \\\\ \\__/ //  // ___)_  \\  |___     =[_|  \\---.__ "));
+            myGame.Send(msg.arena("|: |_)  :)/   /  \\\\  \\  /\" \\   :)(:      \"||:       :) /\\\\ __ //\\ (:      \"|( \\_|:  \\    =[+  /-------'"));
+            myGame.Send(msg.arena("(_______/(___/    \\___)(_______/  \\_______)(________/ (__________) \\_______) \\_______)     |_/"));
         }
     }
 }

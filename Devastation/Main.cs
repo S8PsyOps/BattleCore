@@ -15,14 +15,13 @@ namespace Devastation
 {
     // Add the attribute and the base class
     [Behavior("DevaMain", "true", "0.01", "PsyOps", "Main Devastation Bot.")]
-    [CommandHelp("!toggle baserace","Turns baserace Module on and off", ModLevels.Mod)]
     public class Main:BotEventListener
     {
         public Main()
         {
             this.m_Players = new SSPlayerManager(7265);
             this.msg = new ShortChat(m_Players.PlayerList);
-            this.msg.DebugMode = true;
+            this.msg.DebugMode = false;
             this.msg.IsASSS = true;
             this.myGame = new MyGame();
 
@@ -32,12 +31,13 @@ namespace Devastation
             this.m_GameTimer.Start();
 
             // Registered commands
-            RegisterCommand("!startbd", doStartBD);                 RegisterCommand(".startbd", doStartBD);
+            RegisterCommand("!bd", doBDCompatibleCommand);          RegisterCommand(".bd", doBDCompatibleCommand);
+            RegisterCommand("!startbd", doBDCompatibleCommand);     RegisterCommand(".startbd", doBDCompatibleCommand);
+            RegisterCommand("!shuffleteam", doBDCompatibleCommand); RegisterCommand(".shuffleteam", doBDCompatibleCommand);
             RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
             RegisterCommand("!baserace", doBaseRaceCommand);        RegisterCommand(".baserace", doBaseRaceCommand);
             RegisterCommand("!br", doBaseRaceCommand);              RegisterCommand(".br", doBaseRaceCommand);
             RegisterCommand("!debug", doToggleDebug);               RegisterCommand(".debug", doToggleDebug);
-            RegisterCommand("!switch", doSwitch);                   RegisterCommand(".switch", doSwitch);
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
@@ -84,25 +84,15 @@ namespace Devastation
             SSPlayer ssp = m_Players.GetPlayer(e);
 
             if (e.Message.StartsWith("!")) e.Message = e.Message.Replace("!", ".");
-            m_BaseDuel.BaseDuelCommands(ssp, e);
+            m_BaseDuel.Commands(ssp, e);
         }
 
-        public void doStartBD(ChatEvent e)
+        public void doBDCompatibleCommand(ChatEvent e)
         {
             if (!m_Initialized) return;
 
             SSPlayer ssp = m_Players.GetPlayer(e);
-
-            // change command format to make compatible with older command syntax
-            e.Message = ".baseduel start";
-            m_BaseDuel.BaseDuelCommands(ssp, e);
-        }
-
-        public void doSwitch(ChatEvent e)
-        {
-            // changing command to compatible !baseduel command
-            e.Message = ".baseduel switch";
-            SendCoreEvent(e);
+            m_BaseDuel.CompatibleCommands(e);
         }
 
         //----------------------------------------------------------------------//
@@ -162,21 +152,20 @@ namespace Devastation
 
         public void MonitorTurretEvent(object sender, ModifyTurretEvent e)
         {
-            if (!m_Initialized) return;//65535
+            if (!m_Initialized) return;
 
             SSPlayer attacher = m_Players.GetPlayer(e.TurretAttacherName);
             SSPlayer host = m_Players.GetPlayer(e.TurretHostName);
 
             if (e.TurretHostId == 65535)
             {
-                m_BaseDuel.Event_PlayerTurretAttach(attacher, host);
-                m_BaseRace.Event_PlayerTurretAttach(attacher, host);
+                m_BaseDuel.Event_PlayerTurretDetach(attacher);
+                m_BaseRace.Event_PlayerTurretDetach(attacher);
                 return;
             }
 
-            m_BaseDuel.Event_PlayerTurretDetach(attacher);
-            m_BaseRace.Event_PlayerTurretDetach(attacher);
-
+            m_BaseDuel.Event_PlayerTurretAttach(attacher, host);
+            m_BaseRace.Event_PlayerTurretAttach(attacher, host);
         }
 
         //----------------------------------------------------------------------//
@@ -199,9 +188,8 @@ namespace Devastation
 
                 if (e.MapFile == null)
                 {
-                    Game(msg.arena("[ Deva Main ] Error: Map file received null, resending bot into request."));
-                    Game(new BotInfoRequest());
-                    return;
+                    Game(msg.arena("[ Deva Main ] Error: Map file received null, arena name set from hardcoded var."));
+                    m_ArenaName = "devadev.lvl";
                 }
 
                 m_ArenaName = e.MapFile.Replace(".lvl", "");
@@ -243,24 +231,37 @@ namespace Devastation
 
             if (!m_Initialized) return;
 
-            SendPsyEvent(myGame.EmptyQueue);
+            SendPsyEvent(myGame.EventQ);
+            SendPsyEvent(myGame.CoreEventQ, true);
         }
 
         //----------------------------------------------------------------------//
         //                         Misc                                         //
         //----------------------------------------------------------------------//
-        // Helps check for numm events and also empties event queues
+        public void SendPsyEvent(EventArgs e)
+        {
+            SendPsyEvent(e, false);
+        }
         public void SendPsyEvent(Queue<EventArgs> e)
+        {
+            SendPsyEvent(e, false);
+        }
+        // Helps check for numm events and also empties event queues
+        public void SendPsyEvent(Queue<EventArgs> e, bool Core)
         {
             if (e == null) return;
 
             while (e.Count > 0)
-                SendPsyEvent(e.Dequeue());
+                SendPsyEvent(e.Dequeue(), Core);
         }
-        public void SendPsyEvent(EventArgs e)
+        public void SendPsyEvent(EventArgs e, bool Core)
         {
             if (e == null) return;
-            Game(e);
+
+            if (Core)
+                SendCoreEvent(e);
+            else
+                Game(e);
         }
 
         // Mod check with an attached message in case they aren't authorized

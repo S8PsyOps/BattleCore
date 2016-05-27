@@ -7,10 +7,8 @@
 .>---------------^---------------------------------------------------<
 |   Command      |   Description                                      |
 .>---------------^---------------------------------------------------<
-!bdtoggle       Toggles module on and off - Sysop only
-!bdstatus       Displays current status of module. Shows settings. - Mod+
-!modcheck       Refreshes the bot internal mod list. (use if you think you aren't listed)
-!pinfo          Purely for debug. Shows some info that bot stores.     
+!baseduel          Toggles module on and off - Sysop only
+!help baseduel     Displays current status of module. Shows settings. 
 .>-------------------------------------------------------------------<
 |                                                                     |
 .>-------------------------------------------------------------------<

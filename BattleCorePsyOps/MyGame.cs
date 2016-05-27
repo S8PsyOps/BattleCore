@@ -14,12 +14,14 @@ namespace BattleCorePsyOps
         {
             m_Events = new Queue<EventArgs>();
             m_SafeEvents = new Queue<EventArgs>();
+            m_CoreEvents = new Queue<EventArgs>();
             m_SafeEventsDelay = 250;
             m_SafeDelayTimeStamp = DateTime.Now;
         }
 
         private Queue<EventArgs> m_Events;
         private Queue<EventArgs> m_SafeEvents;
+        private Queue<EventArgs> m_CoreEvents;
         private double m_SafeEventsDelay;
         private DateTime m_SafeDelayTimeStamp;
 
@@ -35,7 +37,7 @@ namespace BattleCorePsyOps
         /// <summary>
         /// Attach this to your main timer in your main class.
         /// </summary>
-        public Queue<EventArgs> EmptyQueue
+        public Queue<EventArgs> EventQ
         {
             get
             {
@@ -48,6 +50,11 @@ namespace BattleCorePsyOps
 
                 return m_Events;
             }
+        }
+
+        public Queue<EventArgs> CoreEventQ
+        {
+            get { return m_CoreEvents;}
         }
 
         /// <summary>
@@ -66,6 +73,15 @@ namespace BattleCorePsyOps
         public void SafeSend(EventArgs e)
         {
             if (e != null) m_SafeEvents.Enqueue(e);
+        }
+
+        /// <summary>
+        /// SendCore event.
+        /// </summary>
+        /// <param name="e"></param>
+        public void CoreSend(EventArgs e)
+        {
+            if (e != null) m_CoreEvents.Enqueue(e);
         }
     }
 }
