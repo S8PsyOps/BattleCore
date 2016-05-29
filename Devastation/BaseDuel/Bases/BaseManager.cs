@@ -31,7 +31,7 @@ namespace Devastation
             msg = new ShortChat();
             ran = new Random();
             m_Mode = BaseMode.Shuffle;
-            m_SizeMode = BaseSize.Off;
+            m_SizeMode = BaseSize.Small;
             m_ShuffleModeQ = new Queue<int>();
             m_ShuffleModeQCount = 10;
             m_RoundRobinCount = 0;

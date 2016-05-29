@@ -30,13 +30,6 @@ namespace Devastation
             this.m_GameTimer.Interval = 5000;
             this.m_GameTimer.Start();
 
-            // Registered commands
-            RegisterCommand("!bd", doBDCompatibleCommand);          RegisterCommand(".bd", doBDCompatibleCommand);
-            RegisterCommand("!startbd", doBDCompatibleCommand);     RegisterCommand(".startbd", doBDCompatibleCommand);
-            RegisterCommand("!shuffleteam", doBDCompatibleCommand); RegisterCommand(".shuffleteam", doBDCompatibleCommand);
-            RegisterCommand("!baseduel", doBaseDuelCommand);        RegisterCommand(".baseduel", doBaseDuelCommand);
-            RegisterCommand("!baserace", doBaseRaceCommand);        RegisterCommand(".baserace", doBaseRaceCommand);
-            RegisterCommand("!br", doBaseRaceCommand);              RegisterCommand(".br", doBaseRaceCommand);
             RegisterCommand("!debug", doToggleDebug);               RegisterCommand(".debug", doToggleDebug);
         }
 
@@ -66,38 +59,17 @@ namespace Devastation
             Game(msg.arena("[ Deva Main ] Debug mode has been toggled " + (msg.DebugMode?"On":"Off") + " by staff - " + e.PlayerName));
         }
 
-        public void doBaseRaceCommand(ChatEvent e)
-        {
-            if (!m_Initialized) return;
-
-            if (e.Message.StartsWith("!br")) e.Message = e.Message.Replace("!br",".baserace");
-            else if (e.Message.StartsWith(".br")) e.Message = e.Message.Replace(".br", ".baserace");
-
-            if (e.Message.StartsWith("!")) e.Message = e.Message.Replace("!", ".");
-            m_BaseRace.BaseRaceCommands(e);
-        }
-
-        public void doBaseDuelCommand(ChatEvent e)
-        {
-            if (!m_Initialized) return;
-
-            SSPlayer ssp = m_Players.GetPlayer(e);
-
-            if (e.Message.StartsWith("!")) e.Message = e.Message.Replace("!", ".");
-            m_BaseDuel.Commands(ssp, e);
-        }
-
-        public void doBDCompatibleCommand(ChatEvent e)
-        {
-            if (!m_Initialized) return;
-
-            SSPlayer ssp = m_Players.GetPlayer(e);
-            m_BaseDuel.CompatibleCommands(e);
-        }
-
         //----------------------------------------------------------------------//
         //                         Event Monitor                                //
         //----------------------------------------------------------------------//
+        public void MonitorAllChat(object sender, ChatEvent e)
+        {
+            if (!m_Initialized) return;
+            
+            m_BaseDuel.Commands(e);
+            m_BaseRace.Commands(e);
+        }
+
         public void MonitorPlayerEnteredEvent(object sender, PlayerEnteredEvent e)
         {
             Game(msg.pm(e.PlayerName, "?watchdamage"));
@@ -215,7 +187,7 @@ namespace Devastation
                 m_GameTimer.Interval = 5;
                 m_GameTimer.Start();
 
-                Game(msg.debugArena("Bot [ " + m_BotName + " ] is initialized. Arena [ " + m_ArenaName + " ] MapInfoSize [ " + m_MapInfo.Length + " ]"));
+                Game(msg.arena("Bot [ " + m_BotName + " ] is initialized. Arena [ " + m_ArenaName + " ] MapInfoSize [ " + m_MapInfo.Length + " ]"));
                 Game(msg.pub("?chat=devadev,devastation"));
                 Game(msg.pub("?botfeature +seeallposn"));
                 m_Initialized = true;

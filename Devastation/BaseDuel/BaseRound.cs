@@ -22,6 +22,10 @@ namespace Devastation.BaseDuel
         private short m_BaseNumber;
         private WinType m_WinType;
         private bool m_AlphaWon;
+        private string m_SafeWinner;
+
+        private int m_AlphaDeaths = 0;
+        private int m_BravoDeaths = 0;
 
         /// <summary>
         /// Alpha Team container
@@ -71,12 +75,10 @@ namespace Devastation.BaseDuel
             get { return m_BaseNumber; }
         }
 
-        /// <summary>
-        /// Stop the match and store the time
-        /// </summary>
-        public void RoundEnded()
+        public string SafeWinner
         {
-            m_TotalTime = DateTime.Now - m_StartTime;
+            get { return m_SafeWinner; }
+            set { m_SafeWinner = value; }
         }
 
         public TimeSpan TotalTime
@@ -84,6 +86,7 @@ namespace Devastation.BaseDuel
             get { return m_TotalTime; }
             set { m_TotalTime = value; }
         }
+
         public string TotalTimeFormatted
         {
             get { return
@@ -91,6 +94,17 @@ namespace Devastation.BaseDuel
                 + m_TotalTime.Minutes.ToString().PadLeft(2, '0') + "m:"
                 + m_TotalTime.Seconds.ToString().PadLeft(2, '0') + "s";
             }
+        }
+
+        public int AlphaDeaths
+        {
+            get { return m_AlphaDeaths; }
+            set { m_AlphaDeaths = value; }
+        }
+        public int BravoDeaths
+        {
+            get { return m_BravoDeaths; }
+            set { m_BravoDeaths = value; }
         }
     }
 }

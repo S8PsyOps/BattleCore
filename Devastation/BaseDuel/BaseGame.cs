@@ -29,7 +29,7 @@ namespace Devastation.BaseDuel
         private BaseRound m_Round;
         private List<BaseRound> m_RoundsPlayed;
         private BaseGameStatus m_Status;
-        private ushort m_AlphaFreq, m_BravoFreq;
+        private ushort m_AlphaFreq, m_BravoFreq, m_AlphaStartFreq, m_BravoStartFreq;
         private bool m_AllowSafeWin;
         private bool m_AllowAfterStartJoin;
         private int m_AlphaScore;
@@ -79,6 +79,23 @@ namespace Devastation.BaseDuel
         {
             get { return m_BravoFreq; }
             set { m_BravoFreq = value; }
+        }
+
+        /// <summary>
+        /// Alpha Team's Start Freq
+        /// </summary>
+        public ushort AlphaStartFreq
+        {
+            get { return m_AlphaStartFreq; }
+            set { m_AlphaStartFreq = value; }
+        }
+        /// <summary>
+        /// Bravo Team's Start Freq
+        /// </summary>
+        public ushort BravoStartFreq
+        {
+            get { return m_BravoStartFreq; }
+            set { m_BravoStartFreq = value; }
         }
 
         /// <summary>
