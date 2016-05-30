@@ -10,15 +10,21 @@ using BattleCorePsyOps;
 // Needed for timers
 using System.Timers;
 
+/*
+ * ToDo:
+ * need to add a check to make sure player using !startbd is inside the playable freq or is a mod
+ * 
+ */
+
 namespace Devastation.BaseDuel
 {
     class Main
     {
-        public Main( byte[] MapData, SSPlayerManager PlayerManager, ShortChat msg, MyGame myGame)
+        public Main( BaseManager BaseManager, SSPlayerManager PlayerManager, ShortChat msg, MyGame myGame)
         {
             this.m_Timer = new Timer();
-            this.m_BaseManager = new BaseManager(MapData);
-            this.m_Base = m_BaseManager.CurrentBase;
+            this.m_BaseManager = BaseManager;
+            this.m_Base = m_BaseManager.getNextBase();
             this.m_Lobby = m_BaseManager.Lobby;
 
             this.m_BaseGame = new BaseGame();
@@ -44,7 +50,7 @@ namespace Devastation.BaseDuel
             this.m_Players = PlayerManager;
             this.msg = msg;
             this.psyGame = myGame;
-            this.m_BotSpamSetting = ChatTypes.Arena;
+            this.m_BotSpamSetting = ChatTypes.Team;
             this.m_SpamZoneTimeLimit = 5;
             this.m_SpamZoneTimeStamp = DateTime.Now;
 
@@ -122,7 +128,6 @@ namespace Devastation.BaseDuel
                         psyGame.CoreSend(e);
                         return;
 
-                    case "startbd":
                     case "start":
                         command_Start(e);
                         return;
@@ -136,7 +141,6 @@ namespace Devastation.BaseDuel
                         show_GameSettings(p.PlayerName);
                         return;
 
-                    case "shuffleteam":
                     case "shuffle":
                         if (!moduleIsOn(e)) return;
                         command_Shuffle(e);
@@ -303,12 +307,12 @@ namespace Devastation.BaseDuel
             psyGame.Send(msg.team_pm(m_AlphaFreq,"?|warpto " + m_Base.AlphaStartX + " " + m_Base.AlphaStartY + "|shipreset"));
             psyGame.Send(msg.team_pm(m_BravoFreq, "?|warpto " + m_Base.BravoStartX + " " + m_Base.BravoStartY + "|shipreset"));
 
-            int baseNum = m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1;
+            int baseNum = m_BaseManager.Bases.IndexOf(m_Base) + 1;
             //sendBotSpam("- Go Go Go Go Go Go! -");
 
+            sendBotSpam("- Current Base        : " + baseNum);
             if (m_BaseGame.AllRounds.Count == 0)
             {
-                sendBotSpam("- Current Base        : " + baseNum);
                 sendBotSpam("- Team vs Team Rules  : " + (m_BaseGame.AllowSafeWin ? "BaseClear and Safes" : "BaseClear"));
                 sendBotSpam("- Auto Scoring        : Not implemented yet.");
             }
@@ -387,6 +391,7 @@ namespace Devastation.BaseDuel
                 //sendBotSpam("- Score: " + m_BaseGame.Round.AlphaTeam.TeamName + " [ " + m_BaseGame.AlphaScore.ToString() + " - " + m_BaseGame.BravoScore.ToString() + " ] " + m_BaseGame.Round.BravoTeam.TeamName + " -");
                 //sendBotSpam("- Score: " + m_BaseGame.Round.AlphaTeam.TeamName + " " + m_BaseGame.AlphaScore.ToString() + ":" + m_BaseGame.BravoScore.ToString() + " " + m_BaseGame.Round.BravoTeam.TeamName + " -");
                 sendBotSpam("- " + m_BaseGame.Round.AlphaTeam.TeamName + " [ " + m_BaseGame.AlphaScore.ToString() + " ]     Score     [ " + m_BaseGame.BravoScore.ToString() + " ] " + m_BaseGame.Round.BravoTeam.TeamName + " -");
+                sendBotSpam("- ----------------------------------------------- -");
             }
             else
                 sendBotSpam("- Both teams out -- No count -");
@@ -422,7 +427,7 @@ namespace Devastation.BaseDuel
             saved.AlphaTeam = m_BaseGame.Round.AlphaTeam;
             saved.BravoTeam = m_BaseGame.Round.BravoTeam;
             saved.AlphaWon = m_BaseGame.Round.AlphaWon;
-            saved.BaseNumber = (short)(m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1);
+            saved.BaseNumber = (short)(m_BaseManager.Bases.IndexOf(m_Base) + 1);
             saved.StartTime = m_BaseGame.Round.StartTime;
             saved.TotalTime = DateTime.Now - m_BaseGame.Round.StartTime;
             saved.WinType = m_BaseGame.Round.WinType;
@@ -517,8 +522,8 @@ namespace Devastation.BaseDuel
         // Load next base using BaseManager but store it locally - just to cut down on some code length
         private void loadNextBase()
         {
-            m_BaseManager.LoadNextBase();
-            m_Base = m_BaseManager.CurrentBase;
+            m_BaseManager.ReleaseBase(m_Base);
+            m_Base = m_BaseManager.getNextBase();
         }
 
         //----------------------------------------------------------------------//
@@ -779,10 +784,17 @@ namespace Devastation.BaseDuel
 
                         return true;
                     }
-                    FullMessage = FullMessage.Remove(0,1);
+                    FullMessage = FullMessage.Remove(0, 1).Trim().ToLower();
 
-                    formattedCommand = FullMessage.Trim().ToLower();
-                    return true;
+                    switch (FullMessage)
+                    {
+                        case "startbd":
+                            formattedCommand = "start";
+                            return true;
+                        case "shuffleteam":
+                            formattedCommand = "shuffle";
+                            return true;
+                    }
                 }
             }
             return false;
@@ -865,7 +877,7 @@ namespace Devastation.BaseDuel
             psyGame.Send(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_BaseGame.Round.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_BaseGame.BravoFreq.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Base Loader Settings -----------------"));
-            psyGame.Send(msg.pm(PlayerName, "Current Base     :".PadRight(20) + (m_BaseManager.Bases.IndexOf(m_BaseManager.CurrentBase) + 1).ToString().PadLeft(25)));
+            psyGame.Send(msg.pm(PlayerName, "Current Base     :".PadRight(20) + (m_BaseManager.Bases.IndexOf(m_Base) + 1).ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Total Bases      :".PadRight(20) + m_BaseManager.Bases.Count.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Sorting Mode     :".PadRight(20) + m_BaseManager.Mode.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Size Restrictions:".PadRight(20) + m_BaseManager.SizeLimit.ToString().PadLeft(25)));

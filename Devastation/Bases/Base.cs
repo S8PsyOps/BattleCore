@@ -23,6 +23,15 @@ namespace Devastation
         private ushort m_BravoStartY;
 
         /// <summary>
+        /// Index number of base in master list
+        /// </summary>
+        public int Number
+        {
+            get { return m_BaseNumber; }
+            set { m_BaseNumber = value; }
+        }
+
+        /// <summary>
         /// The name of the base, if you want to name bases.
         /// </summary>
         public String BaseName

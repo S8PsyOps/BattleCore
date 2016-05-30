@@ -34,7 +34,10 @@ namespace Devastation
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
-        private MyGame myGame;
+        private MyGame myGame;                          // Both classes come from BattleCorePsyOps
+        
+        private BaseManager m_BaseManager;
+
         private Timer m_GameTimer;                      // Main timer for bot
         private bool m_StartIni, m_Initialized;         // Bool to help initialize bot
         private string m_BotName, m_ArenaName;          // Store bot info
@@ -178,8 +181,9 @@ namespace Devastation
                 // Load all player info from the event and build list
                 m_Players.PlayerInfoEvent = e;
                 // Once we have mapdata we initialize baseduel
-                m_BaseDuel = new BaseDuel.Main(m_MapInfo, m_Players, msg, myGame);
-                m_BaseRace = new BaseRace(m_Players, m_MapInfo, msg,myGame);
+                m_BaseManager = new BaseManager(m_MapInfo);
+                m_BaseDuel = new BaseDuel.Main(m_BaseManager, m_Players, msg, myGame);
+                m_BaseRace = new BaseRace(m_Players, m_BaseManager, msg,myGame);
 
                 m_GameTimer.Stop();
                 m_GameTimer = new Timer();

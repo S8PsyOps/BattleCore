@@ -149,7 +149,10 @@ namespace Devastation
                 }
                 // 2 safes make it a valid base
                 if (safes_found == 2)
+                {
                     BaseList.Add(NewBase);
+                    BaseList[BaseList.IndexOf(NewBase)].Number = BaseList.IndexOf(NewBase);
+                }
                 if (safes_found == 1)
                 {
                     // Assign lobby values

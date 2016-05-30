@@ -7,21 +7,29 @@ using BattleCore;
 using BattleCore.Events;
 using BattleCorePsyOps;
 
+/*
+ * Need to make a list of bases being used. The hope is to allow multiple base games to be played.
+ * The problem will come in to play at the end of a shuffle. If the the last base picked was from the bottom of the "deck"
+ * then the new game created could possibly pick the same base on the first base after reshuffle
+ * this will also be useful when we play multiple types of games. Like playing baserace when baseduel is going on.
+ */ 
+
 namespace Devastation
 {
     public class BaseManager
     {
 
-        private ShortChat msg;                 // Custom chat module
-        private Random ran;                    // Random num generator
-        private List<Base> m_Bases;           // Main list of bases
-        private Base m_Lobby;                  // Safe area saved as a base
-        private Base m_CurrentBase;             // Base that is loaded
-        private BaseMode m_Mode;               // Way to sort bases
-        private BaseSize m_SizeMode;           // Limit bases loaded, by size
-        private Queue<int> m_ShuffleModeQ;     // Stores the shuffle
-        private int m_ShuffleModeQCount;       // Min amount of bases to keep on Q
-        private int m_RoundRobinCount;         // where round robin picks up at
+        private ShortChat msg;                  // Custom chat module
+        private Random ran;                     // Random num generator
+        private List<Base> m_Bases;             // Main list of bases
+        private Base m_Lobby;                   // Safe area saved as a base
+        private BaseMode m_Mode;                // Way to sort bases
+        private BaseSize m_SizeMode;            // Limit bases loaded, by size
+        private Queue<int> m_ShuffleModeQ;      // Stores the shuffle
+        private int m_ShuffleModeQCount;        // Min amount of bases to keep on Q
+        private int m_RoundRobinCount;          // where round robin picks up at
+
+        private List<int> m_BasesInUse;
 
         public BaseManager(Byte[] mapData)
         {
@@ -35,6 +43,7 @@ namespace Devastation
             m_ShuffleModeQ = new Queue<int>();
             m_ShuffleModeQCount = 10;
             m_RoundRobinCount = 0;
+            m_BasesInUse = new List<int>();
 
             // Byte array tunrned into arrays i can work with
             MapData my_MapInfo = new MapData(mapData);
@@ -45,7 +54,7 @@ namespace Devastation
 
             // Load next base from default random
             ReShuffleQ(true);
-            LoadNextBase();
+            getNextBase();
         }
 
         /// <summary>
@@ -59,12 +68,6 @@ namespace Devastation
         /// </summary>
         public List<Base> Bases
         { get { return m_Bases; } }
-
-        /// <summary>
-        /// The current base loaded.
-        /// </summary>
-        public Base CurrentBase
-        { get { return m_CurrentBase; } }
 
         /// <summary>
         ///<para>Mode for choosing what base to chose next</para>
@@ -96,26 +99,30 @@ namespace Devastation
         /// <para>Base will not load if you choose number higher than available.</para>
         /// </summary>
         /// <param name="BaseToLoad"></param>
-        public void LoadBase(int BaseToLoad)
+        public Base getBaseNumber(int BaseToLoad)
         {
-            if (BaseToLoad < m_Bases.Count) m_CurrentBase = m_Bases[BaseToLoad];
+            if (BaseToLoad < m_Bases.Count && !m_BasesInUse.Contains(BaseToLoad))
+            {
+                m_BasesInUse.Add(BaseToLoad);
+                return m_Bases[BaseToLoad];
+            }
+            return null;
         }
 
         /// <summary>
         /// <para>Load the next available Base.</para>
         /// <para>BaseMode is what determins what base to load next.</para>
         /// </summary>
-        public void LoadNextBase()
+        /// <returns>Next base in queue</returns>
+        public Base getNextBase()
         {
             bool reload = true;
+            int newBase = 0;
             while (reload)
             {
                 if (m_SizeMode == BaseSize.Off)
                     reload = false;
-
-                string oldName = m_CurrentBase == null ? "~none~" : m_CurrentBase.BaseName;
-                int newBase = 0;
-
+                
                 switch (m_Mode)
                 {
                     case BaseMode.Shuffle:
@@ -133,12 +140,31 @@ namespace Devastation
                         break;
                 }
 
-                // Assign new mode
-                m_CurrentBase = m_Bases[newBase];
-                // If the base is set to a certain size
-                if (m_SizeMode != BaseSize.Off && m_SizeMode == m_CurrentBase.Size)
+                // make sure base isnt in use
+                if (!m_BasesInUse.Contains(newBase))
                     reload = false;
+
+                // If the base is set to a certain size
+                if (m_SizeMode != BaseSize.Off && m_SizeMode == m_Bases[newBase].Size)
+                    reload = false;
+
+                if (reload == false)
+                {
+                    // add base to in-use list
+                    m_BasesInUse.Add(newBase);
+                }
             }
+            return m_Bases[newBase];
+        }
+
+        /// <summary>
+        /// <para></para>Releases the base to public use.</para>
+        /// <para>You MUST release base after use or no one will be able to use it after.</para>
+        /// </summary>
+        /// <param name="baseToRelease"></param>
+        public void ReleaseBase(Base baseToRelease)
+        {
+            m_BasesInUse.Remove(m_Bases.IndexOf(baseToRelease));
         }
 
         // Shuffle bases for ShuffleMode - Option to clear old, if not we add to existing old shuffle
@@ -210,7 +236,6 @@ namespace Devastation
             reply.Enqueue(msg.pm(PlayerName, ("Size Limit").PadRight(35) + m_SizeMode.ToString().PadLeft(10)));
             reply.Enqueue(msg.pm(PlayerName, ("Shuffle Q Min").PadRight(35) + m_ShuffleModeQCount.ToString().PadLeft(10)));
             reply.Enqueue(msg.pm(PlayerName, ("Bases Currently in Shuffle Q").PadRight(35) + m_ShuffleModeQ.Count.ToString().PadLeft(10)));
-            reply.Enqueue(msg.pm(PlayerName, ("Next Base in Shuffle Q").PadRight(35) + ("Base [" + m_Bases.IndexOf(m_CurrentBase) + "]").PadLeft(10)));
             reply.Enqueue(msg.pm(PlayerName, ("Round Robin Mode Count").PadRight(35) + m_RoundRobinCount.ToString().PadLeft(10)));
 
             return reply;

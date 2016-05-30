@@ -11,11 +11,11 @@ namespace Devastation
 {
     public class BaseRace
     {
-        public BaseRace(SSPlayerManager PlayerManager, byte[] MapData, ShortChat msg, MyGame myGame)
+        public BaseRace(SSPlayerManager PlayerManager,BaseManager BaseManager, ShortChat msg, MyGame myGame)
         {
             this.m_Players = PlayerManager;
             this.msg = msg;
-            this.m_BaseManager = new BaseManager(MapData);
+            this.m_BaseManager = BaseManager;
             this.psyGame = myGame;
             this.m_BaseRaceFreq = 1337;
             this.m_BlockedList = new List<string>();
@@ -60,6 +60,10 @@ namespace Devastation
                         psyGame.CoreSend(e);
                         return;
 
+                    case "start":
+                        doStart(e);
+                        return;
+
                     case "commands":
                         e.Message = "!help baserace commands";
                         psyGame.CoreSend(e);
@@ -78,6 +82,10 @@ namespace Devastation
                         return;
                 }
             }
+        }
+
+        public void doStart(ChatEvent e)
+        {
         }
 
         public void doThis(ChatEvent e)
@@ -130,10 +138,16 @@ namespace Devastation
 
                         return true;
                     }
-                    FullMessage = FullMessage.Remove(0, 1);
+                    FullMessage = FullMessage.Remove(0, 1).Trim().ToLower();
 
-                    formattedCommand = FullMessage.Trim().ToLower();
-                    return true;
+                    // Shorcut commands go here
+                    switch (FullMessage)
+                    {
+                        // makes !startbr the same as !baserace start
+                        case "startbr":
+                            formattedCommand = "start";
+                            return true;
+                    }
                 }
             }
             return false;

@@ -43,18 +43,17 @@
   <ItemGroup>
     <Compile Include="BaseDuel\BaseEnums.cs" />
     <Compile Include="BaseDuel\Main.cs" />
-    <Compile Include="BaseDuel\Bases\Base.cs" />
+    <Compile Include="Bases\Base.cs" />
     <Compile Include="BaseDuel\BaseGame.cs" />
-    <Compile Include="BaseDuel\Bases\BaseLoader.cs" />
+    <Compile Include="Bases\BaseLoader.cs" />
     <Compile Include="BaseDuel\BaseRound.cs" />
     <Compile Include="BaseDuel\BasePlayer.cs" />
-    <Compile Include="BaseDuel\Bases\BaseManager.cs" />
+    <Compile Include="Bases\BaseManager.cs" />
     <Compile Include="BaseDuel\BaseTeam.cs" />
-    <Compile Include="BaseDuel\MainBackup.cs" />
     <Compile Include="BaseRace\BaseRace.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="BaseDuel\Bases\MapData.cs" />
+    <Compile Include="Bases\MapData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
