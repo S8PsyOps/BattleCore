@@ -47,6 +47,8 @@ namespace Devastation.BaseDuel
             this.m_BotSpamSetting = ChatTypes.Arena;
             this.m_SpamZoneTimeLimit = 5;
             this.m_SpamZoneTimeStamp = DateTime.Now;
+
+            this.m_GamesInProgress = new List<BaseGame>();
         }
 
         private ShortChat msg;                      // my Module to make sending chat messages easier
@@ -77,6 +79,8 @@ namespace Devastation.BaseDuel
         private ChatTypes m_BotSpamSetting;         // What type of chat the bot will spam in
         private int m_SpamZoneTimeLimit;            // Minutes before a user can !spam
         private DateTime m_SpamZoneTimeStamp;       // Timestamp for !spam usage
+
+        private List<BaseGame> m_GamesInProgress;
 
         //----------------------------------------------------------------------//
         //                         Commands                                     //
