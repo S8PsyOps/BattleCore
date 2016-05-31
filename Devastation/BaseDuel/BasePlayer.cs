@@ -35,7 +35,6 @@ namespace Devastation.BaseDuel
         public bool Active
         {
             get { return m_Active; }
-            set { m_Active = value; }
         }
 
         /// <summary>
@@ -45,6 +44,15 @@ namespace Devastation.BaseDuel
         {
             get { return m_InLobby; }
             set { m_InLobby = value; }
+        }
+
+        /// <summary>
+        /// Set player's active status
+        /// </summary>
+        /// <param name="ActiveStatus">Active or Not</param>
+        public void setActive(bool ActiveStatus)
+        {
+            this.m_Active = ActiveStatus;
         }
     }
 }

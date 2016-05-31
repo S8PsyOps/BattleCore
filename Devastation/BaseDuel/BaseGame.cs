@@ -13,7 +13,21 @@ namespace Devastation.BaseDuel
     {
         public BaseGame()
         {
-            this.msg = new ShortChat();
+            this.m_Round = new BaseRound();
+            this.m_RoundsPlayed = new List<BaseRound>();
+            this.m_Status = BaseGameStatus.GameIdle;
+            this.m_AllowSafeWin = true;
+            this.m_AllowAfterStartJoin = true;
+            this.m_AlphaScore = 0;
+            this.m_BravoScore = 0;
+            this.m_MinimumWin = 5;
+            this.m_WinBy = 2;
+        }
+
+        public BaseGame( ShortChat msg, MyGame psyGame)
+        {
+            this.msg = msg;
+            this.psyGame = psyGame;
             this.m_Round = new BaseRound();
             this.m_RoundsPlayed = new List<BaseRound>();
             this.m_Status = BaseGameStatus.GameIdle;
@@ -26,6 +40,7 @@ namespace Devastation.BaseDuel
         }
         
         ShortChat msg;
+        MyGame psyGame;
         private BaseRound m_Round;
         private List<BaseRound> m_RoundsPlayed;
         private BaseGameStatus m_Status;
@@ -53,15 +68,6 @@ namespace Devastation.BaseDuel
         {
             get { return m_RoundsPlayed; }
             set { m_RoundsPlayed = value; }
-        }
-
-        /// <summary>
-        /// Current status of Game
-        /// </summary>
-        public BaseGameStatus Status
-        {
-            get { return m_Status; }
-            set { m_Status = value; }
         }
 
         /// <summary>
@@ -150,6 +156,73 @@ namespace Devastation.BaseDuel
         {
             get { return m_WinBy; }
             set { m_WinBy = value; }
+        }
+
+        public void removePlayer(SSPlayer p)
+        {
+            if (this.getStatus() != BaseGameStatus.GameIdle)
+            {
+                BasePlayer b = this.getPlayer(p);
+                if (b != null)
+                {
+                    b.setActive(false);
+                }
+
+                if (this.m_Round.getTeam(p).getActiveCount() <= 0)
+                {
+                    psyGame.Send(msg.arena("Team is empty."));
+                }
+            }
+        }
+
+        public BaseGameStatus getStatus()
+        {
+            return this.m_Status;
+        }
+
+        public void setStatus(BaseGameStatus status)
+        {
+            this.m_Status = status;
+        }
+
+        public BasePlayer getPlayer(SSPlayer p)
+        {
+            return this.m_Round.getPlayer(p);
+        }
+
+        public void resetPlayers()
+        {
+            this.m_Round.flushTeams();
+        }
+
+        public void saveRound()
+        {
+            this.m_RoundsPlayed.Add(this.m_Round.getSavedRound());
+        }
+
+        public bool teamIsOut(out bool Alpha, out bool Bravo)
+        {
+            Alpha = this.m_Round.AlphaTeam.teamIsOut();
+            Bravo = this.m_Round.BravoTeam.teamIsOut();
+            if (Alpha || Bravo) return true;
+            return false;
+        }
+
+        public BaseGame getSavedGame()
+        {
+            BaseGame game = new BaseGame();
+            game.AllowAfterStartJoin = this.m_AllowAfterStartJoin;
+            game.AllowSafeWin = this.m_AllowSafeWin;
+            game.AllRounds = this.m_RoundsPlayed;
+            game.AlphaFreq = this.m_AlphaFreq;
+            game.AlphaScore = this.m_AlphaScore;
+            game.BravoFreq = this.m_BravoFreq;
+            game.BravoScore = this.m_BravoScore;
+            game.MinimumWin = this.m_MinimumWin;
+            game.Round = this.m_Round;
+            game.setStatus(this.getStatus());
+            game.WinBy = this.m_WinBy;
+            return game;
         }
     }
 }

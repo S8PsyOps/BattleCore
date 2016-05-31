@@ -151,7 +151,7 @@ namespace Devastation
                 if (safes_found == 2)
                 {
                     BaseList.Add(NewBase);
-                    BaseList[BaseList.IndexOf(NewBase)].Number = BaseList.IndexOf(NewBase);
+                    BaseList[BaseList.IndexOf(NewBase)].Number = BaseList.IndexOf(NewBase) + 1;
                 }
                 if (safes_found == 1)
                 {

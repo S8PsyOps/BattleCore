@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using BattleCorePsyOps;
+
 namespace Devastation.BaseDuel
 {
     class BaseTeam
@@ -32,6 +34,21 @@ namespace Devastation.BaseDuel
         {
             get { return m_TeamMembers; }
             set { m_TeamMembers = value; }
+        }
+
+        public BasePlayer getPlayer(SSPlayer p)
+        {
+            return this.m_TeamMembers.Find(item => item.PlayerName == p.PlayerName);
+        }
+
+        public int getActiveCount()
+        {
+            return this.m_TeamMembers.FindAll(item => item.Active).Count;
+        }
+
+        public bool teamIsOut()
+        {
+            return !(this.m_TeamMembers.FindAll(item => item.Active && !item.InLobby).Count > 0);
         }
     }
 }
