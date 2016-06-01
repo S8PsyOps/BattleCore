@@ -24,7 +24,7 @@ namespace Devastation.BaseDuel
             this.m_WinBy = 2;
         }
 
-        public BaseGame( ShortChat msg, MyGame psyGame)
+        public BaseGame(ShortChat msg, MyGame psyGame, ChatTypes BotSpamSetting)
         {
             this.msg = msg;
             this.psyGame = psyGame;
@@ -37,6 +37,7 @@ namespace Devastation.BaseDuel
             this.m_BravoScore = 0;
             this.m_MinimumWin = 5;
             this.m_WinBy = 2;
+            this.m_BotSpamSetting = BotSpamSetting;
         }
         
         ShortChat msg;
@@ -51,6 +52,11 @@ namespace Devastation.BaseDuel
         private int m_BravoScore;
         private int m_MinimumWin;
         private int m_WinBy;
+        private ChatTypes m_BotSpamSetting;
+        private Base m_Base;
+
+        public Base Base
+        { get { return m_Base; } }
 
         /// <summary>
         /// Current match being played
@@ -158,11 +164,18 @@ namespace Devastation.BaseDuel
             set { m_WinBy = value; }
         }
 
+        public void loadBase(Base mybase)
+        {
+            this.m_Base = mybase;
+            this.m_Round.BaseNumber = (short)mybase.Number;
+        }
+
         public void removePlayer(SSPlayer p)
         {
             if (this.getStatus() != BaseGameStatus.GameIdle)
             {
-                BasePlayer b = this.getPlayer(p);
+                bool InAlpha;
+                BasePlayer b = this.getPlayer(p,out InAlpha);
                 if (b != null)
                 {
                     b.setActive(false);
@@ -185,9 +198,9 @@ namespace Devastation.BaseDuel
             this.m_Status = status;
         }
 
-        public BasePlayer getPlayer(SSPlayer p)
+        public BasePlayer getPlayer(SSPlayer p, out bool InAlpha)
         {
-            return this.m_Round.getPlayer(p);
+            return this.m_Round.getPlayer(p, out InAlpha);
         }
 
         public void resetPlayers()
@@ -200,12 +213,50 @@ namespace Devastation.BaseDuel
             this.m_RoundsPlayed.Add(this.m_Round.getSavedRound());
         }
 
+        public void restartRound(ChatEvent e)
+        {
+            if (this.getStatus() == BaseGameStatus.GameOn)
+            {
+                //send players to center
+                psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?prize warp"));
+                psyGame.Send(msg.team_pm(this.m_BravoFreq, "?prize warp"));
+            }
+
+            this.setStatus(BaseGameStatus.GameIntermission);
+            this.resetPlayers();
+        }
+
         public bool teamIsOut(out bool Alpha, out bool Bravo)
         {
             Alpha = this.m_Round.AlphaTeam.teamIsOut();
             Bravo = this.m_Round.BravoTeam.teamIsOut();
             if (Alpha || Bravo) return true;
             return false;
+        }
+
+        public void startGame()
+        {
+            if (this.getStatus() == BaseGameStatus.GameIntermission)
+            {
+                this.resetPlayers();
+            }
+            // send players to start and reset ships
+            psyGame.Send(msg.team_pm(m_AlphaFreq, "?|warpto " + m_Base.AlphaStartX + " " + m_Base.AlphaStartY + "|shipreset"));
+            psyGame.Send(msg.team_pm(m_BravoFreq, "?|warpto " + m_Base.BravoStartX + " " + m_Base.BravoStartY + "|shipreset"));
+            
+            sendBotSpam("- Current Base        : " + m_Base.Number);
+            
+            if (this.m_RoundsPlayed.Count == 0)
+            {
+                sendBotSpam("- Team vs Team Rules  : " + (this.m_AllowSafeWin ? "BaseClear and Safes" : "BaseClear"));
+                sendBotSpam("- Auto Scoring        : Not implemented yet.");
+            }
+
+            // Record start time
+            this.m_Round.StartTime = DateTime.Now;
+            // set status
+            this.setStatus(BaseGameStatus.GameOn);
+            psyGame.SafeSend(msg.debugChan("GameStatus change to GameOn."));
         }
 
         public BaseGame getSavedGame()
@@ -223,6 +274,25 @@ namespace Devastation.BaseDuel
             game.setStatus(this.getStatus());
             game.WinBy = this.m_WinBy;
             return game;
+        }
+
+        // send printouts according to setting
+        private void sendBotSpam(string Message)
+        {
+            ChatEvent spam = new ChatEvent();
+            spam.Message = Message;
+
+            if (m_BotSpamSetting != ChatTypes.Team)
+            {
+                spam.ChatType = m_BotSpamSetting;
+                psyGame.Send(spam);
+                return;
+            }
+
+            psyGame.Send(msg.team_pm(this.m_AlphaStartFreq, Message));
+            psyGame.Send(msg.team_pm(this.m_BravoStartFreq, Message));
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, Message));
+            psyGame.Send(msg.team_pm(m_BravoFreq, Message));
         }
     }
 }

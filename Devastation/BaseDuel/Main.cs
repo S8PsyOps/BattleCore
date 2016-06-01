@@ -27,11 +27,12 @@ namespace Devastation.BaseDuel
 
             this.m_Timer = new Timer();
             this.m_BaseManager = BaseManager;
-            this.m_Base = m_BaseManager.getNextBase();
+            //this.m_Base = m_BaseManager.getNextBase();
             this.m_Lobby = m_BaseManager.Lobby;
 
-            this.m_BaseGame = new BaseGame(msg,psyGame);
-            this.m_BaseGame.Round.BaseNumber = (short)m_Base.Number;
+            this.m_BaseGame = new BaseGame(msg,psyGame,m_BotSpamSetting);
+            this.m_BaseGame.loadBase(m_BaseManager.getNextBase());
+            //this.m_BaseGame.Round.BaseNumber = (short)m_Base.Number;
 
             this.m_AlphaFreq = 887;
             this.m_BravoFreq = 889;
@@ -72,7 +73,7 @@ namespace Devastation.BaseDuel
         private double m_InactivityReset;           // seconds before a game resets when a full team leaves
         
         private BaseManager m_BaseManager;          // Controls bases and how they are loaded
-        private Base m_Base;                        // Local variable to hold loaded base
+        //private Base m_Base;                        // Local variable to hold loaded base
         private Base m_Lobby;                       // Hold lobby dimensions and info
 
         private ushort m_AlphaFreq;                 // Keeping these local - may help creating multiple games playable at once later
@@ -335,40 +336,12 @@ namespace Devastation.BaseDuel
         // reset all vars to baseduel
         private void module_Reset()
         {
-            m_BaseGame = new BaseGame(msg, psyGame);
+            m_BaseGame = new BaseGame(msg, psyGame,m_BotSpamSetting);
             m_BaseGame.AlphaFreq = m_AlphaFreq;
             m_BaseGame.BravoFreq = m_BravoFreq;
             m_BaseGame.AlphaStartFreq = m_AlphaStartFreq;
             m_BaseGame.BravoStartFreq = m_BravoStartFreq;
             m_BaseGame.setStatus(BaseGameStatus.GameIdle);
-        }
-
-        private void game_Start()
-        {
-            // get next round rdy
-            if (m_BaseGame.getStatus() == BaseGameStatus.GameIntermission)
-            {
-                this.m_BaseGame.resetPlayers();
-            }
-
-            // send players to start and reset ships
-            psyGame.Send(msg.team_pm(m_AlphaFreq,"?|warpto " + m_Base.AlphaStartX + " " + m_Base.AlphaStartY + "|shipreset"));
-            psyGame.Send(msg.team_pm(m_BravoFreq, "?|warpto " + m_Base.BravoStartX + " " + m_Base.BravoStartY + "|shipreset"));
-
-            //sendBotSpam("- Go Go Go Go Go Go! -");
-
-            sendBotSpam("- Current Base        : " + m_Base.Number);
-            if (m_BaseGame.AllRounds.Count == 0)
-            {
-                sendBotSpam("- Team vs Team Rules  : " + (m_BaseGame.AllowSafeWin ? "BaseClear and Safes" : "BaseClear"));
-                sendBotSpam("- Auto Scoring        : Not implemented yet.");
-            }
-
-            // Record start time
-            m_BaseGame.Round.StartTime = DateTime.Now;
-            // set status
-            m_BaseGame.setStatus(BaseGameStatus.GameOn);
-            psyGame.SafeSend(msg.debugChan("GameStatus change to GameOn."));
         }
 
         private void game_Save()
@@ -389,7 +362,7 @@ namespace Devastation.BaseDuel
         private void game_Reset()
         {
             // Reset game vars
-            m_BaseGame = new BaseGame(msg, psyGame);
+            m_BaseGame = new BaseGame(msg, psyGame,m_BotSpamSetting);
             m_BaseGame.AlphaFreq = m_AlphaFreq;
             m_BaseGame.BravoFreq = m_BravoFreq;
             m_BaseGame.setStatus(BaseGameStatus.GameIdle);
@@ -481,17 +454,10 @@ namespace Devastation.BaseDuel
                 return;
             }
 
-            if (m_BaseGame.getStatus() == BaseGameStatus.GameOn)
-            {
-                //send players to center
-                psyGame.Send(msg.team_pm(m_BaseGame.AlphaFreq, "?prize warp"));
-                psyGame.Send(msg.team_pm(m_BaseGame.BravoFreq, "?prize warp"));
-            }
-
-            m_BaseGame.setStatus(BaseGameStatus.GameIntermission);
             if (m_Timer.Enabled) m_Timer.Stop();
-            this.m_BaseGame.resetPlayers();
             timer_Setup(TimerType.GameStart);
+            this.m_BaseGame.restartRound(e);
+
             sendBotSpam("- Round has been reset! - " + e.PlayerName);
             sendBotSpam("- Starting same round in " + m_StartGameDelay + " seconds! -");
         }
@@ -548,9 +514,9 @@ namespace Devastation.BaseDuel
                 // Grab player info
                 bool h_InAlpha, a_InAlpha;
                 // Host
-                BasePlayer bHost = getPlayer(host, out h_InAlpha);
+                BasePlayer bHost = this.m_BaseGame.getPlayer(host, out h_InAlpha);
                 // Attacher
-                BasePlayer bAttach = getPlayer(host, out a_InAlpha);
+                BasePlayer bAttach = this.m_BaseGame.getPlayer(host, out a_InAlpha);
 
                 // do nothing they are not in game - wtf these better not mismatch
                 if (bHost == null || bAttach == null) return;
@@ -582,7 +548,7 @@ namespace Devastation.BaseDuel
             {
                 // Grab player info
                 bool InAlpha;
-                BasePlayer b = getPlayer(ssp, out InAlpha);
+                BasePlayer b = this.m_BaseGame.getPlayer(ssp, out InAlpha);
 
                 // do nothing they are not in game
                 if (b == null)
@@ -645,7 +611,7 @@ namespace Devastation.BaseDuel
                     }
 
                     // Check player against opposing team safe
-                    if (m_BaseGame.AllowSafeWin && player_InRegion(ssp.Position,InAlpha?m_Base.BravoSafe:m_Base.AlphaSafe))
+                    if (m_BaseGame.AllowSafeWin && player_InRegion(ssp.Position, InAlpha ? this.m_BaseGame.Base.BravoSafe : this.m_BaseGame.Base.AlphaSafe))
                     {
                         round_Finished(WinType.SafeWin, InAlpha, ssp.PlayerName);
                     }
@@ -740,7 +706,7 @@ namespace Devastation.BaseDuel
 
             if (allow_GameStart(false))
             {
-                game_Start();
+                this.m_BaseGame.startGame();
             }
             else
             {
@@ -768,9 +734,10 @@ namespace Devastation.BaseDuel
         // Load next base using BaseManager but store it locally - just to cut down on some code length
         private void loadNextBase()
         {
-            m_BaseManager.ReleaseBase(m_Base);
-            m_Base = m_BaseManager.getNextBase();
-            m_BaseGame.Round.BaseNumber = (short)m_Base.Number;
+            m_BaseManager.ReleaseBase(this.m_BaseGame.Base);
+            m_BaseGame.loadBase(m_BaseManager.getNextBase());
+            //m_Base = m_BaseManager.getNextBase();
+            //m_BaseGame.Round.BaseNumber = (short)m_Base.Number;
         }
 
         // send printouts according to setting
@@ -828,22 +795,6 @@ namespace Devastation.BaseDuel
                 }
             }
             return false;
-        }
-
-        // Grab player from one of the teams
-        private BasePlayer getPlayer( SSPlayer p, out bool InAlpha)
-        {
-            BasePlayer b = m_BaseGame.Round.AlphaTeam.TeamMembers.Find( item => item.PlayerName == p.PlayerName);
-
-            if ( b != null)
-            {
-                InAlpha = true;
-                return b;
-            }
-
-            b = m_BaseGame.Round.BravoTeam.TeamMembers.Find(item => item.PlayerName == p.PlayerName);
-            InAlpha = false;
-            return b;
         }
 
         // Simple collision check
@@ -907,7 +858,7 @@ namespace Devastation.BaseDuel
             psyGame.Send(msg.pm(PlayerName, "Player Count     :".PadRight(20) + m_BaseGame.Round.BravoTeam.TeamMembers.Count.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Frequency        :".PadRight(20) + m_BaseGame.BravoFreq.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Base Loader Settings -----------------"));
-            psyGame.Send(msg.pm(PlayerName, "Current Base     :".PadRight(20) + (m_BaseManager.Bases.IndexOf(m_Base) + 1).ToString().PadLeft(25)));
+            psyGame.Send(msg.pm(PlayerName, "Current Base     :".PadRight(20) + this.m_BaseGame.Base.Number.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Total Bases      :".PadRight(20) + m_BaseManager.Bases.Count.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Sorting Mode     :".PadRight(20) + m_BaseManager.Mode.ToString().PadLeft(25)));
             psyGame.Send(msg.pm(PlayerName, "Size Restrictions:".PadRight(20) + m_BaseManager.SizeLimit.ToString().PadLeft(25)));

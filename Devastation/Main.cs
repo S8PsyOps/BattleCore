@@ -43,8 +43,8 @@ namespace Devastation
         private string m_BotName, m_ArenaName;          // Store bot info
         private byte[] m_MapInfo;                       // Byte array containing map info
         private BaseDuel.Main m_BaseDuel;               // BaseDuel Game
-        SSPlayerManager m_Players;
-        BaseRace m_BaseRace;
+        private SSPlayerManager m_Players;
+        private BaseRace m_BaseRace;
 
         
 

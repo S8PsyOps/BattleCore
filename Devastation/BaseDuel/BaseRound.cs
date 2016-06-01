@@ -128,13 +128,15 @@ namespace Devastation.BaseDuel
             return null;
         }
 
-        public BasePlayer getPlayer(SSPlayer p)
+        public BasePlayer getPlayer(SSPlayer p, out bool InAlpha)
         {
             BasePlayer b = this.m_AlphaTeam.getPlayer(p);
+            InAlpha = true;
 
             if (b == null)
             {
                 b = this.m_BravoTeam.getPlayer(p);
+                InAlpha = false;
             }
 
             return b;
