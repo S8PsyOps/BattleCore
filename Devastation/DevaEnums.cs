@@ -13,33 +13,11 @@ namespace Devastation
         Off = 3
     }
 
-    public enum TimerType
-    {
-        GameStart,
-        BaseClear,
-        InactiveReset
-    }
-
     public enum BaseMode
     {
         Shuffle,
         Random,
         RoundRobin,
         Custom
-    }
-
-    public enum BaseGameStatus
-    {
-        GameIdle,
-        GameOn,
-        GameIntermission,
-        GameHold
-    }
-
-    public enum WinType
-    {
-        SafeWin,
-        BaseClear,
-        NoCount
     }
 }

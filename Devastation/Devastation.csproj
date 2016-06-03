@@ -41,16 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDuel\BaseEnums.cs" />
-    <Compile Include="BaseDuel\Main.cs" />
+    <Compile Include="BaseDuel2\BaseEnums.cs" />
+    <Compile Include="BaseDuel2\Main.cs" />
+    <Compile Include="BaseDuel\BaseDuel.cs" />
+    <Compile Include="BaseDuel\Classes\BaseGame.cs" />
+    <Compile Include="BaseDuel\Classes\BasePlayer.cs" />
+    <Compile Include="BaseDuel\Classes\BasePoint.cs" />
+    <Compile Include="BaseDuel\Classes\BaseTeam.cs" />
+    <Compile Include="BaseDuel\Misc\BaseEnums.cs" />
+    <Compile Include="BaseDuel\Misc\SettingsLoader.cs" />
     <Compile Include="Bases\Base.cs" />
-    <Compile Include="BaseDuel\BaseGame.cs" />
+    <Compile Include="BaseDuel2\BaseGame.cs" />
     <Compile Include="Bases\BaseLoader.cs" />
-    <Compile Include="BaseDuel\BaseRound.cs" />
-    <Compile Include="BaseDuel\BasePlayer.cs" />
+    <Compile Include="BaseDuel2\BaseRound.cs" />
+    <Compile Include="BaseDuel2\BasePlayer.cs" />
     <Compile Include="Bases\BaseManager.cs" />
-    <Compile Include="BaseDuel\BaseTeam.cs" />
+    <Compile Include="BaseDuel2\BaseTeam.cs" />
     <Compile Include="BaseRace\BaseRace.cs" />
+    <Compile Include="DevaEnums.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Bases\MapData.cs" />

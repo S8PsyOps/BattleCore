@@ -12,6 +12,8 @@ using BattleCorePsyOps;
  * The problem will come in to play at the end of a shuffle. If the the last base picked was from the bottom of the "deck"
  * then the new game created could possibly pick the same base on the first base after reshuffle
  * this will also be useful when we play multiple types of games. Like playing baserace when baseduel is going on.
+ * 
+ * rep range = 400 pixels
  */ 
 
 namespace Devastation
@@ -20,6 +22,7 @@ namespace Devastation
     {
 
         private ShortChat msg;                  // Custom chat module
+        private MyGame psyGame;
         private Random ran;                     // Random num generator
         private List<Base> m_Bases;             // Main list of bases
         private Base m_Lobby;                   // Safe area saved as a base
@@ -31,15 +34,16 @@ namespace Devastation
 
         private List<int> m_BasesInUse;
 
-        public BaseManager(Byte[] mapData)
+        public BaseManager(Byte[] mapData, ShortChat msg, MyGame psyGame)
         {
             // Load all vars
             m_Lobby = new Base();
             m_Bases = new List<Base>();
-            msg = new ShortChat();
+            this.msg = msg;
+            this.psyGame = psyGame;
             ran = new Random();
             m_Mode = BaseMode.Shuffle;
-            m_SizeMode = BaseSize.Small;
+            m_SizeMode = BaseSize.Off;
             m_ShuffleModeQ = new Queue<int>();
             m_ShuffleModeQCount = 10;
             m_RoundRobinCount = 0;
@@ -54,7 +58,7 @@ namespace Devastation
 
             // Load next base from default random
             ReShuffleQ(true);
-            getNextBase();
+            //getNextBase();
         }
 
         /// <summary>
@@ -109,12 +113,35 @@ namespace Devastation
             return null;
         }
 
+        // Collision check between 2 bases to see if they are within rep distance
+        private bool inRepProximity(Base one, Base two)
+        {
+            ushort oneWidth = (ushort)(one.BaseDimension[2] - one.BaseDimension[0]);
+            ushort oneHeight = (ushort)(one.BaseDimension[3] - one.BaseDimension[1]);
+            ushort oneCenterX = (ushort)(one.BaseDimension[0] + oneWidth);
+            ushort oneCenterY = (ushort)(one.BaseDimension[1] + oneHeight);
+
+            ushort twoWidth = (ushort)(two.BaseDimension[2] - two.BaseDimension[0]);
+            ushort twoHeight = (ushort)(two.BaseDimension[3] - two.BaseDimension[1]);
+            ushort twoCenterX = (ushort)(two.BaseDimension[0] + twoWidth);
+            ushort twoCenterY = (ushort)(two.BaseDimension[1] + twoHeight);
+            
+            // the lesser value is the distance of the square's width and that of the lenght of the
+            // other square
+            return Math.Abs(twoCenterX - oneCenterX) < (twoWidth + 200) / 2 + (oneWidth + 200) / 2
+                    && Math.Abs(twoCenterY - oneCenterY) < (twoHeight + 200) / 2 + (oneWidth + 200) / 2;
+        }
+
+        public Base getNextBase()
+        {
+            return this.getNextBase("~ unknown ~");
+        }
         /// <summary>
         /// <para>Load the next available Base.</para>
         /// <para>BaseMode is what determins what base to load next.</para>
         /// </summary>
         /// <returns>Next base in queue</returns>
-        public Base getNextBase()
+        public Base getNextBase(string Requester)
         {
             bool reload = true;
             int newBase = 0;
@@ -148,23 +175,44 @@ namespace Devastation
                 if (m_SizeMode != BaseSize.Off && m_SizeMode == m_Bases[newBase].Size)
                     reload = false;
 
+                // Rep range is 400 pixels - run a prox check to make sure we arent releasing a base within rep prox distance
+                for (int i = 0; i < m_BasesInUse.Count; i++)
+                {
+                    if (inRepProximity(m_Bases[newBase], m_Bases[m_BasesInUse[i]]))
+                    {
+                        reload = true;
+                    }
+                }
+
                 if (reload == false)
                 {
                     // add base to in-use list
                     m_BasesInUse.Add(newBase);
                 }
             }
+            psyGame.Send(msg.debugChan("[ BaseManager ] - [ "+Requester+" ] has checked out Base[ "+newBase+" ]. Total bases checked out:[ "+this.m_BasesInUse.Count+" ]"));
             return m_Bases[newBase];
         }
 
+        public void ReleaseBase(Base baseToRelease)
+        {
+            this.ReleaseBase(baseToRelease, "~ unknown ~");
+        }
         /// <summary>
         /// <para></para>Releases the base to public use.</para>
         /// <para>You MUST release base after use or no one will be able to use it after.</para>
         /// </summary>
         /// <param name="baseToRelease"></param>
-        public void ReleaseBase(Base baseToRelease)
+        public void ReleaseBase(Base baseToRelease , string Requester)
         {
-            m_BasesInUse.Remove(m_Bases.IndexOf(baseToRelease));
+            if (baseToRelease == null)
+            {
+                psyGame.Send(msg.debugChan("[ BaseManager ] - [ " + Requester + " ] has attempted to release a null Base. Total bases checked out:[ " + this.m_BasesInUse.Count + " ]"));
+                return;
+            }
+            int relBase = m_Bases.IndexOf(baseToRelease);
+            psyGame.Send(msg.debugChan("[ BaseManager ] - [ " + Requester + " ] has released Base[ " + relBase + " ]. Total bases checked out:[ " + this.m_BasesInUse.Count + " ]"));
+            m_BasesInUse.Remove(relBase);
         }
 
         // Shuffle bases for ShuffleMode - Option to clear old, if not we add to existing old shuffle
@@ -198,7 +246,11 @@ namespace Devastation
                 m_ShuffleModeQ.Enqueue(baseIndexes[i]);
         }
 
-        public Queue<EventArgs> LoadedBaseInfo(string PlayerName, int BaseNumber)
+        public Queue<EventArgs> getBaseInfo(string PlayerName, Base lBase)
+        {
+            return this.getBaseInfo(PlayerName, m_Bases.IndexOf(lBase));
+        }
+        public Queue<EventArgs> getBaseInfo(string PlayerName, int BaseNumber)
         {
             Queue<EventArgs> reply = new Queue<EventArgs>();
 

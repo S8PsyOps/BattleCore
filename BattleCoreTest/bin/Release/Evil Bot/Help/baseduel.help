@@ -18,7 +18,7 @@
 |                !help baseduel [command]                         |
 |                                                                 |
 |  examples:                                                      |
- >---------------------------------------------------------------<
+.>---------------------------------------------------------------<
 |  !help baseduel commands                                        |
 |  .help baseduel stats                                           |
 |                                                                 |
@@ -27,7 +27,7 @@
 |                                                                 |
 |   Or even by replacing !baseduel with !bd or .bd                |
 |   EXAMPLE:   .bd commands           or    !bd commands          |
-.>-----------------^---------------------------------------------<
+.>---------------------------------------------------------------<
 |    type !baseduel commands          for complete command list   |
 .>---------------------------------------------------------------<
 .**any command can use [!] or [.] as a prefix  -  !help or .help would work the same**

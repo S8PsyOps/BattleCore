@@ -1,0 +1,385 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+// Needed for timers
+using System.Timers;
+using BattleCore;
+using BattleCore.Events;
+using BattleCorePsyOps;
+
+namespace Devastation.BaseDuel.Classes
+{
+    public class BaseGame
+    {
+        public BaseGame(ShortChat msg, MyGame psyGame, SSPlayerManager Players, BaseManager BaseManager)
+        {
+            this.msg = msg;
+            this.psyGame = psyGame;
+            this.m_Players = Players;
+            this.m_BaseManager = BaseManager;
+            this.m_CurrentPoint = new BasePoint();
+            this.m_AllPoints = new List<BasePoint>();
+            this.m_Status = Misc.BaseGameStatus.NotStarted;
+            
+            this.m_Timer = new Timer();
+            this.m_StartGameDelay = 10;
+            this.m_StartGameShow = 5;
+            this.m_TeamClearDelay = 5;
+            this.m_InactivityReset = 30;
+            this.m_BotSpamSetting = ChatTypes.Team;
+        }
+
+        private ShortChat msg;
+        private MyGame psyGame;
+        private SSPlayerManager m_Players;
+        private BaseManager m_BaseManager;
+        private Base m_Lobby;
+        private Base m_CurrentBase;
+        private BasePoint m_CurrentPoint;
+        private List<BasePoint> m_AllPoints;
+        private Misc.BaseGameStatus m_Status;
+        private Misc.GameSetting m_SettingType;
+        
+        private bool m_AllowSafeWin;
+        private ushort m_AlphaFreq, m_BravoFreq;
+        private bool m_Locked;
+        private int m_MinimumPoint, m_WinBy;
+        private int m_AlphaPoints = 0, m_BravoPoints = 0;
+
+        private Timer m_Timer;
+        private double m_StartGameDelay;
+        private double m_StartGameShow;
+        private double m_StartGameDelay_Elapsed;
+        private double m_TeamClearDelay;
+        private double m_InactivityReset;
+        
+        private ChatTypes m_BotSpamSetting;
+
+        public void setLocked(bool locked)
+        { this.m_Locked = locked; }
+
+        public void setMinimumPoint(int MinPoint)
+        { this.m_MinimumPoint = MinPoint; }
+
+        public void setWinBy(int WinBy)
+        { this.m_WinBy = WinBy; }
+
+        public void setAllowSafeWin(bool Allow)
+        { this.m_AllowSafeWin = Allow; }
+
+        public Misc.GameSetting gameSettings()
+        { return m_SettingType; }
+        public void gameSettings(Misc.GameSetting Setting)
+        { this.m_SettingType = Setting; }
+
+        public Misc.BaseGameStatus gameStatus()
+        { return m_Status; }
+
+        public ushort AlphaFreq
+        { get { return m_AlphaFreq; } }
+        public ushort BravoFreq
+        { get { return m_BravoFreq; } }
+        // Set both team freqs
+        public void setFreqs(ushort AlphaFreq, ushort BravoFreq)
+        {
+            this.m_AlphaFreq = AlphaFreq;
+            this.m_BravoFreq = BravoFreq;
+            this.m_Lobby = this.m_BaseManager.Lobby;
+            this.m_CurrentBase = this.m_BaseManager.getNextBase("BaseDuel");
+        }
+
+        // get/set Current Base
+        public Base loadedBase()
+        { return this.m_CurrentBase; }
+        public void loadedBase(Base lBase)
+        {
+            this.m_CurrentBase = lBase;
+        }
+
+        public bool playerInGame(SSPlayer p, out Classes.BasePlayer basePlayer , out bool InAlpha)
+        {
+            basePlayer = m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
+
+            if (basePlayer == null)
+            {   return false;   }
+
+            return true;
+        }
+
+        //----------------------------------------------------------------------//
+        //                       Commands                                       //
+        //----------------------------------------------------------------------//
+        public void command_Start(SSPlayer p)
+        {
+            // Get freq counts
+            int aCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_AlphaFreq).Count;
+            int bCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_BravoFreq).Count;
+            
+            if (aCount > 0 && bCount > 0)
+            {
+                this.freqDump(this.m_AlphaFreq, this.m_CurrentPoint.AlphaTeam(),true);
+                this.freqDump(this.m_BravoFreq, this.m_CurrentPoint.BravoTeam(), false);
+
+                psyGame.Send(msg.arena("[ BaseDuel ] A game will begin in " + this.m_StartGameDelay + " seconds. [ " + this.m_CurrentPoint.AlphaCount() + " vs " + this.m_CurrentPoint.BravoCount() + " ] "));
+                psyGame.Send(msg.team_pm(this.m_AlphaFreq, "Welcome to Team: " + this.m_CurrentPoint.AlphaTeam().teamName() + ". Good Luck!"));
+                psyGame.Send(msg.team_pm(this.m_BravoFreq, "Welcome to Team: " + this.m_CurrentPoint.BravoTeam().teamName() + ". Good Luck!"));
+
+                this.timer_Setup(TimerType.GameStart);
+                return;
+            }
+
+            // Need one player on opfor
+            psyGame.Send(msg.pm(p.PlayerName, "You need to have at least 1 player on each team to start. Please find an opponent and have them join Freq= " + (aCount == 0 ? this.m_AlphaFreq : this.m_BravoFreq) + "."));
+        }
+
+        //----------------------------------------------------------------------//
+        //                     Game Functions                                   //
+        //----------------------------------------------------------------------//
+        private void game_Start()
+        {
+            this.m_Status = Misc.BaseGameStatus.InProgress;
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?warpto " + this.m_CurrentBase.AlphaStartX + " " + this.m_CurrentBase.AlphaStartY + "|shipreset"));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, "?warpto " + this.m_CurrentBase.BravoStartX + " " + this.m_CurrentBase.BravoStartY + "|shipreset"));
+            sendBotSpam("- Start game here -");
+        }
+
+        private void point_AwardWinner(WinType winType, bool AlphaWon, string PlayerName)
+        {
+            this.m_Status = Misc.BaseGameStatus.BetweenPoints;
+
+            if (winType != WinType.NoCount)
+            {
+                if (AlphaWon) { this.m_AlphaPoints++; }
+                else { this.m_BravoPoints++; }
+
+                if (winType == WinType.BaseClear)
+                {
+                    sendBotSpam(("- " + (!AlphaWon ? this.m_CurrentPoint.AlphaTeam().teamName() : this.m_CurrentPoint.BravoTeam().teamName()) + " is all dead! --  Team " + (AlphaWon ? this.m_CurrentPoint.AlphaTeam().teamName() : this.m_CurrentPoint.BravoTeam().teamName()) + " scores! -"));
+                }
+                else if (winType == WinType.SafeWin)
+                {
+                    this.m_CurrentPoint.setSafeWinner(PlayerName);
+                    sendBotSpam("- [ " + PlayerName + " ] has breached the enemy's defense! (SafeWin) " + (AlphaWon ? "[ " + this.m_CurrentPoint.AlphaTeam().teamName() + " Team Win ]" : "[ " + this.m_CurrentPoint.BravoTeam().teamName() + " Team Win ]"));
+                }
+                // display score
+                sendBotSpam("- " + this.m_CurrentPoint.AlphaTeam().teamName() + " [ " + this.m_AlphaPoints.ToString() + " ]     Score     [ " + this.m_BravoPoints.ToString() + " ] " + this.m_CurrentPoint.BravoTeam().teamName() + " -");
+                sendBotSpam("- ----------------------------------------------- -");
+            }
+
+            this.m_CurrentPoint.getSavedPoint(AlphaWon, winType);
+
+            timer_Setup(TimerType.GameStart);
+        }
+
+        public void removePlayer(string PlayerName, bool InAlpha)
+        {
+            this.m_CurrentPoint.removePlayer(PlayerName, InAlpha);
+
+            // do a count check here
+        }
+
+        //----------------------------------------------------------------------//
+        //                         Events                                       //
+        //----------------------------------------------------------------------//
+        public void Event_TurretEvent(SSPlayer a, SSPlayer h, BasePlayer host)
+        {
+            bool InAlpha;
+            BasePlayer attacher = this.m_CurrentPoint.getPlayer(a.PlayerName, out InAlpha);
+            bool InLobby = this.player_InRegion(h.Position, this.m_Lobby.BaseDimension);
+            host.inLobby(InLobby);
+            attacher.inLobby(InLobby);
+
+            if (this.m_Status == Misc.BaseGameStatus.InProgress)
+            {
+                if (InLobby) allOutCheck();
+            }
+        }
+        // Player position gets sent if InSafe
+        public void Event_PlayerPosition(SSPlayer p, BasePlayer b)
+        {
+            bool InLobby = this.player_InRegion(p.Position, this.m_Lobby.BaseDimension);
+            b.inLobby(InLobby);
+
+            if (this.m_Status == Misc.BaseGameStatus.InProgress)
+            {
+                if (InLobby) allOutCheck();
+            }
+        }
+
+        //----------------------------------------------------------------------//
+        //                       Timer Stuff                                    //
+        //----------------------------------------------------------------------//
+        private void timer_Setup(TimerType t)
+        {
+            m_Timer = new Timer();
+
+            // Set the timer for what we need it to do: Start or Clear Check
+            if (t == TimerType.GameStart)
+            {
+                m_StartGameDelay_Elapsed = m_StartGameDelay;
+                m_Timer.Elapsed += new ElapsedEventHandler(timer_StartGame);
+                m_Timer.Interval = 1000;
+            }
+            else if (t == TimerType.BaseClear)
+            {
+                psyGame.Send(msg.debugChan("Starting Clear Timer"));
+                m_Timer.Elapsed += new ElapsedEventHandler(timer_BaseClear);
+                m_Timer.Interval = m_TeamClearDelay * 1000;
+            }
+            else if (t == TimerType.InactiveReset)
+            {
+                psyGame.Send(msg.debugChan("Starting Inactive Timer"));
+                m_Timer.Elapsed += new ElapsedEventHandler(timer_InactiveTimer);
+                m_Timer.Interval = m_InactivityReset * 1000;
+            }
+
+            m_Timer.Start();
+        }
+        private void timer_BaseClear(object source, ElapsedEventArgs e)
+        {
+            psyGame.Send(msg.debugChan("- All out timer expired. -"));
+            m_Timer.Stop();
+
+            if (this.m_CurrentPoint.AlphaTeam().teamAllOut() || this.m_CurrentPoint.BravoTeam().teamAllOut())
+            {
+                point_AwardWinner(WinType.NoCount, true, "");
+            }
+        }
+
+        private void timer_StartGame(object source, ElapsedEventArgs e)
+        {
+            m_StartGameDelay_Elapsed--;
+
+            if (m_StartGameDelay_Elapsed <= m_StartGameShow)
+            {
+                if (m_StartGameDelay_Elapsed != 0)
+                {
+                    psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?|objon " + m_StartGameDelay_Elapsed));
+                    psyGame.Send(msg.team_pm(this.m_BravoFreq, "?|objon " + m_StartGameDelay_Elapsed));
+                    psyGame.Send(msg.arena( "", SoundCodes.MessageAlarm));
+                }
+                else
+                {
+                    psyGame.Send(msg.team_pm(this.m_AlphaFreq, "*objon " + m_StartGameDelay_Elapsed));
+                    psyGame.Send(msg.team_pm(this.m_BravoFreq, "*objon " + m_StartGameDelay_Elapsed));
+                    psyGame.Send(msg.arena("", SoundCodes.Goal));
+                }
+            }
+
+            if (m_StartGameDelay_Elapsed > 0) return;
+
+            m_Timer.Stop();
+
+            // Make sure there is enough ppl in team to start
+            if (this.m_CurrentPoint.AlphaCount() > 0 && this.m_CurrentPoint.BravoCount() > 0)
+            { 
+                this.game_Start();
+                return;
+            }
+
+            // reset Teams
+            this.m_CurrentPoint.AlphaTeam().resetTeam();
+            this.m_CurrentPoint.BravoTeam().resetTeam();
+            sendBotSpam("- Not enough players. Start Game cancelled. -");   
+        }
+        private void timer_InactiveTimer(object source, ElapsedEventArgs e)
+        {
+            //int aCount = m_BaseGame.Round.AlphaTeam.TeamMembers.FindAll(item => item.Active).Count;
+            //int bCount = m_BaseGame.Round.BravoTeam.TeamMembers.FindAll(item => item.Active).Count;
+
+            //if (aCount == 0 || bCount == 0)
+            //{
+            //    psyGame.Send(msg.arena("Game has been reset due to team inactivity.", SoundCodes.BassBeep));
+            //    game_Reset();
+            //}
+            psyGame.Send(msg.arena("Timer stopped- Inactive.", SoundCodes.BassBeep));
+            m_Timer.Stop();
+        }
+
+        //----------------------------------------------------------------------//
+        //                             Misc                                     //
+        //----------------------------------------------------------------------//
+        private void allOutCheck()
+        {
+            if (!this.m_Timer.Enabled && (this.m_CurrentPoint.AlphaTeam().teamAllOut() || this.m_CurrentPoint.BravoTeam().teamAllOut()))
+            {
+                this.timer_Setup(TimerType.BaseClear);
+            }
+        }
+        private void freqDump(ushort Freq, BaseTeam team, bool IsAlpha)
+        {
+            // Grab names from freq
+            List<SSPlayer> pList = this.m_Players.PlayerList.FindAll(item => item.Frequency == Freq);
+
+            // Toss freqs into teams
+            while (pList.Count > 0)
+            {
+                if (team.teamCount() == 0)
+                    team.teamName(pList[0].SquadName == "~ no squad ~" ? (IsAlpha?"Alpha":"Bravo") : pList[0].SquadName);
+
+                team.playerJoin(pList[0].PlayerName);
+                pList.RemoveAt(0);
+            }
+
+            if (IsAlpha) return;
+
+            if (this.m_CurrentPoint.AlphaTeam().teamName() == this.m_CurrentPoint.BravoTeam().teamName())
+            {
+                this.m_CurrentPoint.AlphaTeam().teamName("Alpha");
+                this.m_CurrentPoint.BravoTeam().teamName("Bravo");
+            }
+        }
+        // send printouts according to setting
+        private void sendBotSpam(string Message)
+        {
+            ChatEvent spam = new ChatEvent();
+            spam.Message = Message;
+
+            if (m_BotSpamSetting != ChatTypes.Team)
+            {
+                spam.ChatType = m_BotSpamSetting;
+                psyGame.Send(spam);
+                return;
+            }
+
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, Message));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, Message));
+        }
+
+        // Simple collision check
+        private bool player_InRegion(PlayerPositionEvent p, ushort[] region)
+        {
+            int x = p.MapPositionX;
+            int y = p.MapPositionY;
+            return (x >= region[0] && x <= region[2] && y >= region[1] && y <= region[3]);
+        }
+
+        // must turn in old base before you can get a new one - basemanager rules no exceptions
+        private Base getNextBase(Base OldBase)
+        {
+            m_BaseManager.ReleaseBase(OldBase, "BaseDuel");
+            return m_BaseManager.getNextBase("BaseDuel");
+        }
+
+        //----------------------------------------------------------------------//
+        //                           PrintOuts                                  //
+        //----------------------------------------------------------------------//
+        public void getGameInfo(SSPlayer p)
+        {
+            int rightOffset = 35;
+            int leftOffset = 20;
+            psyGame.Send(msg.pm(p.PlayerName, "Status        :".PadRight(leftOffset) + (this.gameStatus().ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Setting Type  :".PadRight(leftOffset) + (this.gameSettings().ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Alpha Freq    :".PadRight(leftOffset) + ("Freq: " + this.AlphaFreq.ToString().PadLeft(4,'0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Team Count    :".PadRight(leftOffset) + this.m_CurrentPoint.AlphaCount().ToString().PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Bravo Freq    :".PadRight(leftOffset) + ("Freq: " + this.BravoFreq.ToString().PadLeft(4, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Team Count    :".PadRight(leftOffset) + this.m_CurrentPoint.BravoCount().ToString().PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Minimum Point :".PadRight(leftOffset) + (this.m_MinimumPoint.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Win By        :".PadRight(leftOffset) + (this.m_WinBy.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Safe Win      :".PadRight(leftOffset) + ((this.m_AllowSafeWin?"On":"Off").PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Locked        :".PadRight(leftOffset) + ((this.m_Locked ? "Locked" : "Unlocked").PadLeft(2, '0')).PadLeft(rightOffset)));
+        }
+    }
+}

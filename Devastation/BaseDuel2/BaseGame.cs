@@ -24,7 +24,7 @@ namespace Devastation.BaseDuel
             this.m_WinBy = 2;
         }
 
-        public BaseGame(ShortChat msg, MyGame psyGame, ChatTypes BotSpamSetting)
+        public BaseGame(ShortChat msg, MyGame psyGame, ChatTypes BotSpamSetting, SSPlayerManager Players)
         {
             this.msg = msg;
             this.psyGame = psyGame;
@@ -38,6 +38,7 @@ namespace Devastation.BaseDuel
             this.m_MinimumWin = 5;
             this.m_WinBy = 2;
             this.m_BotSpamSetting = BotSpamSetting;
+            this.m_Players = Players;
         }
         
         ShortChat msg;
@@ -54,6 +55,7 @@ namespace Devastation.BaseDuel
         private int m_WinBy;
         private ChatTypes m_BotSpamSetting;
         private Base m_Base;
+        private SSPlayerManager m_Players;
 
         public Base Base
         { get { return m_Base; } }
@@ -213,8 +215,15 @@ namespace Devastation.BaseDuel
             this.m_RoundsPlayed.Add(this.m_Round.getSavedRound());
         }
 
-        public void restartRound(ChatEvent e)
+        public void restartRound(ChatEvent e, double delay)
         {
+            // Game should be in progress or in hold to use this.
+            if (this.getStatus() == BaseGameStatus.GameIdle)
+            {
+                psyGame.Send(msg.pm(e.PlayerName, "A game must be in progress to use this command."));
+                return;
+            }
+
             if (this.getStatus() == BaseGameStatus.GameOn)
             {
                 //send players to center
@@ -224,6 +233,9 @@ namespace Devastation.BaseDuel
 
             this.setStatus(BaseGameStatus.GameIntermission);
             this.resetPlayers();
+
+            sendBotSpam("- Round has been reset! - " + e.PlayerName);
+            sendBotSpam("- Starting same round in " + delay + " seconds! -");
         }
 
         public bool teamIsOut(out bool Alpha, out bool Bravo)

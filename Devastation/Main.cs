@@ -21,9 +21,9 @@ namespace Devastation
         {
             this.m_Players = new SSPlayerManager(7265);
             this.msg = new ShortChat(m_Players.PlayerList);
-            this.msg.DebugMode = false;
+            this.msg.DebugMode = true;
             this.msg.IsASSS = true;
-            this.myGame = new MyGame();
+            this.psyGame = new MyGame();
 
             this.m_GameTimer = new Timer();
             this.m_GameTimer.Elapsed += new ElapsedEventHandler(GameTimer);
@@ -34,7 +34,7 @@ namespace Devastation
         }
 
         private ShortChat msg;                          // Class to make sending messages easier
-        private MyGame myGame;                          // Both classes come from BattleCorePsyOps
+        private MyGame psyGame;                          // Both classes come from BattleCorePsyOps
         
         private BaseManager m_BaseManager;
 
@@ -42,7 +42,8 @@ namespace Devastation
         private bool m_StartIni, m_Initialized;         // Bool to help initialize bot
         private string m_BotName, m_ArenaName;          // Store bot info
         private byte[] m_MapInfo;                       // Byte array containing map info
-        private BaseDuel.Main m_BaseDuel;               // BaseDuel Game
+        //private BaseDuel.Main m_BaseDuel2;               // BaseDuel Game
+        private BaseDuel.BaseDuel m_BaseDuel;
         private SSPlayerManager m_Players;
         private BaseRace m_BaseRace;
 
@@ -69,8 +70,9 @@ namespace Devastation
         {
             if (!m_Initialized) return;
             
-            m_BaseDuel.Commands(e);
+            //m_BaseDuel2.Commands(e);
             m_BaseRace.Commands(e);
+            m_BaseDuel.Commands(e);
         }
 
         public void MonitorPlayerEnteredEvent(object sender, PlayerEnteredEvent e)
@@ -81,7 +83,7 @@ namespace Devastation
 
             SSPlayer ssp = m_Players.GetPlayer(e);
 
-            m_BaseDuel.Event_PlayerEntered(ssp);
+            //m_BaseDuel2.Event_PlayerEntered(ssp);
             m_BaseRace.Event_PlayerEntered(ssp);
         }
         public void MonitorPlayerLeftEvent(object sender, PlayerLeftEvent e)
@@ -91,7 +93,7 @@ namespace Devastation
             SSPlayer ssp = m_Players.GetPlayer(e);
             
             // Update baseduel
-            m_BaseDuel.Event_PlayerLeft(ssp);
+            //m_BaseDuel2.Event_PlayerLeft(ssp);
             m_BaseRace.Event_PlayerLeft(ssp);
             
             // removing here allows you to pull all needed info inbetween, then you can delete
@@ -103,8 +105,9 @@ namespace Devastation
 
             SSPlayer ssp = m_Players.GetPlayer(e);
             
-            m_BaseDuel.Event_PlayerFreqChange(ssp);
+            //m_BaseDuel2.Event_PlayerFreqChange(ssp);
             m_BaseRace.Event_PlayerFreqChange(ssp);
+            m_BaseDuel.Event_PlayerFreqChange(ssp);
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)
         {
@@ -112,7 +115,7 @@ namespace Devastation
 
             SSPlayer ssp = m_Players.GetPlayer(e);
 
-            m_BaseDuel.Event_ShipChange(ssp);
+            //m_BaseDuel2.Event_ShipChange(ssp);
             m_BaseRace.Event_ShipChange(ssp);
         }
         public void MonitorPlayerPositionEvent(object sender, PlayerPositionEvent e)
@@ -121,6 +124,7 @@ namespace Devastation
 
             SSPlayer ssp = m_Players.GetPlayer(e);
 
+            //m_BaseDuel2.Event_PlayerPosition(ssp);
             m_BaseDuel.Event_PlayerPosition(ssp);
             m_BaseRace.Event_PlayerPosition(ssp);
         }
@@ -134,13 +138,14 @@ namespace Devastation
 
             if (e.TurretHostId == 65535)
             {
-                m_BaseDuel.Event_PlayerTurretDetach(attacher);
+                //m_BaseDuel2.Event_PlayerTurretDetach(attacher);
                 m_BaseRace.Event_PlayerTurretDetach(attacher);
                 return;
             }
 
-            m_BaseDuel.Event_PlayerTurretAttach(attacher, host);
+            //m_BaseDuel2.Event_PlayerTurretAttach(attacher, host);
             m_BaseRace.Event_PlayerTurretAttach(attacher, host);
+            m_BaseDuel.Event_PlayerTurretAttach(attacher, host);
         }
 
         //----------------------------------------------------------------------//
@@ -161,7 +166,7 @@ namespace Devastation
                 // Grab bot and map info and store it
                 m_BotName = e.BotName;
 
-                if (e.MapFile == null)
+                if (e.MapFile.Length <= 0)
                 {
                     Game(msg.arena("[ Deva Main ] Error: Map file received null, arena name set from hardcoded var."));
                     m_ArenaName = "devadev.lvl";
@@ -181,9 +186,10 @@ namespace Devastation
                 // Load all player info from the event and build list
                 m_Players.PlayerInfoEvent = e;
                 // Once we have mapdata we initialize baseduel
-                m_BaseManager = new BaseManager(m_MapInfo);
-                m_BaseDuel = new BaseDuel.Main(m_BaseManager, m_Players, msg, myGame);
-                m_BaseRace = new BaseRace(m_Players, m_BaseManager, msg,myGame);
+                m_BaseManager = new BaseManager(m_MapInfo,msg,psyGame);
+                //m_BaseDuel2 = new BaseDuel.Main(m_BaseManager, m_Players, msg, myGame);
+                m_BaseRace = new BaseRace(m_Players, m_BaseManager, msg,psyGame);
+                m_BaseDuel = new BaseDuel.BaseDuel(m_BaseManager, m_Players, msg, psyGame);
 
                 m_GameTimer.Stop();
                 m_GameTimer = new Timer();
@@ -207,8 +213,8 @@ namespace Devastation
 
             if (!m_Initialized) return;
 
-            SendPsyEvent(myGame.EventQ);
-            SendPsyEvent(myGame.CoreEventQ, true);
+            SendPsyEvent(psyGame.EventQ);
+            SendPsyEvent(psyGame.CoreEventQ, true);
         }
 
         //----------------------------------------------------------------------//

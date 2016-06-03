@@ -30,7 +30,7 @@ namespace Devastation.BaseDuel
             //this.m_Base = m_BaseManager.getNextBase();
             this.m_Lobby = m_BaseManager.Lobby;
 
-            this.m_BaseGame = new BaseGame(msg,psyGame,m_BotSpamSetting);
+            this.m_BaseGame = new BaseGame(msg,psyGame,m_BotSpamSetting,m_Players);
             this.m_BaseGame.loadBase(m_BaseManager.getNextBase());
             //this.m_BaseGame.Round.BaseNumber = (short)m_Base.Number;
 
@@ -336,7 +336,7 @@ namespace Devastation.BaseDuel
         // reset all vars to baseduel
         private void module_Reset()
         {
-            m_BaseGame = new BaseGame(msg, psyGame,m_BotSpamSetting);
+            m_BaseGame = new BaseGame(msg, psyGame,m_BotSpamSetting,m_Players);
             m_BaseGame.AlphaFreq = m_AlphaFreq;
             m_BaseGame.BravoFreq = m_BravoFreq;
             m_BaseGame.AlphaStartFreq = m_AlphaStartFreq;
@@ -362,7 +362,7 @@ namespace Devastation.BaseDuel
         private void game_Reset()
         {
             // Reset game vars
-            m_BaseGame = new BaseGame(msg, psyGame,m_BotSpamSetting);
+            m_BaseGame = new BaseGame(msg, psyGame,m_BotSpamSetting,m_Players);
             m_BaseGame.AlphaFreq = m_AlphaFreq;
             m_BaseGame.BravoFreq = m_BravoFreq;
             m_BaseGame.setStatus(BaseGameStatus.GameIdle);
@@ -447,19 +447,9 @@ namespace Devastation.BaseDuel
         {
             if (!player_isMod(e, ModLevels.Mod)) return;
 
-            // Game should be in progress or in hold to use this.
-            if (m_BaseGame.getStatus() == BaseGameStatus.GameIdle)
-            {
-                psyGame.Send(msg.pm(e.PlayerName, "A game must be in progress to use this command."));
-                return;
-            }
-
             if (m_Timer.Enabled) m_Timer.Stop();
             timer_Setup(TimerType.GameStart);
-            this.m_BaseGame.restartRound(e);
-
-            sendBotSpam("- Round has been reset! - " + e.PlayerName);
-            sendBotSpam("- Starting same round in " + m_StartGameDelay + " seconds! -");
+            this.m_BaseGame.restartRound(e, m_StartGameDelay);
         }
 
         private void players_MoveToTeams()
