@@ -9,8 +9,8 @@ namespace Devastation.BaseDuel.Classes
     {
         public BasePoint()
         {
-            m_AlphaTeam = new BaseTeam();
-            m_BravoTeam = new BaseTeam();
+            this.m_AlphaTeam = new BaseTeam();
+            this.m_BravoTeam = new BaseTeam();
         }
 
         private BaseTeam m_AlphaTeam;
@@ -31,7 +31,18 @@ namespace Devastation.BaseDuel.Classes
             save.m_WinType = winType;
             save.m_TotalTime = DateTime.Now - this.m_StartTime;
             save.m_StartTime = this.m_StartTime;
+            save.m_BaseNumber = this.m_BaseNumber;
+            save.m_AlphaTeam = this.m_AlphaTeam;
+            save.m_BravoTeam = this.m_BravoTeam;
+            save.m_SafeWinner = this.m_SafeWinner;
             return save;
+        }
+
+        public void resetPoint()
+        {
+            this.m_AlphaTeam.flushTeam();
+            this.m_BravoTeam.flushTeam();
+            this.m_SafeWinner = null;
         }
 
         public void setSafeWinner(string PlayerName)

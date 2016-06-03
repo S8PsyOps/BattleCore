@@ -142,7 +142,6 @@ namespace Devastation.BaseDuel.Classes
             this.m_Status = Misc.BaseGameStatus.InProgress;
             psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?warpto " + this.m_CurrentBase.AlphaStartX + " " + this.m_CurrentBase.AlphaStartY + "|shipreset"));
             psyGame.Send(msg.team_pm(this.m_BravoFreq, "?warpto " + this.m_CurrentBase.BravoStartX + " " + this.m_CurrentBase.BravoStartY + "|shipreset"));
-            sendBotSpam("- Start game here -");
         }
 
         private void point_AwardWinner(WinType winType, bool AlphaWon, string PlayerName)
@@ -167,8 +166,22 @@ namespace Devastation.BaseDuel.Classes
                 sendBotSpam("- " + this.m_CurrentPoint.AlphaTeam().teamName() + " [ " + this.m_AlphaPoints.ToString() + " ]     Score     [ " + this.m_BravoPoints.ToString() + " ] " + this.m_CurrentPoint.BravoTeam().teamName() + " -");
                 sendBotSpam("- ----------------------------------------------- -");
             }
+            else
+            {
+                sendBotSpam("- Both teams out -- No count -");
+            }
 
-            this.m_CurrentPoint.getSavedPoint(AlphaWon, winType);
+            this.m_AllPoints.Add(this.m_CurrentPoint.getSavedPoint(AlphaWon, winType));
+            this.m_CurrentPoint.resetPoint();
+
+            if (winType != WinType.NoCount)
+            {
+                this.loadNextBase();
+                this.m_CurrentPoint.setBaseNumber(this.m_CurrentBase.Number);
+                sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
+            }
+            else
+            { sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -"); }
 
             timer_Setup(TimerType.GameStart);
         }
@@ -242,9 +255,12 @@ namespace Devastation.BaseDuel.Classes
             psyGame.Send(msg.debugChan("- All out timer expired. -"));
             m_Timer.Stop();
 
-            if (this.m_CurrentPoint.AlphaTeam().teamAllOut() || this.m_CurrentPoint.BravoTeam().teamAllOut())
+            bool aOut = this.m_CurrentPoint.AlphaTeam().teamAllOut();
+            bool bOut = this.m_CurrentPoint.BravoTeam().teamAllOut();
+
+            if (aOut || bOut)
             {
-                point_AwardWinner(WinType.NoCount, true, "");
+                this.point_AwardWinner(aOut == bOut?WinType.NoCount:WinType.BaseClear, !aOut, "");
             }
         }
 
@@ -308,6 +324,7 @@ namespace Devastation.BaseDuel.Classes
                 this.timer_Setup(TimerType.BaseClear);
             }
         }
+        // Add everyone from the freq into corresponding team list
         private void freqDump(ushort Freq, BaseTeam team, bool IsAlpha)
         {
             // Grab names from freq
@@ -357,10 +374,10 @@ namespace Devastation.BaseDuel.Classes
         }
 
         // must turn in old base before you can get a new one - basemanager rules no exceptions
-        private Base getNextBase(Base OldBase)
+        private void loadNextBase()
         {
-            m_BaseManager.ReleaseBase(OldBase, "BaseDuel");
-            return m_BaseManager.getNextBase("BaseDuel");
+            m_BaseManager.ReleaseBase(this.m_CurrentBase, "BaseDuel");
+            this.m_CurrentBase = m_BaseManager.getNextBase("BaseDuel");
         }
 
         //----------------------------------------------------------------------//
@@ -378,7 +395,7 @@ namespace Devastation.BaseDuel.Classes
             psyGame.Send(msg.pm(p.PlayerName, "Team Count    :".PadRight(leftOffset) + this.m_CurrentPoint.BravoCount().ToString().PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Minimum Point :".PadRight(leftOffset) + (this.m_MinimumPoint.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Win By        :".PadRight(leftOffset) + (this.m_WinBy.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
-            psyGame.Send(msg.pm(p.PlayerName, "Safe Win      :".PadRight(leftOffset) + ((this.m_AllowSafeWin?"On":"Off").PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Safe Win      :".PadRight(leftOffset) + ((this.m_AllowSafeWin?"- On -":"- Off -").PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Locked        :".PadRight(leftOffset) + ((this.m_Locked ? "Locked" : "Unlocked").PadLeft(2, '0')).PadLeft(rightOffset)));
         }
     }

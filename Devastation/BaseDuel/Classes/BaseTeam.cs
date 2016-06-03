@@ -26,6 +26,20 @@ namespace Devastation.BaseDuel.Classes
             return !(m_Players.FindAll(player => !player.inLobby()).Count > 0);
         }
 
+        public void flushTeam()
+        {
+            // I am considering making another class Stats.cs
+            // and then reseting it on a flush
+            // ill do this for now
+            for (int i = 0; i < m_Players.Count; i++)
+            {
+                string name = m_Players[i].PlayerName;
+                m_Players[i] = new BasePlayer(name);
+            }
+            // completely delete any inactives
+            m_Inactives = new List<BasePlayer>();
+        }
+
         public void resetTeam()
         {
             this.m_Players = new List<BasePlayer>();
