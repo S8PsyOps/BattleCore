@@ -13,34 +13,30 @@ namespace Devastation.BaseDuel.Classes
 {
     public class BaseGame
     {
-        public BaseGame(ShortChat msg, MyGame psyGame, SSPlayerManager Players, BaseManager BaseManager)
+        public BaseGame(ShortChat msg, MyGame psyGame, SSPlayerManager Players, BaseManager BaseManager, bool Multi)
         {
             this.msg = msg;
             this.psyGame = psyGame;
             this.m_Players = Players;
+            this.m_MultiOn = Multi;
             this.m_BaseManager = BaseManager;
-            this.m_CurrentPoint = new BasePoint();
-            this.m_AllPoints = new List<BasePoint>();
+            this.game_reset();
             this.m_Status = Misc.BaseGameStatus.NotStarted;
-            
-            this.m_Timer = new Timer();
-            this.m_StartGameDelay = 10;
-            this.m_StartGameShow = 5;
-            this.m_TeamClearDelay = 5;
-            this.m_InactivityReset = 30;
-            this.m_BotSpamSetting = ChatTypes.Team;
         }
 
         private ShortChat msg;
         private MyGame psyGame;
         private SSPlayerManager m_Players;
         private BaseManager m_BaseManager;
+        private List<Misc.ArchivedGames> m_Archive;
+        private bool m_MultiOn;
         private Base m_Lobby;
         private Base m_CurrentBase;
         private BasePoint m_CurrentPoint;
         private List<BasePoint> m_AllPoints;
         private Misc.BaseGameStatus m_Status;
         private Misc.GameSetting m_SettingType;
+        private int m_GameNum;
         
         private bool m_AllowSafeWin;
         private ushort m_AlphaFreq, m_BravoFreq;
@@ -56,6 +52,12 @@ namespace Devastation.BaseDuel.Classes
         private double m_InactivityReset;
         
         private ChatTypes m_BotSpamSetting;
+
+        public void setArchive(List<Misc.ArchivedGames> ArchivedGames)
+        { this.m_Archive = ArchivedGames; }
+
+        public void setGameNum(int num)
+        { this.m_GameNum = num; }
 
         public void setLocked(bool locked)
         { this.m_Locked = locked; }
@@ -98,21 +100,17 @@ namespace Devastation.BaseDuel.Classes
             this.m_CurrentBase = lBase;
         }
 
-        public bool playerInGame(SSPlayer p, out Classes.BasePlayer basePlayer , out bool InAlpha)
-        {
-            basePlayer = m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
-
-            if (basePlayer == null)
-            {   return false;   }
-
-            return true;
-        }
-
         //----------------------------------------------------------------------//
         //                       Commands                                       //
         //----------------------------------------------------------------------//
         public void command_Start(SSPlayer p)
         {
+            if (this.m_Timer.Enabled || this.m_Status != Misc.BaseGameStatus.NotStarted)
+            {
+                psyGame.Send(msg.pm(p.PlayerName, "The game has already been started."));
+                return;
+            }
+
             // Get freq counts
             int aCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_AlphaFreq).Count;
             int bCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_BravoFreq).Count;
@@ -122,7 +120,7 @@ namespace Devastation.BaseDuel.Classes
                 this.freqDump(this.m_AlphaFreq, this.m_CurrentPoint.AlphaTeam(),true);
                 this.freqDump(this.m_BravoFreq, this.m_CurrentPoint.BravoTeam(), false);
 
-                psyGame.Send(msg.arena("[ BaseDuel ] A game will begin in " + this.m_StartGameDelay + " seconds. [ " + this.m_CurrentPoint.AlphaCount() + " vs " + this.m_CurrentPoint.BravoCount() + " ] "));
+                psyGame.Send(msg.arena("[ BaseDuel ] A game will begin in " + this.m_StartGameDelay + " seconds. [ " + this.m_CurrentPoint.AlphaCount() + " vs " + this.m_CurrentPoint.BravoCount() + " ]" + (this.m_MultiOn ? "      - Game: [ " + this.m_GameNum + " ] -" : ".")));
                 psyGame.Send(msg.team_pm(this.m_AlphaFreq, "Welcome to Team: " + this.m_CurrentPoint.AlphaTeam().teamName() + ". Good Luck!"));
                 psyGame.Send(msg.team_pm(this.m_BravoFreq, "Welcome to Team: " + this.m_CurrentPoint.BravoTeam().teamName() + ". Good Luck!"));
 
@@ -137,11 +135,49 @@ namespace Devastation.BaseDuel.Classes
         //----------------------------------------------------------------------//
         //                     Game Functions                                   //
         //----------------------------------------------------------------------//
+        private void game_Save()
+        {
+            List<BasePoint> save = new List<BasePoint>();
+
+            while (this.m_AllPoints.Count > 0)
+            {
+                save.Add(this.m_AllPoints[0]);
+                this.m_AllPoints.RemoveAt(0);
+            }
+
+            Misc.ArchivedGames savedGame = new Misc.ArchivedGames(save);
+
+            this.m_Archive.Add(savedGame);
+        }
+        private void game_reset()
+        {
+            this.m_CurrentPoint = new BasePoint();
+            this.m_AllPoints = new List<BasePoint>();
+            this.m_Status = Misc.BaseGameStatus.NotStarted;
+
+            this.m_Timer = new Timer();
+            this.m_StartGameDelay = 10;
+            this.m_StartGameShow = 5;
+            this.m_TeamClearDelay = 5;
+            this.m_InactivityReset = 30;
+            this.m_BotSpamSetting = ChatTypes.Team;
+            this.m_AlphaPoints = 0;
+            this.m_BravoPoints = 0;
+        }
         private void game_Start()
         {
             this.m_Status = Misc.BaseGameStatus.InProgress;
             psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?warpto " + this.m_CurrentBase.AlphaStartX + " " + this.m_CurrentBase.AlphaStartY + "|shipreset"));
             psyGame.Send(msg.team_pm(this.m_BravoFreq, "?warpto " + this.m_CurrentBase.BravoStartX + " " + this.m_CurrentBase.BravoStartY + "|shipreset"));
+
+            sendBotSpam("- Current Base        : " + this.m_CurrentBase.Number.ToString().PadLeft(2,'0'));
+            if (this.m_AllPoints.Count == 0)
+            {
+                sendBotSpam("- Team vs Team Rules  : " + (this.m_AllowSafeWin ? "BaseClear and Safes" : "BaseClear"));
+                sendBotSpam("- Auto Scoring        :  - On -");
+            }
+
+            this.m_CurrentPoint.startPoint();
         }
 
         private void point_AwardWinner(WinType winType, bool AlphaWon, string PlayerName)
@@ -174,32 +210,66 @@ namespace Devastation.BaseDuel.Classes
             this.m_AllPoints.Add(this.m_CurrentPoint.getSavedPoint(AlphaWon, winType));
             this.m_CurrentPoint.resetPoint();
 
+            if ((this.m_AlphaPoints >= this.m_MinimumPoint || this.m_BravoPoints >= this.m_MinimumPoint) && Math.Abs(this.m_AlphaPoints - this.m_BravoPoints) >= this.m_WinBy)
+            {
+                string AlphaName = this.m_CurrentPoint.AlphaTeam().teamName();
+                string BravoName = this.m_CurrentPoint.BravoTeam().teamName();
+                int AlphaScore = this.m_AlphaPoints;
+                int BravoScore = this.m_BravoPoints;
+
+                this.game_Save();
+                this.game_reset();
+
+                psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?prize warp"));
+                psyGame.Send(msg.team_pm(this.m_BravoFreq, "?prize warp"));
+
+                psyGame.Send(msg.arena("Final Score:   " + AlphaName + "[ " + AlphaScore + " ]  -  [ " + BravoScore + " ]" + BravoName + "     final print out here."));
+                return;
+            }
+
             if (winType != WinType.NoCount)
             {
                 this.loadNextBase();
                 this.m_CurrentPoint.setBaseNumber(this.m_CurrentBase.Number);
-                sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
+                sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -");
             }
             else
-            { sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -"); }
+            { sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -"); }
 
-            timer_Setup(TimerType.GameStart);
+            timer_Setup(TimerType.GameStart); 
         }
 
-        public void removePlayer(string PlayerName, bool InAlpha)
+        public void player_Remove(SSPlayer p)
         {
-            this.m_CurrentPoint.removePlayer(PlayerName, InAlpha);
+            this.m_CurrentPoint.removePlayer(p.PlayerName);
+        }
 
-            // do a count check here
+        public void player_Join(SSPlayer p)
+        {
+            bool InAlpha;
+            BasePlayer b = this.m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
+
+            // player is in right freq and is already part of team
+            if (b != null && (InAlpha ? this.m_AlphaFreq : this.m_BravoFreq) == p.Frequency) return;
+
+            if (p.Frequency == m_AlphaFreq)
+            { 
+                this.m_CurrentPoint.AlphaTeam().playerJoin(p.PlayerName); 
+            }
+            else if (p.Frequency == m_BravoFreq)
+            { 
+                this.m_CurrentPoint.BravoTeam().playerJoin(p.PlayerName);
+            }
         }
 
         //----------------------------------------------------------------------//
         //                         Events                                       //
         //----------------------------------------------------------------------//
-        public void Event_TurretEvent(SSPlayer a, SSPlayer h, BasePlayer host)
+        public void Event_TurretEvent(SSPlayer a, SSPlayer h)
         {
             bool InAlpha;
             BasePlayer attacher = this.m_CurrentPoint.getPlayer(a.PlayerName, out InAlpha);
+            BasePlayer host = this.m_CurrentPoint.getPlayer(h.PlayerName, out InAlpha);
             bool InLobby = this.player_InRegion(h.Position, this.m_Lobby.BaseDimension);
             host.inLobby(InLobby);
             attacher.inLobby(InLobby);
@@ -210,14 +280,27 @@ namespace Devastation.BaseDuel.Classes
             }
         }
         // Player position gets sent if InSafe
-        public void Event_PlayerPosition(SSPlayer p, BasePlayer b)
+        public void Event_PlayerPosition(SSPlayer p)
         {
             bool InLobby = this.player_InRegion(p.Position, this.m_Lobby.BaseDimension);
-            b.inLobby(InLobby);
+            bool InAlpha;
+            BasePlayer b = this.m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
+            
+            // add player here maybe if == null
 
             if (this.m_Status == Misc.BaseGameStatus.InProgress)
             {
-                if (InLobby) allOutCheck();
+                b.inLobby(InLobby);
+
+                if (InLobby)
+                { allOutCheck(); }
+                else
+                {
+                    if (this.player_InRegion(p.Position, (InAlpha ? this.m_CurrentBase.BravoSafe : this.m_CurrentBase.AlphaSafe)))
+                    {
+                        this.point_AwardWinner(WinType.SafeWin, InAlpha, p.PlayerName);
+                    }
+                }
             }
         }
 
@@ -317,6 +400,15 @@ namespace Devastation.BaseDuel.Classes
         //----------------------------------------------------------------------//
         //                             Misc                                     //
         //----------------------------------------------------------------------//
+        public bool playerInGame(SSPlayer p, out Classes.BasePlayer basePlayer, out bool InAlpha)
+        {
+            basePlayer = m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
+
+            if (basePlayer == null)
+            { return false; }
+
+            return true;
+        }
         private void allOutCheck()
         {
             if (!this.m_Timer.Enabled && (this.m_CurrentPoint.AlphaTeam().teamAllOut() || this.m_CurrentPoint.BravoTeam().teamAllOut()))
@@ -397,6 +489,21 @@ namespace Devastation.BaseDuel.Classes
             psyGame.Send(msg.pm(p.PlayerName, "Win By        :".PadRight(leftOffset) + (this.m_WinBy.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Safe Win      :".PadRight(leftOffset) + ((this.m_AllowSafeWin?"- On -":"- Off -").PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Locked        :".PadRight(leftOffset) + ((this.m_Locked ? "Locked" : "Unlocked").PadLeft(2, '0')).PadLeft(rightOffset)));
+            this.getRoundInfo(p);
+        }
+        public void getRoundInfo(SSPlayer p)
+        {
+            for (int i = 0; i < this.m_AllPoints.Count; i++)
+            {
+                Queue<string> reply = this.m_AllPoints[i].getPointInfo();
+
+                psyGame.Send(msg.pm(p.PlayerName, "=---------------------------------------------="));
+                psyGame.Send(msg.pm(p.PlayerName, "Point/Round [ "+(i + 1).ToString()+" ]"));
+                psyGame.Send(msg.pm(p.PlayerName, "=---------------------------------------------="));
+
+                while (reply.Count > 0)
+                    psyGame.Send(msg.pm(p.PlayerName, reply.Dequeue()));
+            }
         }
     }
 }

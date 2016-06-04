@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Devastation.BaseDuel.Classes
 {
-    class BaseTeam
+    public class BaseTeam
     {
         public BaseTeam()
         {
@@ -50,7 +50,18 @@ namespace Devastation.BaseDuel.Classes
         { return m_Players.Count; }
 
         public void playerJoin(string PlayerName)
-        { this.m_Players.Add(new BasePlayer(PlayerName)); }
+        {
+            BasePlayer b = this.m_Inactives.Find(item => item.PlayerName == PlayerName);
+
+            if (b == null)
+            {
+                this.m_Players.Add(new BasePlayer(PlayerName));
+                return;
+            }
+
+            this.m_Players.Add(b);
+            this.m_Inactives.Remove(b);
+        }
 
         public string teamName()
         { return this.m_TeamName; }

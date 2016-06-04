@@ -166,7 +166,7 @@ namespace Devastation
                 // Grab bot and map info and store it
                 m_BotName = e.BotName;
 
-                if (e.MapFile.Length <= 0)
+                if (e.MapFile == null || e.MapFile.Length <= 0)
                 {
                     Game(msg.arena("[ Deva Main ] Error: Map file received null, arena name set from hardcoded var."));
                     m_ArenaName = "devadev.lvl";
@@ -189,7 +189,7 @@ namespace Devastation
                 m_BaseManager = new BaseManager(m_MapInfo,msg,psyGame);
                 //m_BaseDuel2 = new BaseDuel.Main(m_BaseManager, m_Players, msg, myGame);
                 m_BaseRace = new BaseRace(m_Players, m_BaseManager, msg,psyGame);
-                m_BaseDuel = new BaseDuel.BaseDuel(m_BaseManager, m_Players, msg, psyGame);
+                m_BaseDuel = new BaseDuel.BaseDuel(m_BaseManager, m_Players, msg, psyGame, m_ArenaName);
 
                 m_GameTimer.Stop();
                 m_GameTimer = new Timer();

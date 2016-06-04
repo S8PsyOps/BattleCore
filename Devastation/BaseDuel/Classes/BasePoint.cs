@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Devastation.BaseDuel.Classes
 {
-    class BasePoint
+    public class BasePoint
     {
         public BasePoint()
         {
@@ -37,6 +37,9 @@ namespace Devastation.BaseDuel.Classes
             save.m_SafeWinner = this.m_SafeWinner;
             return save;
         }
+
+        public void startPoint()
+        { this.m_StartTime = DateTime.Now; }
 
         public void resetPoint()
         {
@@ -73,16 +76,30 @@ namespace Devastation.BaseDuel.Classes
             return this.m_BravoTeam.getPlayer(PlayerName);
         }
 
-        public void removePlayer(string PlayerName, bool InAlpha)
+        public void removePlayer(string PlayerName)
         {
-            if (InAlpha)
+            if (m_AlphaTeam.getPlayer(PlayerName) != null)
             {
                 this.m_AlphaTeam.removePlayer(PlayerName);
             }
-            else
+            else if (m_BravoTeam.getPlayer(PlayerName) != null)
             {
                 this.m_BravoTeam.removePlayer(PlayerName);
             }
+        }
+
+        public Queue<string> getPointInfo()
+        {
+            Queue<string> reply = new Queue<string>();
+            int rightOffset = 27;
+            int leftOffset = 20;
+
+            reply.Enqueue("Team Count    :".PadRight(leftOffset) + ("[ " + this.AlphaCount().ToString()+" vs " + this.BravoCount().ToString() + " ]").PadLeft(rightOffset));
+            reply.Enqueue("Winner        :".PadRight(leftOffset) + (this.m_AlphaWon ? "Alpha: " + this.m_AlphaTeam.teamName() : "Bravo: " + this.m_BravoTeam.teamName()).PadLeft(rightOffset));
+            reply.Enqueue("Base Number   :".PadRight(leftOffset) + (this.m_BaseNumber.ToString()).PadLeft(rightOffset));
+            reply.Enqueue("Win Type      :".PadRight(leftOffset) + (this.m_WinType.ToString()).PadLeft(rightOffset));
+
+            return reply;
         }
     }
 }

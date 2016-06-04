@@ -48,6 +48,7 @@
     <Compile Include="BaseDuel\Classes\BasePlayer.cs" />
     <Compile Include="BaseDuel\Classes\BasePoint.cs" />
     <Compile Include="BaseDuel\Classes\BaseTeam.cs" />
+    <Compile Include="BaseDuel\Misc\ArchivedGames.cs" />
     <Compile Include="BaseDuel\Misc\BaseEnums.cs" />
     <Compile Include="BaseDuel\Misc\SettingsLoader.cs" />
     <Compile Include="Bases\Base.cs" />
