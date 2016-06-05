@@ -51,6 +51,7 @@
     <Compile Include="BaseDuel\Misc\ArchivedGames.cs" />
     <Compile Include="BaseDuel\Misc\BaseEnums.cs" />
     <Compile Include="BaseDuel\Misc\SettingsLoader.cs" />
+    <Compile Include="BaseRace\RaceData.cs" />
     <Compile Include="Bases\Base.cs" />
     <Compile Include="BaseDuel2\BaseGame.cs" />
     <Compile Include="Bases\BaseLoader.cs" />

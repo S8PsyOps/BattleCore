@@ -21,7 +21,7 @@ namespace Devastation
         {
             this.m_Players = new SSPlayerManager(7265);
             this.msg = new ShortChat(m_Players.PlayerList);
-            this.msg.DebugMode = true;
+            this.msg.DebugMode = false;
             this.msg.IsASSS = true;
             this.psyGame = new MyGame();
 
@@ -35,7 +35,7 @@ namespace Devastation
 
         private ShortChat msg;                          // Class to make sending messages easier
         private MyGame psyGame;                          // Both classes come from BattleCorePsyOps
-        
+      
         private BaseManager m_BaseManager;
 
         private Timer m_GameTimer;                      // Main timer for bot
@@ -45,7 +45,7 @@ namespace Devastation
         //private BaseDuel.Main m_BaseDuel2;               // BaseDuel Game
         private BaseDuel.BaseDuel m_BaseDuel;
         private SSPlayerManager m_Players;
-        private BaseRace m_BaseRace;
+        private BaseRace.BaseRace m_BaseRace;
 
         
 
@@ -188,7 +188,7 @@ namespace Devastation
                 // Once we have mapdata we initialize baseduel
                 m_BaseManager = new BaseManager(m_MapInfo,msg,psyGame);
                 //m_BaseDuel2 = new BaseDuel.Main(m_BaseManager, m_Players, msg, myGame);
-                m_BaseRace = new BaseRace(m_Players, m_BaseManager, msg,psyGame);
+                m_BaseRace = new BaseRace.BaseRace(m_Players, m_BaseManager, msg,psyGame);
                 m_BaseDuel = new BaseDuel.BaseDuel(m_BaseManager, m_Players, msg, psyGame, m_ArenaName);
 
                 m_GameTimer.Stop();

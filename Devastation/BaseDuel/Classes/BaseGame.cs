@@ -55,8 +55,10 @@ namespace Devastation.BaseDuel.Classes
         public void setArchive(List<Misc.ArchivedGames> ArchivedGames)
         { this.m_Archive = ArchivedGames; }
 
-        public void setGameNum(int num)
+        public void gameNum(int num)
         { this.m_GameNum = num; }
+        public int gameNum()
+        { return this.m_GameNum; }
 
         public bool lockedStatus()
         { return this.m_Locked; }
@@ -109,8 +111,8 @@ namespace Devastation.BaseDuel.Classes
             }
 
             // Get freq counts
-            int aCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_AlphaFreq).Count;
-            int bCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_BravoFreq).Count;
+            int aCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_AlphaFreq && item.Ship != ShipTypes.Spectator).Count;
+            int bCount = this.m_Players.PlayerList.FindAll(item => item.Frequency == this.m_BravoFreq && item.Ship != ShipTypes.Spectator).Count;
             
             if (aCount > 0 && bCount > 0)
             {
@@ -127,6 +129,72 @@ namespace Devastation.BaseDuel.Classes
 
             // Need one player on opfor
             psyGame.Send(msg.pm(p.PlayerName, "You need to have at least 1 player on each team to start. Please find an opponent and have them join Freq= " + (aCount == 0 ? this.m_AlphaFreq : this.m_BravoFreq) + "."));
+        }
+
+        public void command_Hold(SSPlayer p)
+        {
+            if (this.m_Status == Misc.BaseGameStatus.OnHold)
+            {
+                sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
+                this.m_CurrentPoint.resetPoint();
+                timer_Setup(TimerType.GameStart); 
+                return;
+            }
+
+            if (this.m_Status != Misc.BaseGameStatus.InProgress || m_Timer.Enabled)
+            {
+                psyGame.Send(msg.pm(p.PlayerName, "This command can only be used when the game is in progress and no [Team Out] events have been triggered."));
+                return;
+            }
+
+            this.m_Status = Misc.BaseGameStatus.OnHold;
+
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "Your game has currently been put on hold. We will resume the game shortly - " + p.PlayerName));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, "Your game has currently been put on hold. We will resume the game shortly - " + p.PlayerName));
+
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?|prize warp|prize fullcharge"));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, "?|prize warp|prize fullcharge"));
+        }
+
+        public void command_ShuffleTeams( SSPlayer p, List<string> BlockedList)
+        {
+            if (this.gameStatus() == Misc.BaseGameStatus.NotStarted)
+            {
+                List<SSPlayer> all = m_Players.PlayerList.FindAll(
+                    item => ((item.Frequency == this.m_AlphaFreq && item.Ship != ShipTypes.Spectator) 
+                        || (item.Frequency == this.m_BravoFreq && item.Ship != ShipTypes.Spectator)) 
+                        && !BlockedList.Contains(item.PlayerName));
+
+                // Shuffle the list we just created
+                Random ran = new Random();
+                for (int h = 0; h < 10; h++)
+                {
+                    for (int i = 0; i < all.Count; i++)
+                    {
+                        SSPlayer temp = all[i];
+                        int r = ran.Next(i, all.Count);
+                        all[i] = all[r];
+                        all[r] = temp;
+                    }
+                }
+
+                bool alternate = false;
+
+                // Only setfreq to players that need to change
+                while (all.Count > 0)
+                {
+                    alternate = !alternate;
+
+                    if (all[0].Frequency != (alternate ? this.m_AlphaFreq : this.m_BravoFreq))
+                        psyGame.Send(msg.pm(all[0].PlayerName, "?|setfreq " + (alternate ? this.m_AlphaFreq : this.m_BravoFreq) + "|shipreset"));
+                    all.RemoveAt(0);
+                }
+            }
+            else
+            {
+                psyGame.Send(msg.pm(p.PlayerName, "This command can only be used before a game. If you wish to reshuffle you must end current game and reset."));
+                return;
+            }
         }
 
         //----------------------------------------------------------------------//
@@ -288,6 +356,7 @@ namespace Devastation.BaseDuel.Classes
                 if (InLobby) allOutCheck();
             }
         }
+
         // Player position gets sent if InSafe
         public void Event_PlayerPosition(SSPlayer p)
         {
