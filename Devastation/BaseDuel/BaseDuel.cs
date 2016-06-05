@@ -299,9 +299,9 @@ namespace Devastation.BaseDuel
             Classes.BaseGame pubGame = new Classes.BaseGame(msg,psyGame,m_Players,m_BaseManager,m_MultiGame);
             pubGame.setArchive(m_ArchivedGames);
             pubGame.setFreqs(0, 1);
-            pubGame.lockedStatus(true);
             // Load normal settings to game
             this.m_Settings.LoadGameSettings(pubGame, Misc.GameSetting.Normal);
+            pubGame.lockedStatus(true);
             // Add to game list
             m_Games.Add(pubGame);
             pubGame.setGameNum(this.m_Games.IndexOf(pubGame) + 1);

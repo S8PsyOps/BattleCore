@@ -277,7 +277,7 @@ namespace Devastation.BaseDuel.Classes
 
             if (attacher == null)
             {
-                psyGame.Send(msg.pm(attacher.PlayerName, "?|setship 9|setship " + ((int)a.Ship + 1) + "|"));
+                psyGame.Send(msg.pm(a.PlayerName, "?|setship 9|setship " + ((int)a.Ship + 1) + "|"));
                 return;
             }
             psyGame.Send(msg.pm(attacher.PlayerName, "Attacher not null i guess."));
@@ -296,6 +296,14 @@ namespace Devastation.BaseDuel.Classes
             BasePlayer b = this.m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
             
             // add player here maybe if == null
+            if (b == null)
+            {
+                if (player_InRegion(p.Position, this.m_CurrentBase.BaseDimension))
+                {
+                    psyGame.Send(msg.pm(p.PlayerName, "?prize warp"));
+                }
+                return;
+            }
 
             if (this.m_Status == Misc.BaseGameStatus.InProgress)
             {
