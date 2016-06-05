@@ -106,9 +106,6 @@ namespace Devastation.BaseDuel
                         command_StartGame(p, e);
                         return;
 
-                    case "toggle":
-                        return;
-
                     case "settings":
                         return;
 
@@ -187,22 +184,53 @@ namespace Devastation.BaseDuel
         public void doTest(SSPlayer p, ChatEvent e)
         {
             //psyGame.Send(msg.pm(p.PlayerName, "?|setship 9|setship " + ((int)p.Ship + 1)));
-            //List<Base> tempBases = new List<Base>();
+            List<Base> tempBases = new List<Base>();
 
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    Base nextBase = m_BaseManager.getNextBase();
-            //    tempBases.Add(nextBase);
-            //    Queue<EventArgs> bInfo = m_BaseManager.getBaseInfo(e.PlayerName, nextBase);
-            //    while (bInfo.Count > 0)
-            //        psyGame.Send(bInfo.Dequeue());
-            //}
+            for (int i = 0; i < 5; i++)
+            {
+                Base nextBase = m_BaseManager.getNextBase();
+                tempBases.Add(nextBase);
+                Queue<EventArgs> bInfo = m_BaseManager.getBaseInfo(e.PlayerName, nextBase);
+                while (bInfo.Count > 0)
+                    psyGame.Send(bInfo.Dequeue());
+            }
 
-            //while (tempBases.Count > 0)
-            //{
-            //    m_BaseManager.ReleaseBase(tempBases[0],"BaseDuel");
-            //    tempBases.RemoveAt(0);
-            //}
+            while (tempBases.Count > 0)
+            {
+                m_BaseManager.ReleaseBase(tempBases[0], "BaseDuel");
+                tempBases.RemoveAt(0);
+            }
+        }
+
+        private void command_StartGame(SSPlayer p, ChatEvent e)
+        {
+            Classes.BaseGame game = getGame(p.Frequency);
+
+            if (game == null)
+            {
+                string[] data = e.Message.Split(' ');
+
+                if (player_isMod(e, ModLevels.Mod) && data.Length == 3)
+                {
+                    int num;
+                    if (int.TryParse(data[2], out num) && num > 0 && num <= this.m_Games.Count)
+                    {
+                        num -= 1;
+                        this.m_Games[num].command_Start(p);
+                        return;
+                    }
+                }
+
+                if (p.Ship == ShipTypes.Spectator)
+                {
+                    psyGame.Send(msg.pm(p.PlayerName, "You must be in a ship and in the freq of an open game. To see the list of active games type !bd games."));
+                }
+            }
+            else
+            {
+                game.command_Start(p);
+            }
+            return;
         }
 
         // send spam to devastation chat and zone
@@ -226,13 +254,11 @@ namespace Devastation.BaseDuel
         // Print out on all games in progress
         public void doGames(SSPlayer p, ChatEvent e)
         {
-            int rightOffset = 35;
-            int leftOffset = 20;
-            psyGame.Send(msg.pm(p.PlayerName, "[ Baseduel ] Active Game List         MultiGame [ "+(m_MultiGame?" On":"Off")+" ]"));
+            psyGame.Send(msg.pm(p.PlayerName, "[ Baseduel ] Active Game List         MultiGame [ "+(m_MultiGame?"- On -":"- Off -")+" ]"));
             psyGame.Send(msg.pm(p.PlayerName, "--------------------------------------------------------"));
             for (int i = 0; i < m_Games.Count; i++)
             {
-                psyGame.Send(msg.pm(p.PlayerName, "Game          :".PadRight(leftOffset) + ((i + 1).ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+                psyGame.Send(msg.pm(p.PlayerName, "." + ("-<[  Game " + (i + 1).ToString().PadLeft(2, '0') + "  ]>-").PadLeft(33)));
                 m_Games[i].getGameInfo(p);
                 psyGame.Send(msg.pm(p.PlayerName, "--------------------------------------------------------"));
             }
@@ -264,21 +290,6 @@ namespace Devastation.BaseDuel
         //----------------------------------------------------------------------//
         //                     Game Functions                                   //
         //----------------------------------------------------------------------//
-        private void command_StartGame(SSPlayer p, ChatEvent e)
-        {
-            Classes.BaseGame game = getGame(p.Frequency);
-
-            if (p.Ship == ShipTypes.Spectator || game == null)
-            {
-                psyGame.Send(msg.pm(p.PlayerName, "You must be in a ship and in the freq of an open game. To see the list of active games type !bd games."));
-            }
-            else
-            {
-                game.command_Start(p);
-            }
-            return;
-        }
-
         private void loadBaseDuel(string PlayerName)
         {
             // Create the list
@@ -288,6 +299,7 @@ namespace Devastation.BaseDuel
             Classes.BaseGame pubGame = new Classes.BaseGame(msg,psyGame,m_Players,m_BaseManager,m_MultiGame);
             pubGame.setArchive(m_ArchivedGames);
             pubGame.setFreqs(0, 1);
+            pubGame.lockedStatus(true);
             // Load normal settings to game
             this.m_Settings.LoadGameSettings(pubGame, Misc.GameSetting.Normal);
             // Add to game list
@@ -359,14 +371,13 @@ namespace Devastation.BaseDuel
             Classes.BaseGame joinGame = getGame(p.Frequency);
             Classes.BaseGame leaveGame = getGame(p.OldFrequency);
 
-
-            if (joinGame != null && joinGame.gameStatus() != Misc.BaseGameStatus.NotStarted)
-            {
-                joinGame.player_Join(p);
-            }
-            else if (leaveGame != null && joinGame.gameStatus() != Misc.BaseGameStatus.NotStarted)
+            if (leaveGame != null && leaveGame.gameStatus() != Misc.BaseGameStatus.NotStarted)
             {
                 leaveGame.player_Remove(p);
+            }
+            if (joinGame != null && joinGame.gameStatus() != Misc.BaseGameStatus.NotStarted  && !joinGame.lockedStatus())
+            {
+                joinGame.player_Join(p);
             }
         }
 
@@ -377,10 +388,9 @@ namespace Devastation.BaseDuel
 
             Classes.BaseGame game = getGame(host.Frequency);
 
-            if (game != null)
-            {
-                game.Event_TurretEvent(attacher, host);
-            }
+            if (game == null) return;
+
+            game.Event_TurretEvent(attacher, host);
         }
 
         //----------------------------------------------------------------------//

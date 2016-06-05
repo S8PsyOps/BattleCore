@@ -106,8 +106,8 @@ namespace Devastation
             SSPlayer ssp = m_Players.GetPlayer(e);
             
             //m_BaseDuel2.Event_PlayerFreqChange(ssp);
-            m_BaseRace.Event_PlayerFreqChange(ssp);
             m_BaseDuel.Event_PlayerFreqChange(ssp);
+            m_BaseRace.Event_PlayerFreqChange(ssp);
         }
         public void MonitorShipChangeEvent(object sender, ShipChangeEvent e)
         {
@@ -144,8 +144,8 @@ namespace Devastation
             }
 
             //m_BaseDuel2.Event_PlayerTurretAttach(attacher, host);
-            m_BaseRace.Event_PlayerTurretAttach(attacher, host);
             m_BaseDuel.Event_PlayerTurretAttach(attacher, host);
+            m_BaseRace.Event_PlayerTurretAttach(attacher, host);
         }
 
         //----------------------------------------------------------------------//

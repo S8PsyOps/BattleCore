@@ -21,7 +21,6 @@ namespace Devastation.BaseDuel.Classes
             this.m_MultiOn = Multi;
             this.m_BaseManager = BaseManager;
             this.game_reset();
-            this.m_Status = Misc.BaseGameStatus.NotStarted;
         }
 
         private ShortChat msg;
@@ -59,7 +58,9 @@ namespace Devastation.BaseDuel.Classes
         public void setGameNum(int num)
         { this.m_GameNum = num; }
 
-        public void setLocked(bool locked)
+        public bool lockedStatus()
+        { return this.m_Locked; }
+        public void lockedStatus(bool locked)
         { this.m_Locked = locked; }
 
         public void setMinimumPoint(int MinPoint)
@@ -89,16 +90,12 @@ namespace Devastation.BaseDuel.Classes
             this.m_AlphaFreq = AlphaFreq;
             this.m_BravoFreq = BravoFreq;
             this.m_Lobby = this.m_BaseManager.Lobby;
-            this.m_CurrentBase = this.m_BaseManager.getNextBase("BaseDuel");
+            this.loadNextBase();
         }
 
-        // get/set Current Base
+        // get Current Base - need access to base for a reset in BaseDuel
         public Base loadedBase()
         { return this.m_CurrentBase; }
-        public void loadedBase(Base lBase)
-        {
-            this.m_CurrentBase = lBase;
-        }
 
         //----------------------------------------------------------------------//
         //                       Commands                                       //
@@ -230,7 +227,6 @@ namespace Devastation.BaseDuel.Classes
             if (winType != WinType.NoCount)
             {
                 this.loadNextBase();
-                this.m_CurrentPoint.setBaseNumber(this.m_CurrentBase.Number);
                 sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -");
             }
             else
@@ -252,6 +248,12 @@ namespace Devastation.BaseDuel.Classes
             // player is in right freq and is already part of team
             if (b != null && (InAlpha ? this.m_AlphaFreq : this.m_BravoFreq) == p.Frequency) return;
 
+            if (this.m_Status != Misc.BaseGameStatus.NotStarted && this.m_Locked)
+            {
+                psyGame.Send(msg.arena("PlayerJoin ignored."));
+                return;
+            }
+
             if (p.Frequency == m_AlphaFreq)
             { 
                 this.m_CurrentPoint.AlphaTeam().playerJoin(p.PlayerName); 
@@ -272,6 +274,13 @@ namespace Devastation.BaseDuel.Classes
             BasePlayer host = this.m_CurrentPoint.getPlayer(h.PlayerName, out InAlpha);
             bool InLobby = this.player_InRegion(h.Position, this.m_Lobby.BaseDimension);
             host.inLobby(InLobby);
+
+            if (attacher == null)
+            {
+                psyGame.Send(msg.pm(attacher.PlayerName, "?|setship 9|setship " + ((int)a.Ship + 1) + "|"));
+                return;
+            }
+            psyGame.Send(msg.pm(attacher.PlayerName, "Attacher not null i guess."));
             attacher.inLobby(InLobby);
 
             if (this.m_Status == Misc.BaseGameStatus.InProgress)
@@ -470,6 +479,7 @@ namespace Devastation.BaseDuel.Classes
         {
             m_BaseManager.ReleaseBase(this.m_CurrentBase, "BaseDuel");
             this.m_CurrentBase = m_BaseManager.getNextBase("BaseDuel");
+            this.m_CurrentPoint.setBaseNumber(this.m_CurrentBase.Number);
         }
 
         //----------------------------------------------------------------------//

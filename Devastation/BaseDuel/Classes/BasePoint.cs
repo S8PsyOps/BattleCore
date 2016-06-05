@@ -32,8 +32,8 @@ namespace Devastation.BaseDuel.Classes
             save.m_TotalTime = DateTime.Now - this.m_StartTime;
             save.m_StartTime = this.m_StartTime;
             save.m_BaseNumber = this.m_BaseNumber;
-            save.m_AlphaTeam = this.m_AlphaTeam;
-            save.m_BravoTeam = this.m_BravoTeam;
+            save.m_AlphaTeam = this.m_AlphaTeam.getCopy();
+            save.m_BravoTeam = this.m_BravoTeam.getCopy();
             save.m_SafeWinner = this.m_SafeWinner;
             return save;
         }

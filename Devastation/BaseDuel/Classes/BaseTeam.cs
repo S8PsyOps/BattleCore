@@ -40,6 +40,14 @@ namespace Devastation.BaseDuel.Classes
             m_Inactives = new List<BasePlayer>();
         }
 
+        public BaseTeam getCopy()
+        {
+            BaseTeam copy = new BaseTeam();
+            copy.m_Players = (this.m_Players.ToArray()).ToList();
+            copy.m_Inactives = (this.m_Inactives.ToArray()).ToList();
+            return copy;
+        }
+
         public void resetTeam()
         {
             this.m_Players = new List<BasePlayer>();

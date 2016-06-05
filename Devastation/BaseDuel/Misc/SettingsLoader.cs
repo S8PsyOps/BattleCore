@@ -15,7 +15,7 @@ namespace Devastation.BaseDuel.Misc
                 Game.setMinimumPoint(5);
                 Game.setWinBy(2);
                 Game.setAllowSafeWin(true);
-                Game.setLocked(false);
+                Game.lockedStatus(false);
             }
         }
     }
