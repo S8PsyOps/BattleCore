@@ -21,7 +21,7 @@ namespace Devastation
         {
             this.m_Players = new SSPlayerManager(7265);
             this.msg = new ShortChat(m_Players.PlayerList);
-            this.msg.DebugMode = false;
+            this.msg.DebugMode = true;
             this.msg.IsASSS = true;
             this.psyGame = new MyGame();
 

@@ -13,13 +13,16 @@ namespace Devastation.BaseDuel.Classes
 {
     public class BaseGame
     {
-        public BaseGame(ShortChat msg, MyGame psyGame, SSPlayerManager Players, BaseManager BaseManager, bool Multi)
+        public BaseGame(ShortChat msg, MyGame psyGame, SSPlayerManager Players, BaseManager BaseManager, bool Multi, int GameNum)
         {
             this.msg = msg;
             this.psyGame = psyGame;
             this.m_Players = Players;
             this.m_MultiOn = Multi;
             this.m_BaseManager = BaseManager;
+            this.m_Settings = new BDGameSettings();
+            this.m_DefaultSettingType = BDSettingType.Normal;
+            this.m_GameNum = GameNum;
             this.game_reset();
         }
 
@@ -34,13 +37,12 @@ namespace Devastation.BaseDuel.Classes
         private BasePoint m_CurrentPoint;
         private List<BasePoint> m_AllPoints;
         private Misc.BaseGameStatus m_Status;
-        private Misc.GameSetting m_SettingType;
         private int m_GameNum;
         
         private bool m_AllowSafeWin;
         private ushort m_AlphaFreq, m_BravoFreq;
         private bool m_Locked;
-        private int m_MinimumPoint, m_WinBy;
+        //private int m_MinimumPoint, m_WinBy;
         private int m_AlphaPoints = 0, m_BravoPoints = 0;
 
         private Timer m_Timer;
@@ -49,6 +51,9 @@ namespace Devastation.BaseDuel.Classes
         private double m_StartGameDelay_Elapsed;
         private double m_TeamClearDelay;
         private double m_InactivityReset;
+
+        private BDGameSettings m_Settings;
+        private BDSettingType m_DefaultSettingType;
         
         private ChatTypes m_BotSpamSetting;
 
@@ -65,19 +70,8 @@ namespace Devastation.BaseDuel.Classes
         public void lockedStatus(bool locked)
         { this.m_Locked = locked; }
 
-        public void setMinimumPoint(int MinPoint)
-        { this.m_MinimumPoint = MinPoint; }
-
-        public void setWinBy(int WinBy)
-        { this.m_WinBy = WinBy; }
-
         public void setAllowSafeWin(bool Allow)
         { this.m_AllowSafeWin = Allow; }
-
-        public Misc.GameSetting gameSettings()
-        { return m_SettingType; }
-        public void gameSettings(Misc.GameSetting Setting)
-        { this.m_SettingType = Setting; }
 
         public Misc.BaseGameStatus gameStatus()
         { return m_Status; }
@@ -123,7 +117,7 @@ namespace Devastation.BaseDuel.Classes
                 psyGame.Send(msg.team_pm(this.m_AlphaFreq, "Welcome to Team: " + this.m_CurrentPoint.AlphaTeam().teamName() + ". Good Luck!"));
                 psyGame.Send(msg.team_pm(this.m_BravoFreq, "Welcome to Team: " + this.m_CurrentPoint.BravoTeam().teamName() + ". Good Luck!"));
 
-                this.timer_Setup(TimerType.GameStart);
+                this.timer_Setup(Misc.TimerType.GameStart);
                 return;
             }
 
@@ -137,7 +131,7 @@ namespace Devastation.BaseDuel.Classes
             {
                 sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
                 this.m_CurrentPoint.resetPoint();
-                timer_Setup(TimerType.GameStart); 
+                timer_Setup(Misc.TimerType.GameStart); 
                 return;
             }
 
@@ -228,6 +222,8 @@ namespace Devastation.BaseDuel.Classes
             this.m_BotSpamSetting = ChatTypes.Team;
             this.m_AlphaPoints = 0;
             this.m_BravoPoints = 0;
+
+            this.m_Settings.LoadSettings(this.m_DefaultSettingType);
         }
         private void game_Start()
         {
@@ -245,20 +241,20 @@ namespace Devastation.BaseDuel.Classes
             this.m_CurrentPoint.startPoint();
         }
 
-        private void point_AwardWinner(WinType winType, bool AlphaWon, string PlayerName)
+        private void point_AwardWinner(Misc.WinType winType, bool AlphaWon, string PlayerName)
         {
             this.m_Status = Misc.BaseGameStatus.BetweenPoints;
 
-            if (winType != WinType.NoCount)
+            if (winType != Misc.WinType.NoCount)
             {
                 if (AlphaWon) { this.m_AlphaPoints++; }
                 else { this.m_BravoPoints++; }
 
-                if (winType == WinType.BaseClear)
+                if (winType == Misc.WinType.BaseClear)
                 {
                     sendBotSpam(("- " + (!AlphaWon ? this.m_CurrentPoint.AlphaTeam().teamName() : this.m_CurrentPoint.BravoTeam().teamName()) + " is all dead! --  Team " + (AlphaWon ? this.m_CurrentPoint.AlphaTeam().teamName() : this.m_CurrentPoint.BravoTeam().teamName()) + " scores! -"));
                 }
-                else if (winType == WinType.SafeWin)
+                else if (winType == Misc.WinType.SafeWin)
                 {
                     this.m_CurrentPoint.setSafeWinner(PlayerName);
                     sendBotSpam("- [ " + PlayerName + " ] has breached the enemy's defense! (SafeWin) " + (AlphaWon ? "[ " + this.m_CurrentPoint.AlphaTeam().teamName() + " Team Win ]" : "[ " + this.m_CurrentPoint.BravoTeam().teamName() + " Team Win ]"));
@@ -275,7 +271,8 @@ namespace Devastation.BaseDuel.Classes
             this.m_AllPoints.Add(this.m_CurrentPoint.getSavedPoint(AlphaWon, winType));
             this.m_CurrentPoint.resetPoint();
 
-            if ((this.m_AlphaPoints >= this.m_MinimumPoint || this.m_BravoPoints >= this.m_MinimumPoint) && Math.Abs(this.m_AlphaPoints - this.m_BravoPoints) >= this.m_WinBy)
+            if ((this.m_AlphaPoints >= this.m_Settings.MinimumPoints || this.m_BravoPoints >= this.m_Settings.MinimumPoints)
+                && Math.Abs(this.m_AlphaPoints - this.m_BravoPoints) >= this.m_Settings.WinBy)
             {
                 string AlphaName = this.m_CurrentPoint.AlphaTeam().teamName();
                 string BravoName = this.m_CurrentPoint.BravoTeam().teamName();
@@ -292,7 +289,7 @@ namespace Devastation.BaseDuel.Classes
                 return;
             }
 
-            if (winType != WinType.NoCount)
+            if (winType != Misc.WinType.NoCount)
             {
                 this.loadNextBase();
                 sendBotSpam("- Starting next base in " + m_StartGameDelay + " seconds! -");
@@ -300,12 +297,33 @@ namespace Devastation.BaseDuel.Classes
             else
             { sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -"); }
 
-            timer_Setup(TimerType.GameStart); 
+            timer_Setup(Misc.TimerType.GameStart); 
+        }
+
+        private void player_TeamCountUpdate()
+        {
+            // Check for team count 0 here ---***
+
+            if ( this.m_Settings.Type != BDSettingType.OneVsOne &&
+                this.m_CurrentPoint.AlphaCount() == 1 &&
+                    this.m_CurrentPoint.BravoCount() == 1)
+            {
+                this.m_Settings.LoadSettings(BDSettingType.OneVsOne);
+                psyGame.Send(msg.debugChan("[ BaseDuel ] [ Game " + this.m_GameNum.ToString().PadLeft(2, '0') + " ]  Setting Changed to [ "+this.m_Settings.Type+" ]"));
+            }
+            else if ( this.m_Settings.Type == BDSettingType.OneVsOne &&
+                this.m_CurrentPoint.AlphaCount() > 1 ||
+                    this.m_CurrentPoint.BravoCount() > 1)
+            {
+                this.m_Settings.LoadSettings(this.m_DefaultSettingType);
+                psyGame.Send(msg.debugChan("[ BaseDuel ] [ Game " + this.m_GameNum.ToString().PadLeft(2, '0') + " ]  Setting Changed to [ "+this.m_DefaultSettingType+" ]"));
+            }
         }
 
         public void player_Remove(SSPlayer p)
         {
             this.m_CurrentPoint.removePlayer(p.PlayerName);
+            this.player_TeamCountUpdate();
         }
 
         public void player_Join(SSPlayer p)
@@ -348,7 +366,7 @@ namespace Devastation.BaseDuel.Classes
                 psyGame.Send(msg.pm(a.PlayerName, "?|setship 9|setship " + ((int)a.Ship + 1) + "|"));
                 return;
             }
-            psyGame.Send(msg.pm(attacher.PlayerName, "Attacher not null i guess."));
+            this.player_TeamCountUpdate();
             attacher.inLobby(InLobby);
 
             if (this.m_Status == Misc.BaseGameStatus.InProgress)
@@ -382,9 +400,9 @@ namespace Devastation.BaseDuel.Classes
                 { allOutCheck(); }
                 else
                 {
-                    if (this.player_InRegion(p.Position, (InAlpha ? this.m_CurrentBase.BravoSafe : this.m_CurrentBase.AlphaSafe)))
+                    if ( this.m_Settings.SafeWin && this.player_InRegion(p.Position, (InAlpha ? this.m_CurrentBase.BravoSafe : this.m_CurrentBase.AlphaSafe)))
                     {
-                        this.point_AwardWinner(WinType.SafeWin, InAlpha, p.PlayerName);
+                        this.point_AwardWinner(Misc.WinType.SafeWin, InAlpha, p.PlayerName);
                     }
                 }
             }
@@ -393,24 +411,24 @@ namespace Devastation.BaseDuel.Classes
         //----------------------------------------------------------------------//
         //                       Timer Stuff                                    //
         //----------------------------------------------------------------------//
-        private void timer_Setup(TimerType t)
+        private void timer_Setup(Misc.TimerType t)
         {
             m_Timer = new Timer();
 
             // Set the timer for what we need it to do: Start or Clear Check
-            if (t == TimerType.GameStart)
+            if (t == Misc.TimerType.GameStart)
             {
                 m_StartGameDelay_Elapsed = m_StartGameDelay;
                 m_Timer.Elapsed += new ElapsedEventHandler(timer_StartGame);
                 m_Timer.Interval = 1000;
             }
-            else if (t == TimerType.BaseClear)
+            else if (t == Misc.TimerType.BaseClear)
             {
                 psyGame.Send(msg.debugChan("Starting Clear Timer"));
                 m_Timer.Elapsed += new ElapsedEventHandler(timer_BaseClear);
                 m_Timer.Interval = m_TeamClearDelay * 1000;
             }
-            else if (t == TimerType.InactiveReset)
+            else if (t == Misc.TimerType.InactiveReset)
             {
                 psyGame.Send(msg.debugChan("Starting Inactive Timer"));
                 m_Timer.Elapsed += new ElapsedEventHandler(timer_InactiveTimer);
@@ -429,7 +447,7 @@ namespace Devastation.BaseDuel.Classes
 
             if (aOut || bOut)
             {
-                this.point_AwardWinner(aOut == bOut?WinType.NoCount:WinType.BaseClear, !aOut, "");
+                this.point_AwardWinner(aOut == bOut?Misc.WinType.NoCount:Misc.WinType.BaseClear, !aOut, "");
             }
         }
 
@@ -459,7 +477,8 @@ namespace Devastation.BaseDuel.Classes
 
             // Make sure there is enough ppl in team to start
             if (this.m_CurrentPoint.AlphaCount() > 0 && this.m_CurrentPoint.BravoCount() > 0)
-            { 
+            {
+                player_TeamCountUpdate();
                 this.game_Start();
                 return;
             }
@@ -499,7 +518,7 @@ namespace Devastation.BaseDuel.Classes
         {
             if (!this.m_Timer.Enabled && (this.m_CurrentPoint.AlphaTeam().teamAllOut() || this.m_CurrentPoint.BravoTeam().teamAllOut()))
             {
-                this.timer_Setup(TimerType.BaseClear);
+                this.timer_Setup(Misc.TimerType.BaseClear);
             }
         }
         // Add everyone from the freq into corresponding team list
@@ -567,13 +586,13 @@ namespace Devastation.BaseDuel.Classes
             int rightOffset = 35;
             int leftOffset = 20;
             psyGame.Send(msg.pm(p.PlayerName, "Status        :".PadRight(leftOffset) + (this.gameStatus().ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
-            psyGame.Send(msg.pm(p.PlayerName, "Setting Type  :".PadRight(leftOffset) + (this.gameSettings().ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Setting Type  :".PadRight(leftOffset) + (this.m_Settings.Type.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Alpha Freq    :".PadRight(leftOffset) + ("Freq: " + this.AlphaFreq.ToString().PadLeft(4,'0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Team Count    :".PadRight(leftOffset) + this.m_CurrentPoint.AlphaCount().ToString().PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Bravo Freq    :".PadRight(leftOffset) + ("Freq: " + this.BravoFreq.ToString().PadLeft(4, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Team Count    :".PadRight(leftOffset) + this.m_CurrentPoint.BravoCount().ToString().PadLeft(rightOffset)));
-            psyGame.Send(msg.pm(p.PlayerName, "Minimum Point :".PadRight(leftOffset) + (this.m_MinimumPoint.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
-            psyGame.Send(msg.pm(p.PlayerName, "Win By        :".PadRight(leftOffset) + (this.m_WinBy.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Minimum Point :".PadRight(leftOffset) + (this.m_Settings.MinimumPoints.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
+            psyGame.Send(msg.pm(p.PlayerName, "Win By        :".PadRight(leftOffset) + (this.m_Settings.WinBy.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Safe Win      :".PadRight(leftOffset) + ((this.m_AllowSafeWin?"- On -":"- Off -").PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Locked        :".PadRight(leftOffset) + ((this.m_Locked ? "Locked" : "Unlocked").PadLeft(2, '0')).PadLeft(rightOffset)));
             this.getRoundInfo(p);

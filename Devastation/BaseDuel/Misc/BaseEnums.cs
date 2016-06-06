@@ -26,11 +26,4 @@ namespace Devastation.BaseDuel.Misc
         BaseClear,
         NoCount
     }
-
-    public enum GameSetting
-    {
-        Normal,
-        OneVsOne,
-        Custom
-    }
 }

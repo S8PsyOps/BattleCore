@@ -1,0 +1,13 @@
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\SQLTester.dll
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\SQLTester.pdb
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\BattleCore.dll
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\BattleCore.Events.dll
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\BattleCorePsyOps.dll
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\BattleCore.Events.pdb
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\BattleCorePsyOps.pdb
+D:\Projects\GitHub\BattleCore\SQLTester\bin\Debug\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\SQLTester\obj\Debug\SQLTester.csprojResolveAssemblyReference.cache
+D:\Projects\GitHub\BattleCore\SQLTester\obj\Debug\SQLTester.dll
+D:\Projects\GitHub\BattleCore\SQLTester\obj\Debug\SQLTester.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Evil Bot\SQLTester.dll
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\Evil Bot\SQLTester.pdb

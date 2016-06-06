@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devastation", "Devastation\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCBridge", "IRCBridge\IRCBridge.csproj", "{0C70D6C0-B7A0-4145-90B4-1D5AEF33B101}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLTester", "SQLTester\SQLTester.csproj", "{B8DB56AA-813F-4456-A304-27044FF9028F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{0C70D6C0-B7A0-4145-90B4-1D5AEF33B101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C70D6C0-B7A0-4145-90B4-1D5AEF33B101}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C70D6C0-B7A0-4145-90B4-1D5AEF33B101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8DB56AA-813F-4456-A304-27044FF9028F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8DB56AA-813F-4456-A304-27044FF9028F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8DB56AA-813F-4456-A304-27044FF9028F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8DB56AA-813F-4456-A304-27044FF9028F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

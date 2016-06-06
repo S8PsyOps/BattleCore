@@ -35,6 +35,7 @@ namespace Devastation.BaseRace
         private MyGame psyGame;
         private ushort m_BaseRaceFreq;
         private List<string> m_BlockedList;
+        private List<string> m_CustomStaff;
 
         Timer m_Timer;
 
@@ -50,7 +51,7 @@ namespace Devastation.BaseRace
         public int ms, sec, min = 0;
         public DateTime m_TimeStart = new DateTime();
         public DateTime m_TimeGame = new DateTime();
-        public Boolean BaseRace_toggle = true;
+        public Boolean BaseRace_toggle = false;
 
         private Base m_Base;
 
@@ -63,7 +64,7 @@ namespace Devastation.BaseRace
             if (msgz == true)
             {
                 psyGame.Send(msg.arena("Game Over", SoundCodes.Hallellula));
-                psyGame.Send(msg.arena("Type !baserace to join again!"));
+                psyGame.Send(msg.arena("Type  [ !br start ]  to join again!"));
                 //   }
             }
 
@@ -152,7 +153,8 @@ namespace Devastation.BaseRace
                         return;
 
                     case "toggle":
-                        cmd_toggle(e);
+                        if (player_isMod(e,ModLevels.Mod))
+                            cmd_toggle(e.PlayerName);
                         return;
                 }
             }
@@ -168,53 +170,52 @@ namespace Devastation.BaseRace
         }
 
 
-        public void cmd_toggle(ChatEvent e)
+        public void cmd_toggle(string name)
         {
-            string[] data = e.Message.Split(' ');
-            if (e.ModLevel >= ModLevels.Mod)
+            if (BaseRace_toggle == false)
             {
-                if (data[1] == "baserace")
+                //[ BaseDuel ] Module Loaded -  * Auto Load *
+                psyGame.Send(msg.arena("[ BaseRace ] Module Loaded -  " + name));
+                //psyGame.Send(msg.pm(e.PlayerName, "Toggle Baserace: ON"));
+                BaseRace_toggle = true;
+            }
+            else
+            {
+                if (game_status == true)
                 {
-                    if (BaseRace_toggle == false)
+                    foreach (RaceData.Race racer in m_RaceData.RaceItems)
                     {
-                        psyGame.Send(msg.pm(e.PlayerName, "Toggle Baserace: ON"));
-                        BaseRace_toggle = true;
+                        psyGame.Send(msg.pm(racer.name, "*specall"));
+                    }
+                    GameOver(false);
+                    //psyGame.Send(msg.arena("Mod " + name + " toggle off baserace!"));
+                    psyGame.Send(msg.arena("[ BaseRace ] Module Unloaded -  " + name));
+
+                }
+                else
+                {
+                    if (second == -1)
+                    {
+                        GameOver(false);
                     }
                     else
                     {
-                        if (game_status == true)
+                        foreach (RaceData.Race racer in m_RaceData.RaceItems)
                         {
-                            foreach (RaceData.Race racer in m_RaceData.RaceItems)
-                            {
-                                psyGame.Send(msg.pm(racer.name, "*specall"));
-                            }
-                            GameOver(false);
-                            psyGame.Send(msg.arena("Mod " + e.PlayerName + " toggle off baserace!"));
-
+                            psyGame.Send(msg.pm(racer.name, "*specall"));
                         }
-                        else
-                        {
-                            if (second == -1)
-                            {
-                                GameOver(false);
-                            }
-                            else
-                            {
-                                foreach (RaceData.Race racer in m_RaceData.RaceItems)
-                                {
-                                    psyGame.Send(msg.pm(racer.name, "*specall"));
-                                }
-                                psyGame.Send(msg.arena("Mod " + e.PlayerName + " toggle off baserace!"));
-                                GameOver(false);
-                            }
-
-                        }
-                        psyGame.Send(msg.pm(e.PlayerName, "Toggle Baserace: OFF"));
-
-                        BaseRace_toggle = false;
+                        psyGame.Send(msg.arena("[ BaseRace ] Module Unloaded -  " + name));
+                        //psyGame.Send(msg.arena("Mod " + e.PlayerName + " toggle off baserace!"));
+                        GameOver(false);
                     }
+
                 }
+                psyGame.Send(msg.arena("[ BaseRace ] Module Unloaded -  " + name));
+                //psyGame.Send(msg.pm(name, "Toggle Baserace: OFF"));
+
+                BaseRace_toggle = false;
             }
+
         }
 
         public void cmd_RaceFreq(ChatEvent e)
@@ -240,7 +241,7 @@ namespace Devastation.BaseRace
                             }
                             m_RaceData.Start_x = m_Base.AlphaStartX;
                             m_RaceData.Start_y = m_Base.AlphaStartY;
-                            psyGame.Send(msg.macro("type !baserace to join race!! will start in 20 seconds!!"));
+                            psyGame.Send(msg.macro("type  [ !br start ]  to join race!! will start in 20 seconds!!"));
                         }
 
                         m_RaceData.CreateNewRacer(e.PlayerName);
@@ -268,7 +269,7 @@ namespace Devastation.BaseRace
             {
                 if (second == 10)
                 {
-                    psyGame.Send(msg.macro("type !baserace to join race!! 10 seconds left"));
+                    psyGame.Send(msg.macro("type  [ !br start ]  to join race!! 10 seconds left"));
                     /*foreach (AhmadClass.RaceData.Race e in m_RaceData.RaceItems)
                     {
  
@@ -510,6 +511,15 @@ namespace Devastation.BaseRace
         //----------------------------------------------------------------------//
         //                             Misc                                     //
         //----------------------------------------------------------------------//
+        // checking if player is mod - if not sends back message
+        private bool player_isMod(ChatEvent e, ModLevels mod)
+        {
+            if (e.ModLevel >= mod || m_CustomStaff.Contains(e.PlayerName))
+                return true;
+
+            psyGame.Send(msg.pm(e.PlayerName, "You do not have access to this command. This is a staff command. Required Moderator level: [ " + mod + " ]."));
+            return false;
+        }
         public int getTotalRacers()
         {
             int count = 0;

@@ -24,8 +24,7 @@ namespace Devastation.BaseDuel
             this.m_BlockedListFreq = 2;
             this.m_CustomStaff = new List<string>();
             this.m_ArchivedGames = new List<Misc.ArchivedGames>();
-            //this.m_BlockedList.Add("PsyOps");
-            this.m_Settings = new Misc.SettingsLoader();
+            //this.m_BlockedList.Add("air con");
 
             this.m_SpamZoneTimeLimit = 5;
             this.m_SpamZoneTimeStamp = DateTime.Now;
@@ -45,7 +44,6 @@ namespace Devastation.BaseDuel
         private string m_ArenaName;
         private SSPlayerManager m_Players;
         private BaseManager m_BaseManager;
-        private Misc.SettingsLoader m_Settings;
 
         private List<string> m_BlockedList;
         private ushort m_BlockedListFreq;
@@ -258,24 +256,15 @@ namespace Devastation.BaseDuel
             m_Games = new List<Classes.BaseGame>();
 
             // Config main bd game
-            Classes.BaseGame pubGame = new Classes.BaseGame(msg,psyGame,m_Players,m_BaseManager,m_MultiGame);
-            pubGame.setArchive(m_ArchivedGames);
+            Classes.BaseGame pubGame = new Classes.BaseGame(msg,psyGame,m_Players,m_BaseManager,m_MultiGame, m_Games.Count + 1);
             pubGame.setFreqs(0, 1);
-            // Load normal settings to game
-            this.m_Settings.LoadGameSettings(pubGame, Misc.GameSetting.Normal);
-            pubGame.lockedStatus(true);
-            // Add to game list
+            pubGame.setArchive(m_ArchivedGames);
             m_Games.Add(pubGame);
-            pubGame.gameNum(this.m_Games.IndexOf(pubGame) + 1);
 
-            Classes.BaseGame pubGame2 = new Classes.BaseGame(msg, psyGame, m_Players, m_BaseManager,m_MultiGame);
-            pubGame2.setArchive(m_ArchivedGames);
+            Classes.BaseGame pubGame2 = new Classes.BaseGame(msg, psyGame, m_Players, m_BaseManager, m_MultiGame, m_Games.Count + 1);
             pubGame2.setFreqs(10, 11);
-            // Load normal settings to game
-            this.m_Settings.LoadGameSettings(pubGame2, Misc.GameSetting.Normal);
-            // Add to game list
+            pubGame2.setArchive(m_ArchivedGames);
             m_Games.Add(pubGame2);
-            pubGame2.gameNum(this.m_Games.IndexOf(pubGame2) + 1);
 
             // load and configure stuff to start baseduel module
             psyGame.Send(msg.arena("[ BaseDuel ] Module Loaded - " + PlayerName));

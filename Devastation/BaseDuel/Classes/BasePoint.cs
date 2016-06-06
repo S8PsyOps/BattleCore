@@ -22,9 +22,9 @@ namespace Devastation.BaseDuel.Classes
         private int m_BaseNumber;
         private string m_SafeWinner;
         private bool m_AlphaWon;
-        private WinType m_WinType;
+        private Misc.WinType m_WinType;
 
-        public BasePoint getSavedPoint(bool AlphaWon, WinType winType)
+        public BasePoint getSavedPoint(bool AlphaWon, Misc.WinType winType)
         {
             BasePoint save = new BasePoint();
             save.m_AlphaWon = AlphaWon;
