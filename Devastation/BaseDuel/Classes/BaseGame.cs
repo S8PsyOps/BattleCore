@@ -23,13 +23,14 @@ namespace Devastation.BaseDuel.Classes
             this.m_Settings = new BDGameSettings();
             this.m_DefaultSettingType = BDSettingType.Normal;
             this.m_GameNum = GameNum;
-            this.game_reset();
+            this.game_Reset();
         }
 
         private ShortChat msg;
         private MyGame psyGame;
         private SSPlayerManager m_Players;
         private BaseManager m_BaseManager;
+        private List<string> m_SpamMeList;
         private List<Misc.ArchivedGames> m_Archive;
         private bool m_MultiOn;
         private Base m_Lobby;
@@ -42,7 +43,6 @@ namespace Devastation.BaseDuel.Classes
         private bool m_AllowSafeWin;
         private ushort m_AlphaFreq, m_BravoFreq;
         private bool m_Locked;
-        //private int m_MinimumPoint, m_WinBy;
         private int m_AlphaPoints = 0, m_BravoPoints = 0;
 
         private Timer m_Timer;
@@ -56,6 +56,12 @@ namespace Devastation.BaseDuel.Classes
         private BDSettingType m_DefaultSettingType;
         
         private ChatTypes m_BotSpamSetting;
+
+        private string m_GameTag
+        { get { return "[ Game "+this.m_GameNum.ToString().PadLeft(2)+" ] "; } }
+
+        public void setSpamMeList(List<string> SpamMeList)
+        { this.m_SpamMeList = SpamMeList; }
 
         public void setArchive(List<Misc.ArchivedGames> ArchivedGames)
         { this.m_Archive = ArchivedGames; }
@@ -96,7 +102,7 @@ namespace Devastation.BaseDuel.Classes
         //----------------------------------------------------------------------//
         //                       Commands                                       //
         //----------------------------------------------------------------------//
-        public void command_Start(SSPlayer p)
+        public void command_GameStart(SSPlayer p)
         {
             if (this.m_Timer.Enabled || this.m_Status != Misc.BaseGameStatus.NotStarted)
             {
@@ -125,13 +131,11 @@ namespace Devastation.BaseDuel.Classes
             psyGame.Send(msg.pm(p.PlayerName, "You need to have at least 1 player on each team to start. Please find an opponent and have them join Freq= " + (aCount == 0 ? this.m_AlphaFreq : this.m_BravoFreq) + "."));
         }
 
-        public void command_Hold(SSPlayer p)
+        public void command_GameHold(SSPlayer p)
         {
             if (this.m_Status == Misc.BaseGameStatus.OnHold)
             {
-                sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
-                this.m_CurrentPoint.resetPoint();
-                timer_Setup(Misc.TimerType.GameStart); 
+                this.point_Reset();
                 return;
             }
 
@@ -145,9 +149,12 @@ namespace Devastation.BaseDuel.Classes
 
             psyGame.Send(msg.team_pm(this.m_AlphaFreq, "Your game has currently been put on hold. We will resume the game shortly - " + p.PlayerName));
             psyGame.Send(msg.team_pm(this.m_BravoFreq, "Your game has currently been put on hold. We will resume the game shortly - " + p.PlayerName));
+            this.players_WarptoCenter();
+        }
 
-            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?|prize warp|prize fullcharge"));
-            psyGame.Send(msg.team_pm(this.m_BravoFreq, "?|prize warp|prize fullcharge"));
+        public void command_GameReset(SSPlayer p)
+        {
+            this.game_Reset();
         }
 
         public void command_ShuffleTeams( SSPlayer p, List<string> BlockedList)
@@ -191,6 +198,14 @@ namespace Devastation.BaseDuel.Classes
             }
         }
 
+        public void command_PointReset(SSPlayer p)
+        {
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "- Point has been reset. - " + p.PlayerName));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, "- Point has been reset. - " + p.PlayerName));
+            this.players_WarptoCenter();
+            this.point_Reset();
+        }
+
         //----------------------------------------------------------------------//
         //                     Game Functions                                   //
         //----------------------------------------------------------------------//
@@ -208,7 +223,7 @@ namespace Devastation.BaseDuel.Classes
 
             this.m_Archive.Add(savedGame);
         }
-        private void game_reset()
+        private void game_Reset()
         {
             this.m_CurrentPoint = new BasePoint();
             this.m_AllPoints = new List<BasePoint>();
@@ -224,12 +239,13 @@ namespace Devastation.BaseDuel.Classes
             this.m_BravoPoints = 0;
 
             this.m_Settings.LoadSettings(this.m_DefaultSettingType);
+            this.players_WarptoCenter();
         }
         private void game_Start()
         {
             this.m_Status = Misc.BaseGameStatus.InProgress;
-            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?warpto " + this.m_CurrentBase.AlphaStartX + " " + this.m_CurrentBase.AlphaStartY + "|shipreset"));
-            psyGame.Send(msg.team_pm(this.m_BravoFreq, "?warpto " + this.m_CurrentBase.BravoStartX + " " + this.m_CurrentBase.BravoStartY + "|shipreset"));
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?|warpto " + this.m_CurrentBase.AlphaStartX + " " + this.m_CurrentBase.AlphaStartY + "|shipreset"));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, "?|warpto " + this.m_CurrentBase.BravoStartX + " " + this.m_CurrentBase.BravoStartY + "|shipreset"));
 
             sendBotSpam("- Current Base        : " + this.m_CurrentBase.Number.ToString().PadLeft(2,'0'));
             if (this.m_AllPoints.Count == 0)
@@ -239,6 +255,13 @@ namespace Devastation.BaseDuel.Classes
             }
 
             this.m_CurrentPoint.startPoint();
+        }
+
+        private void point_Reset()
+        {
+            sendBotSpam("- Restarting point in " + m_StartGameDelay + " seconds! -");
+            this.m_CurrentPoint.resetPoint();
+            timer_Setup(Misc.TimerType.GameStart); 
         }
 
         private void point_AwardWinner(Misc.WinType winType, bool AlphaWon, string PlayerName)
@@ -262,10 +285,13 @@ namespace Devastation.BaseDuel.Classes
                 // display score
                 sendBotSpam("- " + this.m_CurrentPoint.AlphaTeam().teamName() + " [ " + this.m_AlphaPoints.ToString() + " ]     Score     [ " + this.m_BravoPoints.ToString() + " ] " + this.m_CurrentPoint.BravoTeam().teamName() + " -");
                 sendBotSpam("- ----------------------------------------------- -");
+
+                sendPlayerSpam("   Alpha " + this.m_AlphaPoints.ToString() + " - " + this.m_BravoPoints.ToString() + " Bravo      WinType:"+winType+"   Match#:"+(this.m_AllPoints.Count + 1)+" -");
             }
             else
             {
                 sendBotSpam("- Both teams out -- No count -");
+                sendPlayerSpam("   Alpha " + this.m_AlphaPoints.ToString() + " - " + this.m_BravoPoints.ToString() + " Bravo      -- No count --    Match#:" + (this.m_AllPoints.Count + 1) + " -");
             }
 
             this.m_AllPoints.Add(this.m_CurrentPoint.getSavedPoint(AlphaWon, winType));
@@ -280,10 +306,7 @@ namespace Devastation.BaseDuel.Classes
                 int BravoScore = this.m_BravoPoints;
 
                 this.game_Save();
-                this.game_reset();
-
-                psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?prize warp"));
-                psyGame.Send(msg.team_pm(this.m_BravoFreq, "?prize warp"));
+                this.game_Reset();
 
                 psyGame.Send(msg.arena("Final Score:   " + AlphaName + "[ " + AlphaScore + " ]  -  [ " + BravoScore + " ]" + BravoName + "     final print out here."));
                 return;
@@ -348,6 +371,12 @@ namespace Devastation.BaseDuel.Classes
             { 
                 this.m_CurrentPoint.BravoTeam().playerJoin(p.PlayerName);
             }
+        }
+
+        public void players_WarptoCenter()
+        {
+            psyGame.Send(msg.team_pm(this.m_AlphaFreq, "?|prize warp|prize fullcharge"));
+            psyGame.Send(msg.team_pm(this.m_BravoFreq, "?|prize warp|prize fullcharge"));
         }
 
         //----------------------------------------------------------------------//
@@ -505,6 +534,19 @@ namespace Devastation.BaseDuel.Classes
         //----------------------------------------------------------------------//
         //                             Misc                                     //
         //----------------------------------------------------------------------//
+        private void sendPlayerSpam(string Message)
+        {
+            List<SSPlayer> spamPlayers = new List<SSPlayer>();
+            
+            for (int i = 0; i < m_SpamMeList.Count; i++)
+            {
+                SSPlayer p = m_Players.PlayerList.Find(item => item.PlayerName == m_SpamMeList[i] && item.Frequency == 7265);
+
+                if (p != null)
+                { psyGame.SafeSend(msg.pm(m_SpamMeList[i], this.m_GameTag + Message)); }
+            }
+        }
+
         public bool playerInGame(SSPlayer p, out Classes.BasePlayer basePlayer, out bool InAlpha)
         {
             basePlayer = m_CurrentPoint.getPlayer(p.PlayerName, out InAlpha);
@@ -595,6 +637,12 @@ namespace Devastation.BaseDuel.Classes
             psyGame.Send(msg.pm(p.PlayerName, "Win By        :".PadRight(leftOffset) + (this.m_Settings.WinBy.ToString().PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Safe Win      :".PadRight(leftOffset) + ((this.m_AllowSafeWin?"- On -":"- Off -").PadLeft(2, '0')).PadLeft(rightOffset)));
             psyGame.Send(msg.pm(p.PlayerName, "Locked        :".PadRight(leftOffset) + ((this.m_Locked ? "Locked" : "Unlocked").PadLeft(2, '0')).PadLeft(rightOffset)));
+            if (this.m_CurrentBase.BaseID != null)
+                psyGame.Send(msg.pm(p.PlayerName, "Current BaseID:".PadRight(leftOffset) + (this.m_CurrentBase.BaseID).PadLeft(rightOffset)));
+            if (this.m_CurrentBase.BaseCreator != null)
+                psyGame.Send(msg.pm(p.PlayerName, "Base Creator  :".PadRight(leftOffset) + (this.m_CurrentBase.BaseCreator).PadLeft(rightOffset)));
+            if (this.m_CurrentBase.DateCreated != null)
+                psyGame.Send(msg.pm(p.PlayerName, "Date Created  :".PadRight(leftOffset) + (this.m_CurrentBase.DateCreated).PadLeft(rightOffset)));
             this.getRoundInfo(p);
         }
         public void getRoundInfo(SSPlayer p)

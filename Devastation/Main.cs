@@ -21,7 +21,7 @@ namespace Devastation
         {
             this.m_Players = new SSPlayerManager(7265);
             this.msg = new ShortChat(m_Players.PlayerList);
-            this.msg.DebugMode = true;
+            this.msg.DebugMode = false;
             this.msg.IsASSS = true;
             this.psyGame = new MyGame();
 
@@ -93,7 +93,7 @@ namespace Devastation
             SSPlayer ssp = m_Players.GetPlayer(e);
             
             // Update baseduel
-            //m_BaseDuel2.Event_PlayerLeft(ssp);
+            m_BaseDuel.Event_PlayerLeft(ssp);
             m_BaseRace.Event_PlayerLeft(ssp);
             
             // removing here allows you to pull all needed info inbetween, then you can delete

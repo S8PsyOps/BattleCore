@@ -22,6 +22,7 @@ namespace Devastation.BaseDuel
 
             this.m_BlockedList = new List<string>();
             this.m_BlockedListFreq = 2;
+            this.m_SpamMeList = new List<string>();
             this.m_CustomStaff = new List<string>();
             this.m_ArchivedGames = new List<Misc.ArchivedGames>();
             //this.m_BlockedList.Add("air con");
@@ -47,6 +48,8 @@ namespace Devastation.BaseDuel
 
         private List<string> m_BlockedList;
         private ushort m_BlockedListFreq;
+
+        private List<string> m_SpamMeList;
 
         private List<string> m_CustomStaff;
         private int m_SpamZoneTimeLimit;            // Minutes before a user can !spam
@@ -94,41 +97,36 @@ namespace Devastation.BaseDuel
                         this.psyGame.CoreSend(e);
                         return;
 
-                    case "games":
-                        this.command_ShowGames(p, e);
-                        return;
-
                     case "commands":
                         e.Message = "!help baseduel commands";
                         this.psyGame.CoreSend(e);
                         return;
-
-                    case "start":
-                        this.command_StartGame(p, e);
-                        return;
-
+                    
                     case "settings":
                         return;
 
-                    case "shuffle":
-                        this.command_Shuffle(p, e);
+                    case "games": this.command_ShowGames(p, e);
                         return;
 
-                    case "switch":
+                    case "start": this.command_GameStart(p, e);
                         return;
 
-                    case "hold":
-                        this.command_Hold(p, e);
+                    case "shuffle": this.command_Shuffle(p, e);
                         return;
 
-                    case "spam":
-                        this.command_SpamZone(e);
+                    case "hold": this.command_GameHold(p, e);
                         return;
 
-                    case "restart":
+                    case "spam": this.command_SpamZone(e);
                         return;
 
-                    case "reset":
+                    case "updates":this.command_SpamMe(p, e);
+                        return;
+
+                    case "restart":this.command_PointRestart(p,e);
+                        return;
+
+                    case "reset": this.command_GameReset(p, e);
                         return;
 
                     case "test":
@@ -159,6 +157,19 @@ namespace Devastation.BaseDuel
             }
         }
 
+        private void command_SpamMe(SSPlayer p, ChatEvent e)
+        {
+            if (this.m_SpamMeList.Contains(p.PlayerName))
+            {
+                this.m_SpamMeList.Remove(p.PlayerName);
+                psyGame.Send(msg.pm(p.PlayerName, "You have been removed from the personal game update list."));
+                return;
+            }
+
+            this.m_SpamMeList.Add(p.PlayerName);
+            psyGame.Send(msg.pm(p.PlayerName, "You have been added to the personal game update list. You will receive activity private messages for all games."));
+        }
+
         private void command_Shuffle(SSPlayer p, ChatEvent e)
         {
             Classes.BaseGame game = this.getGame(p.Frequency);
@@ -169,17 +180,37 @@ namespace Devastation.BaseDuel
             { this.m_Games[num].command_ShuffleTeams(p,this.m_BlockedList); }
         }
 
-        private void command_Hold(SSPlayer p, ChatEvent e)
+        private void command_GameReset(SSPlayer p, ChatEvent e)
         {
             Classes.BaseGame game = this.getGame(p.Frequency);
 
             int num;
 
             if (this.isCommand(p, e, ModLevels.Mod, out num))
-            { this.m_Games[num].command_Hold(p); }
+            { this.m_Games[num].command_GameReset(p); }
         }
 
-        private void command_StartGame(SSPlayer p, ChatEvent e)
+        private void command_GameHold(SSPlayer p, ChatEvent e)
+        {
+            Classes.BaseGame game = this.getGame(p.Frequency);
+
+            int num;
+
+            if (this.isCommand(p, e, ModLevels.Mod, out num))
+            { this.m_Games[num].command_GameHold(p); }
+        }
+
+        private void command_PointRestart(SSPlayer p, ChatEvent e)
+        {
+            Classes.BaseGame game = this.getGame(p.Frequency);
+
+            int num;
+
+            if (this.isCommand(p, e, ModLevels.Mod, out num))
+            { this.m_Games[num].command_PointReset(p); }
+        }
+
+        private void command_GameStart(SSPlayer p, ChatEvent e)
         {
             Classes.BaseGame game = getGame(p.Frequency);
             int num;
@@ -187,9 +218,9 @@ namespace Devastation.BaseDuel
             if (this.isCommand(p, e, ModLevels.None, out num))
             {
                 if (game == this.m_Games[num])
-                    this.m_Games[num].command_Start(p);
+                    this.m_Games[num].command_GameStart(p);
                 else if ( player_isMod(e,ModLevels.Mod))
-                    this.m_Games[num].command_Start(p);
+                    this.m_Games[num].command_GameStart(p);
             }
         }
 
@@ -258,11 +289,13 @@ namespace Devastation.BaseDuel
             // Config main bd game
             Classes.BaseGame pubGame = new Classes.BaseGame(msg,psyGame,m_Players,m_BaseManager,m_MultiGame, m_Games.Count + 1);
             pubGame.setFreqs(0, 1);
+            pubGame.setSpamMeList(this.m_SpamMeList);
             pubGame.setArchive(m_ArchivedGames);
             m_Games.Add(pubGame);
 
             Classes.BaseGame pubGame2 = new Classes.BaseGame(msg, psyGame, m_Players, m_BaseManager, m_MultiGame, m_Games.Count + 1);
             pubGame2.setFreqs(10, 11);
+            pubGame2.setSpamMeList(this.m_SpamMeList);
             pubGame2.setArchive(m_ArchivedGames);
             m_Games.Add(pubGame2);
 
@@ -311,6 +344,18 @@ namespace Devastation.BaseDuel
                 if (game == null || game.gameStatus() == Misc.BaseGameStatus.OnHold) return;
 
                 game.Event_PlayerPosition(p);
+            }
+        }
+
+        public void Event_PlayerLeft(SSPlayer p)
+        {
+            // Module isnt on
+            if (m_Games == null) return;
+            Classes.BaseGame game = getGame(p.Frequency);
+
+            if (game != null)
+            {
+                game.player_Remove(p);
             }
         }
 

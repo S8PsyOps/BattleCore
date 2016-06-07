@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Collections;
 
 namespace Devastation
 {
@@ -22,12 +25,13 @@ namespace Devastation
         {
             this.m_MapTileIDs = MapTileIDs;
             this.m_MapTileType = MapTileType;
+            this.LoadBasesFromDB();
         }
 
         // All saved safe that were filled
         private List<ushort[]> SafeFills = new List<ushort[]>();
 
-        public void LoadBases(List<Base> BaseList, Base Lobby)
+        public void LoadBasesFromMap(List<Base> BaseList, Base Lobby)
         {
             // Start scanning map
             for (int y = 0; y < 1024; y += 1)
@@ -100,6 +104,9 @@ namespace Devastation
                 // add our first safe tile to list
                 fillQ.Enqueue(new Point(x, y));
 
+                List<Point> BaseFill = new List<Point>();
+                BaseFill.Add(new Point(x, y));
+
                 int safes_found = 1;
 
                 // run the fill loop
@@ -127,7 +134,7 @@ namespace Devastation
                             fillQ.Enqueue(fourPoint);
                             // erase tile to avoid including it in q more than once
                             m_MapTileType[fourPoint.X][fourPoint.Y] = 0;
-
+                            BaseFill.Add(new Point(fourPoint.X, fourPoint.Y));
                             // Counting safes found as we fill base
                             // Checking safe list in reverse order as we will be removing some
                             for (int s = SafeFills.Count - 1; s >= 0; s--)
@@ -150,8 +157,7 @@ namespace Devastation
                 // 2 safes make it a valid base
                 if (safes_found == 2)
                 {
-                    BaseList.Add(NewBase);
-                    BaseList[BaseList.IndexOf(NewBase)].Number = BaseList.IndexOf(NewBase) + 1;
+                    checkForStoredBase(BaseFill,NewBase,BaseList);
                 }
                 if (safes_found == 1)
                 {
@@ -220,6 +226,185 @@ namespace Devastation
             if (p.X >= 0 && p.X < 1024 && p.Y >= 0 && p.Y < 1024)
                 return true;
             return false;
+        }
+
+        List<byte[]> SavedBasesFromDB = new List<byte[]>();
+        List<int> SavedBasesFromDB_IDS = new List<int>();
+        private void LoadBasesFromDB()
+        {
+            SavedBasesFromDB = new List<byte[]>();
+            string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            try
+            {
+                var baseFiles = Directory.EnumerateFiles(sourceDirectory + "/bases", "*.base", SearchOption.AllDirectories);
+
+                // Check all filenames and store the last id + 1 - used to create next id
+                foreach (string currentFile in baseFiles)
+                {
+                    string numString = Path.GetFileName(currentFile).Replace("base", "").Replace(".", "");
+                    int num;
+                    if (int.TryParse(numString, out num))
+                    {
+                        if (num >= BaseNum) BaseNum = num + 1;
+                    }
+                }
+
+                // Upload all bases from db/files
+                foreach (string currentFile in baseFiles)
+                {
+                    FileStream stream = File.OpenRead(currentFile);
+                    byte[] fileBytes = new byte[stream.Length];
+                    stream.Read(fileBytes, 0, fileBytes.Length);
+                    // save it to our list of map byte arrays
+                    SavedBasesFromDB.Add(fileBytes);
+                    SavedBasesFromDB_IDS.Add(int.Parse(Path.GetFileName(currentFile).Replace("base", "").Replace(".", "")));
+                    stream.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        static bool ByteArrayCompare(byte[] a1, byte[] a2)
+        {
+            return StructuralComparisons.StructuralEqualityComparer.Equals(a1, a2);
+        }
+
+        private int BaseNum = 0;
+        private void checkForStoredBase(List<Point> Fill, Base NewBase, List<Base> BaseList)
+        {
+            int xOffset = 1023;
+            int yOffset = 1023;
+
+            // Find the offset value for x and y
+            for (int i = 0; i < Fill.Count; i++)
+            {
+                if (Fill[i].X < xOffset)
+                    xOffset = Fill[i].X;
+
+                if (Fill[i].Y < yOffset)
+                    yOffset = Fill[i].Y;
+            }
+
+            // adjust base to (0,0) coords
+            for (int i = 0; i < Fill.Count; i++)
+            {
+                int x = Fill[i].X - xOffset;
+                int y = Fill[i].Y - yOffset;
+                Fill[i] = new Point(x, y);
+            }
+
+            // Convert points into byte array
+            List<byte> byteList = new List<byte>();
+            for (int i = 0; i < Fill.Count; i++)
+            {
+                byte[] nextByte = BitConverter.GetBytes(Fill[i].X);
+                for (int j = 0; j < nextByte.Length; j++)
+                { byteList.Add(nextByte[j]); }
+                
+                byte[] nextByte2 = BitConverter.GetBytes(Fill[i].Y);
+                for (int j = 0; j < nextByte2.Length; j++)
+                { byteList.Add(nextByte2[j]); }
+            }
+
+            // Byte array to compare against or to create file
+            byte[] baseinfo = byteList.ToArray();
+
+
+            // Check if we already have the base saved
+            byte[] match = SavedBasesFromDB.Find(item => ByteArrayCompare(item,baseinfo));
+
+            string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            // If the map isnt found, create it in db/make file
+            if (match == null)
+            {
+                // Bot directory
+                string path = sourceDirectory + "/bases/base" + BaseNum.ToString().PadLeft(3, '0') + ".base";
+
+                using (Stream file = File.OpenWrite(path))
+                { file.Write(baseinfo, 0, baseinfo.Length); }
+                using (StreamWriter writer = new StreamWriter(sourceDirectory + "/bases/base" + BaseNum.ToString().PadLeft(3, '0') + ".info"))
+                {
+                    writer.WriteLine("[Base Information]");
+                    writer.WriteLine("BaseName:~none~");
+                    writer.WriteLine("BaseId:" + BaseNum.ToString().PadLeft(3, '0'));
+                    writer.WriteLine("Creator:~unknown~");
+                    writer.WriteLine("DateCreated:" + DateTime.Now.ToShortDateString());
+                }
+                BaseNum++;
+            }
+            else
+            {
+                int savedBaseNum = SavedBasesFromDB_IDS[SavedBasesFromDB.IndexOf(match)];
+                string path = sourceDirectory + "/bases/base" + savedBaseNum.ToString().PadLeft(3, '0') + ".info";
+                using (StreamReader sr = File.OpenText(path))
+                {
+                    string s = String.Empty;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        if (s.StartsWith("BaseName:"))
+                        {
+                            NewBase.BaseName = s.Replace("BaseName:","").Trim();
+                        }
+                        else if (s.StartsWith("BaseId:"))
+                        {
+                            NewBase.BaseID = "base" + savedBaseNum.ToString().PadLeft(3,'0');
+                        }
+                        else if (s.StartsWith("DateCreated:"))
+                        {
+                            NewBase.DateCreated = s.Replace("DateCreated:", "").Trim();
+                        }
+                        else if (s.StartsWith("Creator:"))
+                        {
+                            NewBase.BaseCreator = s.Replace("Creator:", "").Trim();
+                        }
+                    }
+                }
+            }
+
+            BaseList.Add(NewBase);
+            BaseList[BaseList.IndexOf(NewBase)].Number = BaseList.IndexOf(NewBase) + 1;
+
+            // ------------------------ Reads maps in as bytes
+            //FileStream stream = File.OpenRead(path);
+            //byte[] fileBytes = new byte[stream.Length];
+
+            //stream.Read(fileBytes, 0, fileBytes.Length);
+            //stream.Close();
+
+
+            // ------------------ Code to read base files and write them to txt files as string
+
+            //List<int[]> baseConvert = new List<int[]>();
+            //bool isX = true;
+            //int xCoord = 0;
+
+            //for (Int32 i = 0; i < fileBytes.Length; i += 4)
+            //{
+            //    // Gathering the next 4 bytes and converting to Int32
+            //    byte[] nextFour = new byte[4] { fileBytes[i], fileBytes[i + 1], fileBytes[i + 2], fileBytes[i + 3] };
+
+            //    if (isX)
+            //    {
+            //        xCoord = BitConverter.ToInt32(nextFour, 0);
+            //        isX = !isX;
+            //    }
+            //    else
+            //    {
+            //        baseConvert.Add(new int[]{xCoord,BitConverter.ToInt32(nextFour, 0)});
+            //    }
+            //}
+
+            //using (StreamWriter writer = new StreamWriter(sourceDirectory + "/bases/base" + BaseNum.ToString().PadLeft(2, '0') + ".txt"))
+            //{
+            //    for (int i = 0; i < baseConvert.Count; i++)
+            //    {
+            //        writer.WriteLine("Tile: Xcoord[ " + baseConvert[i][0].ToString().PadLeft(4) + " ] Ycoord[ " + baseConvert[i][1].ToString().PadLeft(4) + " ]");
+            //    }
+            //}
         }
     }
 }

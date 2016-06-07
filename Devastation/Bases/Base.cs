@@ -8,7 +8,10 @@ namespace Devastation
     public class Base
     {
         private int m_BaseNumber;
-        private String m_BaseName = "~none~";
+        private String m_BaseName = "~unasigned~";
+        private String m_BaseCreator = "~unasigned~";
+        private String m_DateCreated = "~unasigned~";
+        private String m_BaseID;
         private BaseSize m_Size = BaseSize.Small;
         private int m_TileCount = 0;
 
@@ -38,6 +41,27 @@ namespace Devastation
         {
             get { return m_BaseName; }
             set { m_BaseName = value; }
+        }
+
+        public String BaseCreator
+        {
+            get { return m_BaseCreator; }
+            set { m_BaseCreator = value; }
+        }
+
+        public String DateCreated
+        {
+            get { return m_DateCreated; }
+            set { m_DateCreated = value; }
+        }
+
+        /// <summary>
+        /// ID that it is saved by in the db or in file
+        /// </summary>
+        public String BaseID
+        {
+            get { return m_BaseID; }
+            set { m_BaseID = value; }
         }
 
         /// <summary>

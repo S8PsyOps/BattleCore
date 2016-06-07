@@ -442,3 +442,16 @@
 6/6/2016 2:20:40 PM (Public) R0bb> !sqlcheck
 6/6/2016 2:21:14 PM (Public) PsyOps> !sqlconnect
 6/6/2016 2:21:33 PM (Public) R0bb> !sqlcheck
+6/7/2016 8:59:59 AM (Public) PsyOps> !bd start 1
+6/7/2016 9:01:49 AM (Private) PsyOps> !debug
+6/7/2016 9:06:00 AM (Public) ogbirdhouse> !red
+6/7/2016 10:28:40 AM (Public) PsyOps> !spamme
+6/7/2016 10:36:40 AM (Public) PsyOps> !debug
+6/7/2016 10:44:05 AM (Public) PsyOps> !debug
+6/7/2016 10:45:10 AM (Public) PsyOps> !bd updates
+6/7/2016 10:45:45 AM (Public) PsyOps> !debug
+6/7/2016 10:47:29 AM (Public) PsyOps> !debug
+6/7/2016 12:36:39 PM (Public) PsyOps> !startbd
+6/7/2016 1:01:13 PM (Public) PsyOps> !sqlconnect
+6/7/2016 1:01:21 PM (Public) PsyOps> !sqlcheck
+6/7/2016 1:01:27 PM (Public) PsyOps> !sqldisconnect

@@ -54,7 +54,7 @@ namespace Devastation
 
             // Map scanner. Loads/Configures/Saves Bases
             BaseLoader my_BaseLoader = new BaseLoader(my_MapInfo.TileIDs, my_MapInfo.TileTypes);
-            my_BaseLoader.LoadBases(m_Bases, m_Lobby);
+            my_BaseLoader.LoadBasesFromMap(m_Bases, m_Lobby);
 
             // Load next base from default random
             ReShuffleQ(true);
