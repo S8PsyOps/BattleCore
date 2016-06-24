@@ -236,7 +236,7 @@ namespace Devastation
             string sourceDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                var baseFiles = Directory.EnumerateFiles(sourceDirectory + "/bases", "*.base", SearchOption.AllDirectories);
+                var baseFiles = Directory.EnumerateFiles(sourceDirectory + "/DataBase/Bases", "*.base", SearchOption.AllDirectories);
 
                 // Check all filenames and store the last id + 1 - used to create next id
                 foreach (string currentFile in baseFiles)
@@ -322,15 +322,15 @@ namespace Devastation
             if (match == null)
             {
                 // Bot directory
-                string path = sourceDirectory + "/bases/base" + BaseNum.ToString().PadLeft(3, '0') + ".base";
+                string path = sourceDirectory + "/DataBase/Bases/base" + BaseNum.ToString().PadLeft(3, '0') + ".base";
 
                 using (Stream file = File.OpenWrite(path))
                 { file.Write(baseinfo, 0, baseinfo.Length); }
-                using (StreamWriter writer = new StreamWriter(sourceDirectory + "/bases/base" + BaseNum.ToString().PadLeft(3, '0') + ".info"))
+                using (StreamWriter writer = new StreamWriter(sourceDirectory + "/DataBase/Bases/base" + BaseNum.ToString().PadLeft(3, '0') + ".info"))
                 {
                     writer.WriteLine("[Base Information]");
                     writer.WriteLine("BaseName:~none~");
-                    writer.WriteLine("BaseId:" + BaseNum.ToString().PadLeft(3, '0'));
+                    writer.WriteLine("BaseId:" + BaseNum);
                     writer.WriteLine("Creator:~unknown~");
                     writer.WriteLine("DateCreated:" + DateTime.Now.ToShortDateString());
                 }
@@ -339,7 +339,7 @@ namespace Devastation
             else
             {
                 int savedBaseNum = SavedBasesFromDB_IDS[SavedBasesFromDB.IndexOf(match)];
-                string path = sourceDirectory + "/bases/base" + savedBaseNum.ToString().PadLeft(3, '0') + ".info";
+                string path = sourceDirectory + "/DataBase/Bases/base" + savedBaseNum.ToString().PadLeft(3, '0') + ".info";
                 using (StreamReader sr = File.OpenText(path))
                 {
                     string s = String.Empty;
@@ -351,7 +351,7 @@ namespace Devastation
                         }
                         else if (s.StartsWith("BaseId:"))
                         {
-                            NewBase.BaseID = "base" + savedBaseNum.ToString().PadLeft(3,'0');
+                            NewBase.BaseID = savedBaseNum;
                         }
                         else if (s.StartsWith("DateCreated:"))
                         {

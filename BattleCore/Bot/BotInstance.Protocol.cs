@@ -636,10 +636,7 @@ namespace BattleCore.Bot
       private void HandleSpecPlayer (Byte[] buffer) { Console.WriteLine ("SpecPlayer"); }
       private void HandleSetTeamAndShip (Byte[] buffer) { Console.WriteLine ("SetTeamAndShip"); }
       private void HandleBannerFlag (Byte[] buffer) { Console.WriteLine ("BannerFlag"); }
-      private void HandlePlayerBanner (Byte[] buffer)
-      { 
-
-      }
+      private void HandlePlayerBanner(Byte[] buffer) { Console.WriteLine("PlayerBannerFlag"); }
       private void HandleSelfPrize (Byte[] buffer) { Console.WriteLine ("SelfPrize"); }
       private void HandleBrickDrop (Byte[] buffer) {   }
       private void HandleTurfFlagStatus (Byte[] buffer) { Console.WriteLine ("TurfFlagStatus"); }
@@ -698,7 +695,7 @@ namespace BattleCore.Bot
 
       private void HandleSetKoTHTimer (Byte[] buffer) { Console.WriteLine ("KOTHTimer"); }
       private void HandleKoTHReset (Byte[] buffer) { Console.WriteLine ("KOTHReset"); }
-      //private void HandleArenaList (Byte[] buffer) { Console.WriteLine ("ArenaList"); }
+
       private void HandleArenaList(Byte[] buffer)
       {
           // Create new packet
@@ -712,7 +709,14 @@ namespace BattleCore.Bot
       private void HandleBallPosition (Byte[] buffer) { }
       private void HandleBannerAds (Byte[] buffer) { Console.WriteLine ("BannerAds"); }
       private void HandleChangePosition (Byte[] buffer) { Console.WriteLine ("ChangePosition"); }
-      private void HandleObjectToggle (Byte[] buffer) { Console.WriteLine ("ObjectToggle"); }
+      
+      private void HandleObjectToggle (Byte[] buffer) 
+      {
+          LVZTogglePacket packet = new LVZTogglePacket();
+          packet.Packet = buffer;
+          m_eventQueue.Add(packet.Event);
+      }
+      
       private void HandleReceivedObject (Byte[] buffer) { Console.WriteLine ("ReceivedObject"); }
       private void HandleDamageToggle (Byte[] buffer) { Console.WriteLine ("DamageToggle"); }
       

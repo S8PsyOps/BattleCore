@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using BattleCore;
+
 namespace Devastation.BaseDuel.Classes
 {
     public enum BDSettingType
@@ -13,10 +15,16 @@ namespace Devastation.BaseDuel.Classes
     }
     public class BDGameSettings
     {
+        public BDGameSettings()
+        {
+            this.m_BotSpamSetting = ChatTypes.Team;
+        }
+
         private BDSettingType m_Type;
         private bool m_SafeWinOn;
         private int m_MinimumPoint;
         private int m_WinBy;
+        private ChatTypes m_BotSpamSetting;
 
         public BDSettingType Type
         {
@@ -40,6 +48,12 @@ namespace Devastation.BaseDuel.Classes
         {
             get { return this.m_WinBy; }
             set { this.m_WinBy = value; }
+        }
+
+        public ChatTypes SpamSetting
+        {
+            get { return this.m_BotSpamSetting; }
+            set { this.m_BotSpamSetting = value; }
         }
 
         public void LoadSettings(BDSettingType type)

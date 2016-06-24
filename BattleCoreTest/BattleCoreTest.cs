@@ -42,6 +42,7 @@ namespace BattleCoreTest
       {
          // Initialize the form components
          InitializeComponent ();
+         m_core.OnStart(null);
       }
 
       /// <summary>

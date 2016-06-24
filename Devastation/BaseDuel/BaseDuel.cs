@@ -31,7 +31,7 @@ namespace Devastation.BaseDuel
             this.m_SpamZoneTimeStamp = DateTime.Now;
 
             // Only set this if you want module loaded by default
-            this.loadBaseDuel(" * Auto Load *");
+            this.BaseDuel_Load(" * Auto Load *");
 
             this.m_CustomStaff.Add("Ahmad~");
             this.m_CustomStaff.Add("zxvf");
@@ -78,13 +78,8 @@ namespace Devastation.BaseDuel
 
                 switch (command)
                 {
-                    case "status":
-                        this.command_Status(p, e);
-                        return;
-
-                    case "toggle":
-                        this.command_Toggle(p, e);
-                        return;
+                    case "status":  this.command_Status(p, e);          return;
+                    case "toggle":  this.command_BaseDuelToggle(p, e);  return;
                 }
 
                 // Commands after this point need module to be loaded
@@ -92,46 +87,21 @@ namespace Devastation.BaseDuel
 
                 switch (command)
                 {
-                    case ".baseduel":
-                        e.Message = "!help baseduel";
-                        this.psyGame.CoreSend(e);
-                        return;
-
-                    case "commands":
-                        e.Message = "!help baseduel commands";
-                        this.psyGame.CoreSend(e);
-                        return;
-                    
-                    case "settings":
-                        return;
-
-                    case "games": this.command_ShowGames(p, e);
-                        return;
-
-                    case "start": this.command_GameStart(p, e);
-                        return;
-
-                    case "shuffle": this.command_Shuffle(p, e);
-                        return;
-
-                    case "hold": this.command_GameHold(p, e);
-                        return;
-
-                    case "spam": this.command_SpamZone(e);
-                        return;
-
-                    case "updates":this.command_SpamMe(p, e);
-                        return;
-
-                    case "restart":this.command_PointRestart(p,e);
-                        return;
-
-                    case "reset": this.command_GameReset(p, e);
-                        return;
-
-                    case "test":
-                        doTest(p, e);
-                        return;
+                    case "bdset":       this.command_SettingChanges(p, e);  return;
+                    case "lock":        this.command_GameLock(p, e);        return;
+                    case "games":       this.command_ShowGames(p, e);       return;
+                    case "start":       this.command_GameStart(p, e);       return;
+                    case "shuffle":     this.command_Shuffle(p, e);         return;
+                    case "hold":        this.command_GameHold(p, e);        return;
+                    case "spam":        this.command_SpamZone(e);           return;
+                    case "updates":     this.command_SpamMe(p, e);          return;
+                    case "restart":     this.command_PointRestart(p,e);     return;
+                    case "reset":       this.command_GameReset(p, e);       return;
+                    case "test":        this.doTest(p, e);                  return;
+                    case ".baseduel":   this.command_BaseDuel(p, e);        return;
+                    case "commands":    this.command_BaseCommands(p, e);    return;
+                    case "stats":       this.command_GetPlayerStats(p, e);  return;
+                    case "score":       this.command_GetGameScore(p,e);     return;
                 }
             }
         }
@@ -139,22 +109,74 @@ namespace Devastation.BaseDuel
         public void doTest(SSPlayer p, ChatEvent e)
         {
             //psyGame.Send(msg.pm(p.PlayerName, "?|setship 9|setship " + ((int)p.Ship + 1)));
-            List<Base> tempBases = new List<Base>();
+            //List<Base> tempBases = new List<Base>();
 
-            for (int i = 0; i < 5; i++)
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    Base nextBase = m_BaseManager.getNextBase();
+            //    tempBases.Add(nextBase);
+            //    Queue<EventArgs> bInfo = m_BaseManager.getBaseInfo(e.PlayerName, nextBase);
+            //    while (bInfo.Count > 0)
+            //        psyGame.Send(bInfo.Dequeue());
+            //}
+
+            //while (tempBases.Count > 0)
+            //{
+            //    m_BaseManager.ReleaseBase(tempBases[0], "BaseDuel");
+            //    tempBases.RemoveAt(0);
+            //}
+        }
+
+        private void command_GetGameScore(SSPlayer p, ChatEvent e)
+        {
+            if (p.Ship == ShipTypes.Spectator)
             {
-                Base nextBase = m_BaseManager.getNextBase();
-                tempBases.Add(nextBase);
-                Queue<EventArgs> bInfo = m_BaseManager.getBaseInfo(e.PlayerName, nextBase);
-                while (bInfo.Count > 0)
-                    psyGame.Send(bInfo.Dequeue());
+                psyGame.Send(msg.pm(p.PlayerName, "+--------------------------------------------------+"));
+                psyGame.Send(msg.pm(p.PlayerName, "| Game Number               Score                  |"));
+                psyGame.Send(msg.pm(p.PlayerName, "+--------------------------------------------------+"));
+                foreach (Classes.BaseGame b in this.m_Games)
+                {
+                    //psyGame.Send(msg.pm(p.PlayerName, "Game[ " + b.gameNum().ToString().PadLeft(2,'0') + " ]     Freq[ " + b.AlphaFreq.ToString().PadLeft(2,'0') + " ]   " + b.AlphaScore + " - " + b.BravoScore + "   [ " + b.BravoFreq + " ]Freq"));
+                    psyGame.Send(msg.pm(p.PlayerName, "| [ " + b.gameNum().ToString().PadLeft(2, '0') + " ]       Freq[ " + b.AlphaFreq.ToString().PadLeft(2) + " ]  " + b.AlphaScore.ToString().PadLeft(2) + " - " + b.BravoScore.ToString().PadRight(2) + "   [ " + b.BravoFreq.ToString().PadLeft(2) + " ]Freq    |"));
+                }
+                psyGame.Send(msg.pm(p.PlayerName, "+--------------------------------------------------+"));
+                return;
             }
 
-            while (tempBases.Count > 0)
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.None);
+
+            if (game != null)
             {
-                m_BaseManager.ReleaseBase(tempBases[0], "BaseDuel");
-                tempBases.RemoveAt(0);
+                psyGame.Send(msg.pm(p.PlayerName, game.AlphaName + "   " + game.AlphaScore.ToString().PadLeft(2) + " - " + game.BravoScore.ToString().PadRight(2) + "   " + game.BravoName));
             }
+        }
+
+        private void command_GetPlayerStats(SSPlayer p, ChatEvent e)
+        {
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.None);
+
+            if (game != null)
+            { game.command_GetPlayerStats(p); }
+        }
+
+        private void command_SettingChanges(SSPlayer p, ChatEvent e)
+        {
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.Mod);
+
+            if (game != null)
+            { game.command_SettingChange(p, e); }
+        }
+
+        private void command_BaseCommands(SSPlayer p, ChatEvent e)
+        {
+            e.Message = "!help baseduel commands";
+            this.psyGame.CoreSend(e);
+        }
+
+        private void command_BaseDuel(SSPlayer p, ChatEvent e)
+        {
+            e.Message = "!help baseduel";
+            this.psyGame.CoreSend(e);
         }
 
         private void command_SpamMe(SSPlayer p, ChatEvent e)
@@ -170,63 +192,63 @@ namespace Devastation.BaseDuel
             psyGame.Send(msg.pm(p.PlayerName, "You have been added to the personal game update list. You will receive activity private messages for all games."));
         }
 
+        private void command_GameLock(SSPlayer p, ChatEvent e)
+        {
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.Mod);
+
+            if (game != null)
+            { game.command_GameLock(p); }
+        }
+
         private void command_Shuffle(SSPlayer p, ChatEvent e)
         {
-            Classes.BaseGame game = this.getGame(p.Frequency);
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.Mod);
 
-            int num;
-
-            if (this.isCommand(p, e, ModLevels.Mod, out num))
-            { this.m_Games[num].command_ShuffleTeams(p,this.m_BlockedList); }
+            if (game != null)
+            { game.command_ShuffleTeams(p,this.m_BlockedList); }
         }
 
         private void command_GameReset(SSPlayer p, ChatEvent e)
         {
-            Classes.BaseGame game = this.getGame(p.Frequency);
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.Mod);
 
-            int num;
-
-            if (this.isCommand(p, e, ModLevels.Mod, out num))
-            { this.m_Games[num].command_GameReset(p); }
+            if (game != null)
+            { game.command_GameReset(p); }
         }
 
         private void command_GameHold(SSPlayer p, ChatEvent e)
         {
-            Classes.BaseGame game = this.getGame(p.Frequency);
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.Mod);
 
-            int num;
-
-            if (this.isCommand(p, e, ModLevels.Mod, out num))
-            { this.m_Games[num].command_GameHold(p); }
+            if (game != null)
+            { game.command_GameHold(p); }
         }
 
         private void command_PointRestart(SSPlayer p, ChatEvent e)
         {
-            Classes.BaseGame game = this.getGame(p.Frequency);
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.Mod);
 
-            int num;
-
-            if (this.isCommand(p, e, ModLevels.Mod, out num))
-            { this.m_Games[num].command_PointReset(p); }
+            if (game != null)
+            { game.command_PointReset(p); }
         }
 
         private void command_GameStart(SSPlayer p, ChatEvent e)
         {
-            Classes.BaseGame game = getGame(p.Frequency);
-            int num;
+            Classes.BaseGame game = this.getGame_FromCommand(p, e, ModLevels.None);
 
-            if (this.isCommand(p, e, ModLevels.None, out num))
+            if (game != null)
             {
-                if (game == this.m_Games[num])
-                    this.m_Games[num].command_GameStart(p);
+                if (game == this.getGame(p.Frequency))
+                    game.command_GameStart(p);
                 else if ( player_isMod(e,ModLevels.Mod))
-                    this.m_Games[num].command_GameStart(p);
+                    game.command_GameStart(p);
             }
         }
 
         // send spam to devastation chat and zone
         private void command_SpamZone(ChatEvent e)
         {
+            if (e.ModLevel != ModLevels.Sysop)
             if ((DateTime.Now - m_SpamZoneTimeStamp).TotalMinutes < m_SpamZoneTimeLimit)
             {
                 psyGame.Send(msg.pm(e.PlayerName, "This command can only be used every " + m_SpamZoneTimeLimit + " minutes. You have " + Math.Floor(m_SpamZoneTimeLimit - (DateTime.Now - m_SpamZoneTimeStamp).TotalMinutes) + "m:" + Math.Floor((double)60 - (DateTime.Now - m_SpamZoneTimeStamp).Seconds).ToString().PadLeft(2, '0') + "s before it can use it again."));
@@ -264,24 +286,24 @@ namespace Devastation.BaseDuel
         }
 
         // Toggle Baseduel On or Off
-        public void command_Toggle(SSPlayer p, ChatEvent e)
+        public void command_BaseDuelToggle(SSPlayer p, ChatEvent e)
         {
             if (!player_isMod(e, ModLevels.Sysop)) return;
 
             // Baseduel is Unloaded: do Load
             if (m_Games == null)
             {
-                loadBaseDuel(p.PlayerName);
+                BaseDuel_Load(p.PlayerName);
                 return;
             }
             // Baseduel is Loaded: do unLoad
-            unloadBaseDuel(p.PlayerName);
+            BaseDuel_Unload(p.PlayerName);
         }
 
         //----------------------------------------------------------------------//
         //                     Game Functions                                   //
         //----------------------------------------------------------------------//
-        private void loadBaseDuel(string PlayerName)
+        private void BaseDuel_Load(string PlayerName)
         {
             // Create the list
             m_Games = new List<Classes.BaseGame>();
@@ -293,18 +315,21 @@ namespace Devastation.BaseDuel
             pubGame.setArchive(m_ArchivedGames);
             m_Games.Add(pubGame);
 
-            Classes.BaseGame pubGame2 = new Classes.BaseGame(msg, psyGame, m_Players, m_BaseManager, m_MultiGame, m_Games.Count + 1);
-            pubGame2.setFreqs(10, 11);
-            pubGame2.setSpamMeList(this.m_SpamMeList);
-            pubGame2.setArchive(m_ArchivedGames);
-            m_Games.Add(pubGame2);
+            if (this.m_MultiGame)
+            {
+                Classes.BaseGame pubGame2 = new Classes.BaseGame(msg, psyGame, m_Players, m_BaseManager, m_MultiGame, m_Games.Count + 1);
+                pubGame2.setFreqs(10, 11);
+                pubGame2.setSpamMeList(this.m_SpamMeList);
+                pubGame2.setArchive(m_ArchivedGames);
+                m_Games.Add(pubGame2);
+            }
 
             // load and configure stuff to start baseduel module
             psyGame.Send(msg.arena("[ BaseDuel ] Module Loaded - " + PlayerName));
             psyGame.Send(msg.arena("[ BaseDuel ] MultiGame Toggle: [ "+( this.m_MultiGame?"On":"Off" )+" ]"));
         }
 
-        private void unloadBaseDuel(string PlayerName)
+        private void BaseDuel_Unload(string PlayerName)
         {
             // Do all necessary stuff to unload module. Maybe record stuff, dunno
             int totalBases = m_Games.Count;
@@ -345,6 +370,13 @@ namespace Devastation.BaseDuel
 
                 game.Event_PlayerPosition(p);
             }
+            else if (p.Position.Weapon.Type != WeaponTypes.NoWeapon)
+            {
+                Classes.BaseGame game = getGame(p.Frequency);
+
+                if (game != null)
+                    game.Event_PlayerFiredWeapon(p);
+            }
         }
 
         public void Event_PlayerLeft(SSPlayer p)
@@ -368,13 +400,10 @@ namespace Devastation.BaseDuel
             Classes.BaseGame leaveGame = getGame(p.OldFrequency);
 
             if (leaveGame != null && leaveGame.gameStatus() != Misc.BaseGameStatus.NotStarted)
-            {
-                leaveGame.player_Remove(p);
-            }
-            if (joinGame != null && joinGame.gameStatus() != Misc.BaseGameStatus.NotStarted  && !joinGame.lockedStatus())
-            {
-                joinGame.player_Join(p);
-            }
+            { leaveGame.player_Remove(p); }
+
+            if (joinGame != null && joinGame.gameStatus() != Misc.BaseGameStatus.NotStarted && !joinGame.lockedStatus())
+            { joinGame.player_Join(p); }
         }
 
         public void Event_PlayerTurretAttach(SSPlayer attacher, SSPlayer host)
@@ -384,9 +413,23 @@ namespace Devastation.BaseDuel
 
             Classes.BaseGame game = getGame(host.Frequency);
 
-            if (game == null || game.gameStatus() == Misc.BaseGameStatus.OnHold) return;
+            if (game == null) return;
 
             game.Event_TurretEvent(attacher, host);
+        }
+
+        public void Event_PlayerKilled(SSPlayer Attacker, SSPlayer Victim)
+        {
+            // Module isnt on
+            if (m_Games == null) return;
+
+            Classes.BaseGame game = getGame(Attacker.Frequency);
+
+            if (game == null) return;
+
+            if (game.gameStatus() != Misc.BaseGameStatus.InProgress) return;
+
+            game.Event_PlayerKilled(Attacker, Victim);
         }
 
         //----------------------------------------------------------------------//
@@ -398,6 +441,60 @@ namespace Devastation.BaseDuel
             return m_Games.Find(item => item.AlphaFreq == Freq || item.BravoFreq == Freq);
         }
 
+        // get game from command
+        private Classes.BaseGame getGame_FromCommand(SSPlayer p, ChatEvent e, ModLevels modLvl)
+        {
+            Classes.BaseGame game = this.getGame(p.Frequency);
+            string[] data = e.Message.Split(' ');
+            int num;
+            
+            if (game == null)
+            {
+                if (player_isMod(e, ModLevels.Mod))
+                {
+                    if (data.Length >= 2)
+                    {
+                        if (int.TryParse(data[1], out num) && num > 0 && num <= this.m_Games.Count)
+                        {
+                            return this.m_Games[num - 1];
+                        }
+
+                        if ( data.Length > 2 && int.TryParse(data[2], out num) && num > 0 && num <= this.m_Games.Count)
+                        {
+                            return this.m_Games[num - 1];
+                        }
+
+                        if (p.Ship == ShipTypes.Spectator)
+                        {
+                            psyGame.Send(msg.pm(p.PlayerName, "You are not on an active game freq. To see the list of active games type !bd games. For help on BD commands type: !bd commands."));
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        psyGame.Send(msg.pm(p.PlayerName, "You must be in the active game freq to use this command. To see the list of active games type !bd games. For help on BD commands type: !bd commands."));
+                        return null;
+                    }
+                }
+                return null;
+            }
+            else
+            {
+                if (data.Length == 3)
+                {
+                    if (int.TryParse(data[2], out num) && num > 0 && num <= this.m_Games.Count)
+                    {
+                        return this.m_Games[num - 1];
+                    }
+                }
+
+                if (this.player_isMod(e, modLvl))
+                {
+                    return this.m_Games[game.gameNum() - 1];
+                }
+                return null;
+            }
+        }
         // checking if player is mod - if not sends back message
         private bool player_isMod(ChatEvent e, ModLevels mod)
         {
@@ -420,7 +517,15 @@ namespace Devastation.BaseDuel
                 // making sure our command is in message with a [!] or a [.]
                 if (FullMessage.StartsWith("!") || FullMessage.StartsWith("."))
                 {
-                    if (FullMessage.StartsWith("!bd") || FullMessage.StartsWith(".bd") || FullMessage.StartsWith("!baseduel") || FullMessage.StartsWith(".baseduel"))
+                    if (FullMessage.StartsWith("!bdset") || FullMessage.StartsWith(".bdset") || FullMessage.StartsWith("!baseduelset") || FullMessage.StartsWith(".baseduelset"))
+                    {
+                        if (!FullMessage.Contains(" ") || !FullMessage.Split(' ')[1].Contains(":")) return false;
+
+                        formattedCommand = "bdset";
+
+                        return true;
+                    }
+                    else if (FullMessage.StartsWith("!bd") || FullMessage.StartsWith(".bd") || FullMessage.StartsWith("!baseduel") || FullMessage.StartsWith(".baseduel"))
                     {
                         // If command isnt a multiple just send original ".baseduel"
                         if (FullMessage.Contains(" ")) formattedCommand = FullMessage.Split(' ')[1];
@@ -430,13 +535,17 @@ namespace Devastation.BaseDuel
 
                         return true;
                     }
-                    FullMessage = FullMessage.Remove(0, 1).Trim().ToLower();
+
+                    FullMessage = FullMessage.Contains(" ") ? FullMessage.Remove(0, 1).Trim().ToLower().Split(' ')[0] : FullMessage.Remove(0, 1).Trim().ToLower();
 
                     // Custom commands converted to standard
                     switch (FullMessage)
                     {
                         case "startbd":
                             formattedCommand = "start";
+                            return true;
+                        case "score":
+                            formattedCommand = "score";
                             return true;
                         case "shuffleteam":
                             formattedCommand = "shuffle";
@@ -445,53 +554,6 @@ namespace Devastation.BaseDuel
                 }
             }
             return false;
-        }
-        // Checking for commands like : .bd hold, and mod controled commands from spec like: .bd hold 1
-        private bool isCommand(SSPlayer p, ChatEvent e, ModLevels modLvl, out int num)
-        {
-            Classes.BaseGame game = this.getGame(p.Frequency);
-
-            if (game == null)
-            {
-                string[] data = e.Message.Split(' ');
-
-                if (player_isMod(e, ModLevels.Mod))
-                {
-                    if (data.Length == 3)
-                    {
-                        if (int.TryParse(data[2], out num) && num > 0 && num <= this.m_Games.Count)
-                        {
-                            num -= 1;
-                            return true;
-                        }
-
-                        if (p.Ship == ShipTypes.Spectator)
-                        {
-                            num = -1;
-                            psyGame.Send(msg.pm(p.PlayerName, "You are not on an active game freq. To see the list of active games type !bd games. For help on BD commands type: !bd commands."));
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        num = -1;
-                        psyGame.Send(msg.pm(p.PlayerName, "You must be in the active game freq to use this command. To see the list of active games type !bd games. For help on BD commands type: !bd commands."));
-                        return false;
-                    }
-                }
-                num = -1;
-                return false;
-            }
-            else
-            {
-                if (this.player_isMod(e, modLvl))
-                {
-                    num = game.gameNum() - 1;
-                    return true;
-                }
-                num = -1;
-                return false;
-            }
         }
     }
 }

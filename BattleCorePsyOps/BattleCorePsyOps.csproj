@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayManager.cs" />
+    <Compile Include="DisplayManager2.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="SSPlayer.cs" />
     <Compile Include="ShortChat.cs" />

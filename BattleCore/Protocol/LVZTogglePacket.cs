@@ -52,14 +52,36 @@ namespace BattleCore.Protocol
         {
             set
             {
-                /*
-                // Set the event data from reading the packet
-                m_event.DeathGreen = value[1];
-                m_event.KillerId = BitConverter.ToUInt16(value, 2);
-                m_event.KilledId = BitConverter.ToUInt16(value, 4);
-                m_event.Bounty = BitConverter.ToUInt16(value, 6);
-                m_event.FlagsCarried = BitConverter.ToUInt16(value, 8);
-                */
+                m_event = new LVZToggleEvent();
+                m_event.LVZObjects = new Dictionary<ushort, bool>();
+
+                bool is_delimiter = true;
+                // (65,535 - lvz id) is delimiter when the lvz is being turned off - ganna skip every other toggle
+                for (Int32 i = 1; i < value.Length; i += 2)
+                {
+                    bool state = true;
+
+                    byte[] nexttwo = new byte[2] { value[i], value[i + 1] };
+                    ushort result = (ushort)BitConverter.ToInt16(nexttwo, 0);
+                    
+                    if (result >= 32768)
+                    {
+                        state = false;
+                        result = (ushort)(result - 32768);
+                    }
+
+                    //if (state == false && !is_delimiter || state == true)
+                    //{
+                    //    m_event.LVZObjects[result] = state;
+                    //    if (!is_delimiter)is_delimiter = true;
+                    //}
+                    //else
+                    //{
+                    //    is_delimiter = false;
+                    //}
+
+                    m_event.LVZObjects[result] = state;
+                }
             }
             get
             {

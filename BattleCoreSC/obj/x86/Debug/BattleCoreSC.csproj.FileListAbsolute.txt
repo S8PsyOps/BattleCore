@@ -1,0 +1,5 @@
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BCStart.exe
+D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BCStart.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreSC\obj\x86\Debug\BCStart.exe
+D:\Projects\GitHub\BattleCore\BattleCoreSC\obj\x86\Debug\BCStart.pdb
+D:\Projects\GitHub\BattleCore\BattleCoreSC\obj\x86\Debug\BattleCoreSC.csprojResolveAssemblyReference.cache

@@ -11,8 +11,8 @@ D:\Projects\GitHub\BattleCore\BattleCore\bin\Debug\BattleCore.pdb
 D:\Projects\GitHub\BattleCore\BattleCore\bin\Debug\AlphaCore.xml
 D:\Projects\GitHub\BattleCore\BattleCore\bin\Debug\BattleCore.Events.dll
 D:\Projects\GitHub\BattleCore\BattleCore\bin\Debug\BattleCore.Events.pdb
-D:\Projects\GitHub\BattleCore\BattleCore\obj\Debug\BattleCore.csprojResolveAssemblyReference.cache
 D:\Projects\GitHub\BattleCore\BattleCore\obj\Debug\BattleCore.dll
 D:\Projects\GitHub\BattleCore\BattleCore\obj\Debug\BattleCore.pdb
 D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.dll
 D:\Projects\GitHub\BattleCore\BattleCoreTest\bin\Release\BattleCore.pdb
+D:\Projects\GitHub\BattleCore\BattleCore\obj\Debug\BattleCore.csprojResolveAssemblyReference.cache

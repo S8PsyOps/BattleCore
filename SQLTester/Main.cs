@@ -19,10 +19,10 @@ namespace SQLTester
         public Main()
         {
             // Store needed info
-            server = "107.180.55.20";
-            database = "";
+            server = "";
+            database = "S8DBDevastation";
             uid = "DevaBot";
-            password = "SSCJDevastation8675309";
+            password = "";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";

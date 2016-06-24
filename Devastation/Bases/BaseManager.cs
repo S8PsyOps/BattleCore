@@ -103,14 +103,23 @@ namespace Devastation
         /// <para>Base will not load if you choose number higher than available.</para>
         /// </summary>
         /// <param name="BaseToLoad"></param>
-        public Base getBaseNumber(int BaseToLoad)
+        public Base getBaseNumber(int BaseToLoad, string Requester)
         {
+            BaseToLoad -= 1;
             if (BaseToLoad < m_Bases.Count && !m_BasesInUse.Contains(BaseToLoad))
             {
                 m_BasesInUse.Add(BaseToLoad);
+                psyGame.Send(msg.debugChan("[ BaseManager ] - [ " + Requester + " ] has checked out Base[ " + BaseToLoad + " ]. Total bases checked out:[ " + this.m_BasesInUse.Count + " ]"));
                 return m_Bases[BaseToLoad];
             }
             return null;
+        }
+
+        public bool CheckBaseSafe(int baseNum)
+        {
+            baseNum -= 1;
+            if (this.m_BasesInUse.Contains(baseNum) || baseNum > this.Bases.Count - 1) return false;
+            return this.baseSafeFromProx(baseNum);
         }
 
         // Collision check between 2 bases to see if they are within rep distance
@@ -134,20 +143,24 @@ namespace Devastation
 
         public Base getNextBase()
         {
-            return this.getNextBase("~ unknown ~");
+            return this.getNextBase("~ unknown ~", m_SizeMode);
+        }
+        public Base getNextBase(string Requester)
+        {
+            return this.getNextBase(Requester, m_SizeMode);
         }
         /// <summary>
         /// <para>Load the next available Base.</para>
         /// <para>BaseMode is what determins what base to load next.</para>
         /// </summary>
         /// <returns>Next base in queue</returns>
-        public Base getNextBase(string Requester)
+        public Base getNextBase(string Requester, BaseSize size)
         {
             bool reload = true;
             int newBase = 0;
             while (reload)
             {
-                if (m_SizeMode == BaseSize.Off)
+                if (size == BaseSize.Off)
                     reload = false;
                 
                 switch (m_Mode)
@@ -172,26 +185,30 @@ namespace Devastation
                     reload = false;
 
                 // If the base is set to a certain size
-                if (m_SizeMode != BaseSize.Off && m_SizeMode == m_Bases[newBase].Size)
+                if (m_SizeMode != BaseSize.Off && size == m_Bases[newBase].Size)
                     reload = false;
 
                 // Rep range is 400 pixels - run a prox check to make sure we arent releasing a base within rep prox distance
-                for (int i = 0; i < m_BasesInUse.Count; i++)
-                {
-                    if (inRepProximity(m_Bases[newBase], m_Bases[m_BasesInUse[i]]))
-                    {
-                        reload = true;
-                    }
-                }
+                if (!this.baseSafeFromProx(newBase)) reload = true;
 
-                if (reload == false)
-                {
-                    // add base to in-use list
-                    m_BasesInUse.Add(newBase);
-                }
+                // add base to "in-use" list
+                if (reload == false)    m_BasesInUse.Add(newBase);
+
             }
             psyGame.Send(msg.debugChan("[ BaseManager ] - [ "+Requester+" ] has checked out Base[ "+newBase+" ]. Total bases checked out:[ "+this.m_BasesInUse.Count+" ]"));
             return m_Bases[newBase];
+        }
+
+        private bool baseSafeFromProx(int baseNum)
+        {
+            for (int i = 0; i < m_BasesInUse.Count; i++)
+            {
+                if (inRepProximity(m_Bases[baseNum], m_Bases[m_BasesInUse[i]]))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public void ReleaseBase(Base baseToRelease)

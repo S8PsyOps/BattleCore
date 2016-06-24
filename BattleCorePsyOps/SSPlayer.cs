@@ -11,6 +11,7 @@ namespace BattleCorePsyOps
     {
         private String m_PlayerName;
         private ushort m_PlayerId;
+        private int m_SubspaceId;
         private ushort m_OldFrequency = 7265;
         private ushort m_Frequency = 7265;
         private ModLevels m_ModLevel = ModLevels.None;
@@ -65,6 +66,12 @@ namespace BattleCorePsyOps
             set { m_PlayerId = value; }
         }
 
+        public int SubspaceId
+        {
+            get { return m_SubspaceId; }
+            set { m_SubspaceId = value; }
+        }
+
         public ushort OldFrequency
         {
             get { return m_OldFrequency; }
@@ -117,6 +124,27 @@ namespace BattleCorePsyOps
         {
             get { return m_Position; }
             set { m_Position = value; }
+        }
+
+        private bool m_NeedGfxUpdate = false;
+        public bool NeedGfxUpdate
+        {
+            get { return m_NeedGfxUpdate; }
+            set { m_NeedGfxUpdate = value; }
+        }
+
+        private Dictionary<ushort, bool> m_Display = new Dictionary<ushort, bool>();
+        public Dictionary<ushort, bool> Display
+        {
+            get { return m_Display; }
+            set { m_Display = value; }
+        }
+
+        private Dictionary<ushort, bool> m_DisplayOld = new Dictionary<ushort, bool>();
+        public Dictionary<ushort, bool> Display_Old
+        {
+            get { return m_DisplayOld; }
+            set { m_DisplayOld = value; }
         }
     }
 }

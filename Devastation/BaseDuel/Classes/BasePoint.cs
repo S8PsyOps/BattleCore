@@ -7,26 +7,37 @@ namespace Devastation.BaseDuel.Classes
 {
     public class BasePoint
     {
-        public BasePoint()
+        public BasePoint( string AteamName, string BTeamName)
         {
             this.m_AlphaTeam = new BaseTeam();
             this.m_BravoTeam = new BaseTeam();
+            this.m_ATeamName = AteamName;
+            this.m_BTeamName = BTeamName;
         }
 
         private BaseTeam m_AlphaTeam;
         private BaseTeam m_BravoTeam;
+        private string m_ATeamName, m_BTeamName;
 
         private DateTime m_StartTime;
         private TimeSpan m_TotalTime;
+        public TimeSpan TotalTime
+        { get { return this.m_TotalTime; } }
 
         private int m_BaseNumber;
         private string m_SafeWinner;
         private bool m_AlphaWon;
         private Misc.WinType m_WinType;
 
-        public BasePoint getSavedPoint(bool AlphaWon, Misc.WinType winType)
+        public void SetTeamNames(string Ateam, string BTeam)
         {
-            BasePoint save = new BasePoint();
+            this.m_ATeamName = Ateam;
+            this.m_BTeamName = BTeam;
+        }
+
+        public BasePoint GetCopy(bool AlphaWon, Misc.WinType winType)
+        {
+            BasePoint save = new BasePoint(this.m_ATeamName, this.m_BTeamName);
             save.m_AlphaWon = AlphaWon;
             save.m_WinType = winType;
             save.m_TotalTime = DateTime.Now - this.m_StartTime;
@@ -76,6 +87,7 @@ namespace Devastation.BaseDuel.Classes
             return this.m_BravoTeam.getPlayer(PlayerName);
         }
 
+        // sloppy - clean this psy you nub
         public void removePlayer(string PlayerName)
         {
             if (m_AlphaTeam.getPlayer(PlayerName) != null)
@@ -95,7 +107,7 @@ namespace Devastation.BaseDuel.Classes
             int leftOffset = 20;
 
             reply.Enqueue("Team Count    :".PadRight(leftOffset) + ("[ " + this.AlphaCount().ToString()+" vs " + this.BravoCount().ToString() + " ]").PadLeft(rightOffset));
-            reply.Enqueue("Winner        :".PadRight(leftOffset) + (this.m_AlphaWon ? "Alpha: " + this.m_AlphaTeam.teamName() : "Bravo: " + this.m_BravoTeam.teamName()).PadLeft(rightOffset));
+            reply.Enqueue("Winner        :".PadRight(leftOffset) + (this.m_AlphaWon ? "Alpha: " + this.m_ATeamName : "Bravo: " + this.m_BTeamName).PadLeft(rightOffset));
             reply.Enqueue("Base Number   :".PadRight(leftOffset) + (this.m_BaseNumber.ToString()).PadLeft(rightOffset));
             reply.Enqueue("Win Type      :".PadRight(leftOffset) + (this.m_WinType.ToString()).PadLeft(rightOffset));
 

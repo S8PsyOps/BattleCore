@@ -168,82 +168,86 @@ namespace BattleCore.Bot
       /// </summary>
       /// <param name="message">arena chat message</param>
       /// <returns>Command Handled state</returns>
-      private bool HandleModeratorList (String message)
+      private bool HandleModeratorList(String message)
       {
-         bool bCommandHandled = false;
+          if (message.StartsWith("-")) return false;
 
-         bool isAsss = false;
+          if (!(message.Contains("- bot -") || message.Contains("- sysop -") || message.Contains("- smod -") || message.Contains("- mod -"))) return false;
 
-         if (message.Trim().StartsWith(": ") && message.Contains("  ")) isAsss = true;
+          bool bCommandHandled = false;
 
-         // Check if this is a mod information message
-         int nStartPos = message.IndexOf ("-");
-         int nEndPos = message.LastIndexOf ("-");
-         string mod;
-         string[] data = new string[]{};
+          bool isAsss = false;
 
-         if (nStartPos < nEndPos || isAsss)
-         {
-             if (isAsss)
-             {
-                 mod = message.Replace("  ", "@");
-                 data = mod.Split(new[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
-             }
+          //if (message.Trim().StartsWith(": ") && message.Contains("  ")) isAsss = true;
 
-            // Extract the moderator information
-             String strName = isAsss? data[1].Trim() :message.Substring (0, nStartPos - 1);
-             String strModType = isAsss? data[3].Trim(): message.Substring (nStartPos + 2, nEndPos - nStartPos - 3).ToLower();
+          // Check if this is a mod information message
+          int nStartPos = message.IndexOf("-");
+          int nEndPos = message.LastIndexOf("-");
+          string mod;
+          string[] data = new string[] { };
 
-            // Get the player information
-            PlayerInfo pInfo = m_playerHandler.PlayerInformation (strName);
+          if (nStartPos < nEndPos || isAsss)
+          {
+              if (isAsss)
+              {
+                  mod = message.Replace("  ", "@");
+                  data = mod.Split(new[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
+              }
 
-            // If the player is in the arena
-            if (pInfo != null)
-            {
-               // Verify the Moderator Type
-               if (strModType.CompareTo ("sysop") == 0)
-               {
-                  // Set the sysop attribute for the player name
-                  pInfo.ModeratorLevel = ModLevels.Sysop;
-               }
-               // Verify the Moderator Type
-               if (strModType.CompareTo("bot") == 0)
-               {
-                   // Set the sysop attribute for the player name
-                   pInfo.ModeratorLevel = ModLevels.Sysop;
-               }
-               else if (strModType.CompareTo ("smod") == 0)
-               {
-                  // Set the SMod attribute for the player name
-                  pInfo.ModeratorLevel = ModLevels.SMod;
-               }
-               else if (strModType.CompareTo ("mod") == 0)
-               {
-                  // Set the Mod attribute for the player name
-                  pInfo.ModeratorLevel = ModLevels.Mod;
-               }
-               else if (strModType.CompareTo("custom") == 0)
-               {
-                   // Set the Mod attribute for the player name
-                   pInfo.ModeratorLevel = ModLevels.Custom;
-               }
+              // Extract the moderator information
+              String strName = isAsss ? data[1].Trim() : message.Substring(0, nStartPos - 1);
+              String strModType = isAsss ? data[3].Trim() : message.Substring(nStartPos + 2, nEndPos - nStartPos - 3).ToLower();
 
-               // Create the new listmod event handler
-               ListModEvent listModEvent = new ListModEvent ();
+              // Get the player information
+              PlayerInfo pInfo = m_playerHandler.PlayerInformation(strName);
 
-               // Set the player information
-               listModEvent.Moderator = pInfo;
+              // If the player is in the arena
+              if (pInfo != null)
+              {
+                  // Verify the Moderator Type
+                  if (strModType.CompareTo("sysop") == 0)
+                  {
+                      // Set the sysop attribute for the player name
+                      pInfo.ModeratorLevel = ModLevels.Sysop;
+                  }
+                  // Verify the Moderator Type
+                  if (strModType.CompareTo("bot") == 0)
+                  {
+                      // Set the sysop attribute for the player name
+                      pInfo.ModeratorLevel = ModLevels.Sysop;
+                  }
+                  else if (strModType.CompareTo("smod") == 0)
+                  {
+                      // Set the SMod attribute for the player name
+                      pInfo.ModeratorLevel = ModLevels.SMod;
+                  }
+                  else if (strModType.CompareTo("mod") == 0)
+                  {
+                      // Set the Mod attribute for the player name
+                      pInfo.ModeratorLevel = ModLevels.Mod;
+                  }
+                  else if (strModType.CompareTo("custom") == 0)
+                  {
+                      // Set the Mod attribute for the player name
+                      pInfo.ModeratorLevel = ModLevels.Custom;
+                  }
 
-               // Send the event to all behaviors
-               SendBotEvent (listModEvent);
-            }
+                  // Create the new listmod event handler
+                  ListModEvent listModEvent = new ListModEvent();
 
-            // Set the command handled to true
-            bCommandHandled = true;
-         }
+                  // Set the player information
+                  listModEvent.Moderator = pInfo;
 
-         // Return the command handled state
-         return bCommandHandled;
+                  // Send the event to all behaviors
+                  SendBotEvent(listModEvent);
+              }
+
+              // Set the command handled to true
+              bCommandHandled = true;
+          }
+
+          // Return the command handled state
+          return bCommandHandled;
       }
 
 

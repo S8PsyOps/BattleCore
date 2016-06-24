@@ -11,10 +11,12 @@ namespace Devastation.BaseDuel.Classes
         {
             this.m_PlayerName = PlayerName;
             this.m_InLobby = true;
+            this.m_Stats = new BasePlayerStats();
         }
 
         private string m_PlayerName;
         private bool m_InLobby;
+        private BasePlayerStats m_Stats;
         
         public string PlayerName
         { get { return m_PlayerName; } }
@@ -25,6 +27,17 @@ namespace Devastation.BaseDuel.Classes
         public void inLobby(bool InLobby)
         { this.m_InLobby = InLobby; }
 
+        public BasePlayerStats Stats
+        {
+            get { return this.m_Stats; }
+            set { this.m_Stats = value; }
+        }
 
+        public BasePlayer GetCopy()
+        {
+            BasePlayer copy = new BasePlayer(this.m_PlayerName);
+            copy.m_Stats = this.m_Stats.GetCopy();
+            return copy;
+        }
     }
 }

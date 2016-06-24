@@ -418,3 +418,78 @@
 6/7/2016 1:01:13 PM (Public) PsyOps> !sqlconnect
 6/7/2016 1:01:21 PM (Public) PsyOps> !sqlcheck
 6/7/2016 1:01:27 PM (Public) PsyOps> !sqldisconnect
+6/7/2016 5:22:00 PM (Public) PsyOps> !blist
+6/7/2016 5:22:03 PM (Public) R0bb> !blist
+6/7/2016 5:22:15 PM (Public) PsyOps> !load IRCBridge.DevaIrc
+6/7/2016 5:22:54 PM (Public) PsyOps> !unload IRCBridge.DevaIrc
+6/7/2016 5:22:56 PM (Public) PsyOps> !unload IRCBridge.DevaIrc
+6/7/2016 5:22:56 PM (Public) PsyOps> !unload IRCBridge.DevaIrc
+6/7/2016 5:22:56 PM (Public) PsyOps> !unload IRCBridge.DevaIrc
+6/7/2016 5:22:56 PM (Public) PsyOps> !unload IRCBridge.DevaIrc
+6/7/2016 5:23:16 PM (Public) PsyOps> !bd toggle
+6/7/2016 5:24:07 PM (Public) PsyOps> !bd games
+6/7/2016 6:18:36 PM (Public) R0bb> !br start
+6/7/2016 7:56:54 PM (Public) PsyOps> !test
+6/7/2016 10:11:18 PM (Public) air con> !!
+6/7/2016 10:13:12 PM (Public) air con> !br start
+6/7/2016 10:16:38 PM (Public) PsyOps> !spam
+6/8/2016 9:30:17 AM (Public) PsyOps> !load baseduel
+6/8/2016 11:13:05 AM (Public) PsyOps> !help
+6/8/2016 11:13:39 AM (Public) PsyOps> !bdset setting:value:value 1
+6/8/2016 11:19:43 AM (Public) PsyOps> !bdset drfvs
+6/8/2016 11:50:13 AM (Public) R0bb> !bd settings
+6/8/2016 11:50:17 AM (Public) R0bb> !bdsettings
+6/8/2016 11:50:19 AM (Public) R0bb> !login
+6/8/2016 11:57:55 AM (Public) R0bb> !help poo
+6/8/2016 12:10:47 PM (Public) R0bb> !help poo
+6/8/2016 1:58:09 PM (Public) R0bb> !crash bots
+6/8/2016 1:58:11 PM (Public) R0bb> !crash
+6/8/2016 1:58:49 PM (Public) R0bb> !br start
+6/8/2016 2:12:02 PM (Public) jason-yagyu> !br start
+6/8/2016 2:12:15 PM (Public) jason-yagyu> !br start
+6/8/2016 2:13:21 PM (Public) jason-yagyu> !br start
+6/8/2016 2:14:45 PM (Public) jason-yagyu> !fail
+6/8/2016 2:14:52 PM (Public) jason-yagyu> !br start
+6/8/2016 2:17:53 PM (Public) R0bb> !asdiafk3q29323
+6/8/2016 11:32:30 PM (Public) PsyOps> !br race
+6/8/2016 11:39:21 PM (Public) PsyOps> !race
+6/9/2016 10:52:25 AM (Public) PsyOps> !debug
+6/9/2016 11:00:39 AM (Public) PsyOps> !debug
+6/9/2016 12:34:14 PM (Public) R0bb> !bd status
+6/9/2016 12:34:19 PM (Public) R0bb> !bd toggle
+6/10/2016 5:25:23 PM (Private) PsyOps> !test
+6/10/2016 9:49:28 PM (Public) zxvf> !race
+6/10/2016 9:53:32 PM (Public) zxvf> !race
+6/10/2016 11:17:58 PM (Public) PsyOps> !debug
+6/10/2016 11:17:58 PM (Public) PsyOps> !debug
+6/10/2016 11:18:06 PM (Public) PsyOps> !debug
+6/10/2016 11:18:47 PM (Public) PsyOps> !br toggle
+6/10/2016 11:24:55 PM (Public) PsyOps> !debug
+6/11/2016 1:04:19 AM (Public) PsyOps> !br test 29
+6/11/2016 3:27:24 AM (Public) PsyOps> !help
+6/11/2016 5:03:08 AM (Public) R0bb> !break
+6/11/2016 5:03:12 AM (Public) R0bb> !420break
+6/11/2016 5:03:12 AM (Public) R0bb> !420break
+6/11/2016 5:03:21 AM (Public) R0bb> !br toggle
+6/11/2016 5:42:25 AM (Public) R0bb> !lp
+6/11/2016 6:00:09 AM (Public) R0bb> !race
+6/11/2016 8:01:40 PM (Public) PsyOps> !startbd 1
+6/11/2016 8:01:40 PM (Public) PsyOps> !startbd 1
+6/11/2016 8:01:40 PM (Public) PsyOps> !startbd 1
+6/11/2016 8:02:02 PM (Public) PsyOps> !startbd 1
+6/11/2016 11:21:34 PM (Public) Neostar> !race
+6/11/2016 11:21:34 PM (Public) Neostar> !race
+6/11/2016 11:21:35 PM (Public) Neostar> !race
+6/11/2016 11:24:06 PM (Public) Neostar> !race
+6/11/2016 11:24:06 PM (Public) Neostar> !race
+6/11/2016 11:24:07 PM (Public) Neostar> !race
+6/11/2016 11:34:02 PM (Public) PsyOps> !debug
+6/12/2016 7:31:49 AM (Public) PsyOps> !debug
+6/12/2016 7:32:00 AM (Public) PsyOps> !bd toggle
+6/12/2016 11:26:53 AM (Public) PsyOps> !help baserace
+6/12/2016 11:43:57 AM (Public) PsyOps> !
+6/12/2016 6:31:39 PM (Public) saol <ZH>> !!
+6/12/2016 6:36:48 PM (Private) Agentflit> !zone gace face
+6/12/2016 6:36:54 PM (Private) Agentflit> !help
+6/12/2016 10:18:07 PM (Public) PsyOps> !br test 11
+6/13/2016 6:31:24 PM (Public) saol <ZH>> !race

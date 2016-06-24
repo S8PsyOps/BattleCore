@@ -14,7 +14,12 @@ namespace Devastation.BaseDuel.Classes
 
         private List<BasePlayer> m_Players;
         private List<BasePlayer> m_Inactives;
-        private string m_TeamName;
+
+        public List<BasePlayer> Players
+        { get { return this.m_Players; } }
+
+        public List<BasePlayer> Inactives
+        { get { return this.m_Inactives; } }
 
         public BasePlayer getPlayer(string PlayerName)
         {
@@ -43,8 +48,16 @@ namespace Devastation.BaseDuel.Classes
         public BaseTeam getCopy()
         {
             BaseTeam copy = new BaseTeam();
-            copy.m_Players = (this.m_Players.ToArray()).ToList();
-            copy.m_Inactives = (this.m_Inactives.ToArray()).ToList();
+
+            List<BasePlayer> players = new List<BasePlayer>();
+            List<BasePlayer> inactives = new List<BasePlayer>();
+            
+            foreach(BasePlayer b in this.m_Players) players.Add(b.GetCopy());
+            foreach (BasePlayer b in this.m_Inactives) inactives.Add(b.GetCopy());
+
+            copy.m_Players = players;
+            copy.m_Inactives = inactives;
+
             return copy;
         }
 
@@ -67,21 +80,17 @@ namespace Devastation.BaseDuel.Classes
                 return;
             }
 
-            this.m_Players.Add(b);
+            this.m_Players.Add(b.GetCopy());
             this.m_Inactives.Remove(b);
         }
-
-        public string teamName()
-        { return this.m_TeamName; }
-        public void teamName(string teamName)
-        { this.m_TeamName = teamName; }
 
         public void removePlayer(string PlayerName)
         {
             BasePlayer b = m_Players.Find(item => item.PlayerName == PlayerName);
 
+            if (b == null) return;
             // Might be copying a pointer here - may have to do copy over
-            m_Inactives.Add(b);
+            m_Inactives.Add(b.GetCopy());
             m_Players.Remove(b);
         }
     }

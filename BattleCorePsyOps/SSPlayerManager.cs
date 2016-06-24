@@ -167,5 +167,10 @@ namespace BattleCorePsyOps
 
             return m_PlayerList.Find(player => player.PlayerName == PlayerName);
         }
+
+        public SSPlayer GetPlayer(ushort PlayerId)
+        {
+            return m_PlayerList.Find(item => item.PlayerId == PlayerId);
+        }
     }
 }
